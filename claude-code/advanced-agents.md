@@ -580,4 +580,358 @@ git worktree prune
 
 ---
 
+## Triggering Claude Code CLI from Hooks
+
+### Overview
+
+Claude Code can be triggered programmatically from hook scripts to create autonomous workflows, scheduled tasks, and CI/CD integrations. Combined with **deterministic checks**, you can create reliable, repeatable automation.
+
+### Basic CLI Invocation
+
+```bash
+# Single prompt, non-interactive
+claude -p "Refactor the auth module" --allow-tools "Read,Grep,Edit"
+
+# With specific subagent
+claude -p "@security-reviewer audit src/auth.ts"
+
+# Ephemeral worktree execution
+claude --worktree /tmp/ephemeral-check -p "Run tests and report"
+
+# With output to file
+claude -p "Summarize recent changes" --output summary.md
+```
+
+### CLI Flags Reference
+
+| Flag | Description | Example |
+|------|-------------|---------|
+| `-p, --prompt` | Execute prompt and exit | `-p "Fix bug"` |
+| `--worktree` | Use isolated worktree | `--worktree /tmp/wt` |
+| `--output` | Save response to file | `--output result.md` |
+| `--allow-tools` | Restrict tools | `--allow-tools "Read,Bash"` |
+| `--agent` | Use specific agent | `--agent security-reviewer` |
+
+### Pattern 1: Pre-Commit Hook with Deterministic Checks
+
+```bash
+#!/bin/bash
+# .claude/hooks/pre-commit-claude.sh
+
+# Deterministic: Check if this exact check has been run
+CHECKSUM=$(git diff --cached --name-only | sort | xargs cat 2>/dev/null | sha256sum | cut -d' ' -f1)
+STATE_FILE=".claude/.pre-commit-checks/$CHECKSUM"
+
+if [ -f "$STATE_FILE" ]; then
+  echo "✓ Pre-commit checks already passed for this state"
+  exit 0
+fi
+
+mkdir -p ".claude/.pre-commit-checks"
+
+# Run Claude Code for review
+echo "Running Claude Code pre-commit review..."
+
+claude -p "
+Review the staged changes for:
+1. Security issues (SQL injection, XSS, secret exposure)
+2. Code quality (unused imports, complex functions)
+3. Test coverage (are tests included?)
+
+STAGED_FILES:\n$(git diff --cached --name-only)
+
+If any issues found, output 'BLOCK: [reason]' on its own line.
+If clean, output 'PASS'.
+" --allow-tools "Read,Grep" --output /tmp/claude-review.txt
+
+# Deterministic check of results
+if grep -q "BLOCK:" /tmp/claude-review.txt; then
+  echo "✗ Pre-commit checks failed:"
+  grep "BLOCK:" /tmp/claude-review.txt
+  exit 1
+fi
+
+# Mark as passed for this state
+touch "$STATE_FILE"
+echo "✓ Pre-commit checks passed"
+exit 0
+```
+
+Hook configuration:
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/pre-commit-claude.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Pattern 2: Scheduled Heartbeat with Claude
+
+```bash
+#!/bin/bash
+# .claude/hooks/scheduled-check.sh
+
+# Deterministic: Only run if timestamp check passes
+LAST_RUN_FILE=".claude/.heartbeat/last-claude-check"
+MIN_INTERVAL=3600  # 1 hour
+
+mkdir -p ".claude/.heartbeat"
+
+if [ -f "$LAST_RUN_FILE" ]; then
+  LAST_RUN=$(cat "$LAST_RUN_FILE")
+  NOW=$(date +%s)
+  ELAPSED=$((NOW - LAST_RUN))
+  
+  if [ $ELAPSED -lt $MIN_INTERVAL ]; then
+    echo "Skipping: ${ELAPSED}s since last check (min: ${MIN_INTERVAL}s)"
+    exit 0
+  fi
+fi
+
+# Run comprehensive analysis with Claude Code
+echo "[$(date)] Running scheduled Claude Code analysis..."
+
+claude -p "
+You are a monitoring agent. Check the codebase for:
+1. Security vulnerabilities (check package.json, requirements.txt, etc.)
+2. Outdated dependencies (run npm outdated, pip list --outdated)
+3. Documentation drift (check if README matches code)
+4. Test failures (run test suite)
+
+For each check:
+- Status: PASS/FAIL/WARN
+- Details: Brief description
+- Action: What to do (if FAIL)
+
+Output as markdown report.
+" --allow-tools "Read,Bash,Grep" --output ".claude/.heartbeat/report-$(date +%Y%m%d-%H%M%S).md"
+
+# Deterministic: Update timestamp on successful completion
+date +%s > "$LAST_RUN_FILE"
+echo "[$(date)] Analysis complete"
+```
+
+### Pattern 3: Ephemeral CI Check
+
+```bash
+#!/bin/bash
+# .claude/hooks/ci-check.sh
+
+# Create deterministic state ID from commit
+COMMIT=$(git rev-parse HEAD)
+STATE_FILE=".claude/.ci-checks/$COMMIT"
+
+if [ -f "$STATE_FILE.pass" ]; then
+  echo "✓ CI checks passed for commit $COMMIT"
+  exit 0
+fi
+
+if [ -f "$STATE_FILE.fail" ]; then
+  echo "✗ CI checks failed for commit $COMMIT"
+  cat "$STATE_FILE.fail"
+  exit 1
+fi
+
+mkdir -p ".claude/.ci-checks"
+
+# Create ephemeral worktree for isolation
+WORKTREE=".claude/.ci-checks/worktrees/$COMMIT"
+git worktree add "$WORKTREE" "$COMMIT" 2>/dev/null || true
+
+# Run Claude Code in ephemeral worktree
+claude --worktree "$WORKTREE" -p "
+Run the full CI pipeline:
+1. Install dependencies
+2. Run linting
+3. Run type checking
+4. Run tests
+5. Check build
+
+Report: PASS or FAIL with details.
+" --output "/tmp/ci-result-$COMMIT.txt"
+
+# Cleanup worktree
+git worktree remove "$WORKTREE" 2>/dev/null || true
+
+# Check result deterministically
+if grep -q "^PASS" "/tmp/ci-result-$COMMIT.txt"; then
+  touch "$STATE_FILE.pass"
+  echo "✓ CI checks passed"
+  exit 0
+else
+  cp "/tmp/ci-result-$COMMIT.txt" "$STATE_FILE.fail"
+  echo "✗ CI checks failed"
+  cat "$STATE_FILE.fail"
+  exit 1
+fi
+```
+
+### Pattern 4: Issue Triage Agent
+
+```bash
+#!/bin/bash
+# .claude/hooks/triage-issues.sh
+
+# Deterministic: Check if issues were triaged today
+TRIAGE_MARKER=".claude/.triage/$(date +%Y-%m-%d)"
+
+if [ -f "$TRIAGE_MARKER" ]; then
+  echo "Issues already triaged today"
+  exit 0
+fi
+
+mkdir -p ".claude/.triage"
+
+# Fetch open issues (using gh CLI or API)
+gh issue list --state open --limit 50 --json number,title,body,labels > /tmp/open-issues.json
+
+# Triage with Claude Code
+claude -p "
+Triage these GitHub issues:
+
+$(cat /tmp/open-issues.json | jq -r '.[] | "## Issue #\(.number): \(.title)\nLabels: \(.labels | map(.name) | join(\", \"))\n\(.body[0:500])\n---"')
+
+For each issue, classify:
+- Priority: P0 (critical), P1 (important), P2 (nice-to-have)
+- Type: bug, feature, docs, question
+- Assignment: frontend, backend, devops, or needs-triage
+
+Output JSON format:
+[{"number": 123, "priority": "P1", "type": "bug", "assignment": "backend"}]
+" --output /tmp/triage-result.json
+
+# Apply labels deterministically
+jq -r '.[] | "\(.number) \(.priority) \(.type)"' /tmp/triage-result.json | while read -r num priority type; do
+  gh issue edit "$num" --add-label "$priority,$type"
+done
+
+# Mark as triaged
+touch "$TRIAGE_MARKER"
+echo "Triage complete for $(date +%Y-%m-%d)"
+```
+
+### Pattern 5: Code Review Automation
+
+```bash
+#!/bin/bash
+# .claude/hooks/auto-review.sh
+
+# Trigger on PR webhook or cron
+PR_NUMBER="$1"
+
+# Deterministic: Check if already reviewed this PR at this commit
+PR_COMMIT=$(gh pr view "$PR_NUMBER" --json headRefOid -q '.headRefOid')
+REVIEW_STATE=".claude/.reviews/pr-$PR_NUMBER-$PR_COMMIT"
+
+if [ -f "$REVIEW_STATE" ]; then
+  echo "Already reviewed PR #$PR_NUMBER at $PR_COMMIT"
+  exit 0
+fi
+
+mkdir -p ".claude/.reviews"
+
+# Get PR diff
+gh pr diff "$PR_NUMBER" > /tmp/pr-$PR-number.diff
+
+# Run Claude Code review
+claude -p "
+Review this PR diff:
+
+$(cat /tmp/pr-$PR_NUMBER.diff)
+
+Provide structured review:
+1. Summary (2-3 sentences)
+2. Issues found (severity, location, suggestion)
+3. Questions for author
+4. Approval recommendation: APPROVE / REQUEST_CHANGES / COMMENT
+
+Be thorough but constructive.
+" --allow-tools "Read,Grep" --output /tmp/pr-review-$PR_NUMBER.md
+
+# Post review comment
+gh pr comment "$PR_NUMBER" --body-file /tmp/pr-review-$PR_NUMBER.md
+
+# Mark as reviewed
+touch "$REVIEW_STATE"
+echo "Review posted for PR #$PR_NUMBER"
+```
+
+### Deterministic Check Strategies
+
+| Strategy | Use Case | Implementation |
+|----------|----------|----------------|
+| **Checksum-based** | File content checks | `sha256sum` of staged files |
+| **Timestamp-based** | Time-based throttling | Compare against stored timestamp |
+| **Commit-based** | Git state tracking | Use `git rev-parse HEAD` |
+| **Marker files** | Daily/periodic tasks | Date-based filenames |
+| **Content hash** | Configuration changes | Hash of relevant config files |
+
+### Combining with Hooks
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/safety-check.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/scheduled-check.sh"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/ci-check.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Best Practices
+
+✅ **Do:**
+- Use deterministic checks to avoid redundant processing
+- Store state in `.claude/` directory (already gitignored)
+- Use `--allow-tools` to restrict Claude's capabilities for safety
+- Clean up ephemeral worktrees after use
+- Log all automation actions for auditability
+
+❌ **Don't:**
+- Run expensive checks on every invocation without throttling
+- Store sensitive state outside project directory
+- Allow Claude unlimited tool access in automated contexts
+- Forget to handle API rate limits
+
+---
+
 *Last Updated: March 1, 2026*

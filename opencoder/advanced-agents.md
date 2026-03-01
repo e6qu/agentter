@@ -442,4 +442,492 @@ opencode session cleanup --ephemeral
 
 ---
 
+## Triggering Claude Code CLI from OpenCode Hooks
+
+### Overview
+
+OpenCode can trigger Claude Code CLI from its plugin hooks to leverage Claude's capabilities alongside OpenCode's multi-provider flexibility. Combined with **deterministic checks**, this creates powerful cross-tool automation.
+
+### Why Trigger Claude Code from OpenCode?
+
+| OpenCode Strength | Claude Code Strength | Combined Benefit |
+|-------------------|---------------------|------------------|
+| Multi-provider (75+) | Deep Claude reasoning | Use Claude for analysis, OpenCode for implementation |
+| MCP ecosystem | Built-in subagents | MCP tools + Claude subagents |
+| JSON configuration | Natural language UX | Structured triggers with LLM flexibility |
+
+### Basic Pattern: OpenCode Hook → Claude Code
+
+```javascript
+// .opencode/plugins/claude-integration.js
+module.exports = {
+  name: 'claude-integration',
+  hooks: {
+    // Trigger Claude on specific events
+    'on:session:start': async ({ logger }) => {
+      logger.info('Session started - checking if Claude review needed');
+      
+      // Deterministic check: Only run if unreviewed changes exist
+      const hasChanges = await checkForUnreviewedChanges();
+      if (!hasChanges) {
+        logger.info('No unreviewed changes - skipping Claude review');
+        return;
+      }
+      
+      // Trigger Claude Code for review
+      const { execSync } = require('child_process');
+      try {
+        const result = execSync(
+          'claude -p "Review recent changes for security issues" --allow-tools "Read,Grep"',
+          { encoding: 'utf8', timeout: 60000 }
+        );
+        logger.info('Claude review completed', { result });
+      } catch (error) {
+        logger.error('Claude review failed', { error: error.message });
+      }
+    }
+  }
+};
+```
+
+### Pattern 1: Pre-Tool Deterministic Check
+
+```javascript
+// .opencode/plugins/claude-safety-check.js
+const crypto = require('crypto');
+const fs = require('fs');
+const { execSync } = require('child_process');
+const path = require('path');
+
+module.exports = {
+  name: 'claude-safety-check',
+  hooks: {
+    'on:tool:use:before': async (event) => {
+      const { tool, input, logger } = event;
+      
+      // Only check Bash tool with destructive commands
+      if (tool !== 'Bash') return;
+      if (!input.command.match(/rm\s+-rf|sudo|drop\s+database/i)) return;
+      
+      // Deterministic check: Hash of command + context
+      const checkKey = crypto
+        .createHash('sha256')
+        .update(input.command + process.cwd())
+        .digest('hex');
+      
+      const stateDir = path.join(process.cwd(), '.opencode', '.claude-checks');
+      const stateFile = path.join(stateDir, `${checkKey}.approved`);
+      
+      // Check if already approved
+      if (fs.existsSync(stateFile)) {
+        logger.info('Command pre-approved by Claude safety check');
+        return;
+      }
+      
+      // Run Claude Code for safety analysis
+      logger.warn('Destructive command detected - consulting Claude Code');
+      
+      try {
+        const result = execSync(
+          `claude -p "Review this command for safety: '${input.command}'. 
+          Context: CWD=${process.cwd()}, Git branch=$(git branch --show-current 2>/dev/null || echo 'N/A')
+          
+          Is this command safe? Reply with APPROVE or BLOCK: [reason]" 
+          --allow-tools "Read,Glob" --output /tmp/claude-safety.txt`,
+          { encoding: 'utf8', timeout: 30000 }
+        );
+        
+        const claudeResponse = fs.readFileSync('/tmp/claude-safety.txt', 'utf8');
+        
+        if (claudeResponse.includes('APPROVE')) {
+          fs.mkdirSync(stateDir, { recursive: true });
+          fs.writeFileSync(stateFile, claudeResponse);
+          logger.info('Claude approved destructive command');
+        } else {
+          const reason = claudeResponse.match(/BLOCK: (.+)/)?.[1] || 'Safety check failed';
+          throw new Error(`Claude safety check BLOCKED: ${reason}`);
+        }
+      } catch (error) {
+        if (error.message.includes('BLOCKED')) {
+          throw error;
+        }
+        logger.error('Claude safety check error', { error: error.message });
+        // Fail closed - block on error
+        throw new Error('Safety check could not complete - command blocked');
+      }
+    }
+  }
+};
+```
+
+Configuration in `opencode.json`:
+```json
+{
+  "plugins": [".opencode/plugins/claude-safety-check.js"]
+}
+```
+
+### Pattern 2: Scheduled Heartbeat with Claude
+
+```javascript
+// .opencode/plugins/claude-heartbeat.js
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+const STATE_DIR = path.join(process.cwd(), '.opencode', '.heartbeat');
+const INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
+
+module.exports = {
+  name: 'claude-heartbeat',
+  hooks: {
+    'on:session:start': async ({ logger }) => {
+      // Start heartbeat
+      setInterval(async () => {
+        await runHeartbeat(logger);
+      }, INTERVAL_MS);
+      
+      logger.info('Claude heartbeat started (30min interval)');
+    }
+  }
+};
+
+async function runHeartbeat(logger) {
+  const timestamp = Date.now();
+  const lastRunFile = path.join(STATE_DIR, 'last-claude-check');
+  
+  // Deterministic time-based check
+  if (fs.existsSync(lastRunFile)) {
+    const lastRun = parseInt(fs.readFileSync(lastRunFile, 'utf8'));
+    if (timestamp - lastRun < INTERVAL_MS) {
+      return; // Too soon
+    }
+  }
+  
+  logger.info('Running scheduled Claude Code analysis');
+  
+  try {
+    // Run comprehensive analysis via Claude
+    execSync(
+      `claude -p "
+      Analyze this codebase for:
+      1. Security vulnerabilities in dependencies (check package.json, requirements.txt)
+      2. Outdated dependencies (npm outdated, pip list --outdated)
+      3. Code quality issues (complex functions, duplicated code)
+      4. Documentation gaps
+      
+      Format: JSON with categories and findings.
+      " --allow-tools "Read,Grep,Glob,Bash" 
+      --output ${path.join(STATE_DIR, `report-${timestamp}.json`)}`,
+      { timeout: 120000 }
+    );
+    
+    fs.mkdirSync(STATE_DIR, { recursive: true });
+    fs.writeFileSync(lastRunFile, timestamp.toString());
+    
+    logger.info('Heartbeat analysis complete');
+  } catch (error) {
+    logger.error('Heartbeat analysis failed', { error: error.message });
+  }
+}
+```
+
+### Pattern 3: Code Review on File Change
+
+```javascript
+// .opencode/plugins/claude-code-review.js
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+
+const REVIEW_DIR = path.join(process.cwd(), '.opencode', '.code-reviews');
+
+module.exports = {
+  name: 'claude-code-review',
+  hooks: {
+    'on:file:write:after': async (event) => {
+      const { path: filePath, logger } = event;
+      
+      // Only review source files
+      if (!filePath.match(/\.(js|ts|py|java|go|rs)$/)) return;
+      
+      // Deterministic: Check if content changed
+      const content = fs.readFileSync(filePath, 'utf8');
+      const contentHash = crypto.createHash('sha256').update(content).digest('hex');
+      const reviewMarker = path.join(REVIEW_DIR, `${filePath.replace(/\//g, '-')}-${contentHash}.reviewed`);
+      
+      if (fs.existsSync(reviewMarker)) {
+        logger.debug(`Skipping review - already reviewed: ${filePath}`);
+        return;
+      }
+      
+      logger.info(`Requesting Claude Code review for: ${filePath}`);
+      
+      try {
+        execSync(
+          `claude -p "
+          Review this file for:
+          - Security issues
+          - Code quality
+          - Best practices
+          - Potential bugs
+          
+          File: ${filePath}
+          
+          Provide structured feedback.
+          " --allow-tools "Read" --output /tmp/claude-review.txt`,
+          { timeout: 60000 }
+        );
+        
+        const review = fs.readFileSync('/tmp/claude-review.txt', 'utf8');
+        
+        // Store review
+        fs.mkdirSync(REVIEW_DIR, { recursive: true });
+        fs.writeFileSync(reviewMarker, review);
+        
+        // Log to console
+        if (review.toLowerCase().includes('issue') || review.toLowerCase().includes('warning')) {
+          logger.warn(`Claude found issues in ${filePath}:`, { review: review.substring(0, 500) });
+        } else {
+          logger.info(`Claude review passed for ${filePath}`);
+        }
+      } catch (error) {
+        logger.error(`Claude review failed for ${filePath}`, { error: error.message });
+      }
+    }
+  }
+};
+```
+
+### Pattern 4: Ephemeral CI Integration
+
+```javascript
+// .opencode/plugins/claude-ci.js
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+const CI_DIR = path.join(process.cwd(), '.opencode', '.ci-checks');
+
+module.exports = {
+  name: 'claude-ci',
+  hooks: {
+    'on:session:end': async ({ logger }) => {
+      const commit = execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim();
+      const stateFile = path.join(CI_DIR, `${commit}.json`);
+      
+      // Deterministic: Check if already CI-checked
+      if (fs.existsSync(stateFile)) {
+        const state = JSON.parse(fs.readFileSync(stateFile, 'utf8'));
+        if (state.status === 'passed') {
+          logger.info(`CI already passed for ${commit.substring(0, 8)}`);
+          return;
+        }
+      }
+      
+      logger.info(`Running Claude CI check for ${commit.substring(0, 8)}`);
+      
+      // Create ephemeral worktree
+      const worktree = path.join(CI_DIR, 'worktrees', commit);
+      execSync(`git worktree add ${worktree} ${commit} 2>/dev/null || true`);
+      
+      try {
+        // Run Claude Code CI
+        execSync(
+          `claude --worktree ${worktree} -p "
+          Run CI pipeline:
+          1. Install deps
+          2. Run lint
+          3. Run tests
+          4. Build check
+          
+          Output: PASS or FAIL with details.
+          " --output /tmp/claude-ci-result.txt`,
+          { timeout: 300000 }
+        );
+        
+        const result = fs.readFileSync('/tmp/claude-ci-result.txt', 'utf8');
+        const passed = result.includes('PASS');
+        
+        fs.mkdirSync(CI_DIR, { recursive: true });
+        fs.writeFileSync(stateFile, JSON.stringify({
+          commit,
+          status: passed ? 'passed' : 'failed',
+          timestamp: Date.now(),
+          summary: result.substring(0, 1000)
+        }));
+        
+        if (passed) {
+          logger.info(`✓ CI passed for ${commit.substring(0, 8)}`);
+        } else {
+          logger.error(`✗ CI failed for ${commit.substring(0, 8)}`);
+        }
+      } finally {
+        // Cleanup worktree
+        execSync(`git worktree remove ${worktree} --force 2>/dev/null || rm -rf ${worktree}`);
+      }
+    }
+  }
+};
+```
+
+### Pattern 5: MCP + Claude Coordination
+
+```javascript
+// .opencode/plugins/mcp-claude-coordination.js
+const { execSync } = require('child_process');
+const fs = require('fs');
+
+module.exports = {
+  name: 'mcp-claude-coordination',
+  hooks: {
+    'on:mcp:tool:result': async (event) => {
+      const { tool, result, logger } = event;
+      
+      // Trigger Claude when MCP tool finds issues
+      if (tool === 'security_scan' && result.vulnerabilities?.length > 0) {
+        logger.warn('Security vulnerabilities found - consulting Claude');
+        
+        execSync(
+          `claude -p "
+          Security scan found vulnerabilities:
+          ${JSON.stringify(result.vulnerabilities, null, 2)}
+          
+          Suggest fixes for each vulnerability.
+          Prioritize by severity (critical, high, medium, low).
+          Provide code examples where applicable.
+          " --output /tmp/claude-security-advice.txt`,
+          { timeout: 60000 }
+        );
+        
+        const advice = fs.readFileSync('/tmp/claude-security-advice.txt', 'utf8');
+        logger.warn('Claude security recommendations:', { advice: advice.substring(0, 1000) });
+      }
+    }
+  }
+};
+```
+
+### Deterministic Check Strategies
+
+```javascript
+// Utility functions for deterministic checks
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
+
+class DeterministicChecks {
+  constructor(baseDir = '.opencode/.deterministic') {
+    this.baseDir = path.join(process.cwd(), baseDir);
+    fs.mkdirSync(this.baseDir, { recursive: true });
+  }
+  
+  // Checksum-based: Content hasn't changed
+  checksumCheck(content, namespace = 'default') {
+    const hash = crypto.createHash('sha256').update(content).digest('hex');
+    const marker = path.join(this.baseDir, namespace, `${hash}.checked`);
+    
+    if (fs.existsSync(marker)) {
+      return { shouldRun: false, reason: 'Content already checked' };
+    }
+    
+    return { 
+      shouldRun: true, 
+      markComplete: () => {
+        fs.mkdirSync(path.dirname(marker), { recursive: true });
+        fs.writeFileSync(marker, Date.now().toString());
+      }
+    };
+  }
+  
+  // Time-based: Minimum interval between runs
+  timeBasedCheck(intervalMs, namespace = 'default') {
+    const marker = path.join(this.baseDir, 'timestamps', `${namespace}.last`);
+    const now = Date.now();
+    
+    if (fs.existsSync(marker)) {
+      const last = parseInt(fs.readFileSync(marker, 'utf8'));
+      if (now - last < intervalMs) {
+        return { 
+          shouldRun: false, 
+          reason: `Last run ${Math.floor((now - last) / 1000)}s ago (min: ${intervalMs/1000}s)` 
+        };
+      }
+    }
+    
+    return {
+      shouldRun: true,
+      markComplete: () => {
+        fs.mkdirSync(path.dirname(marker), { recursive: true });
+        fs.writeFileSync(marker, now.toString());
+      }
+    };
+  }
+  
+  // Git-based: Check if commit already processed
+  gitCommitCheck(commit = null) {
+    const targetCommit = commit || require('child_process')
+      .execSync('git rev-parse HEAD')
+      .toString()
+      .trim();
+    
+    const marker = path.join(this.baseDir, 'commits', `${targetCommit}.processed`);
+    
+    if (fs.existsSync(marker)) {
+      return { shouldRun: false, commit: targetCommit, reason: 'Commit already processed' };
+    }
+    
+    return {
+      shouldRun: true,
+      commit: targetCommit,
+      markComplete: () => {
+        fs.mkdirSync(path.dirname(marker), { recursive: true });
+        fs.writeFileSync(marker, Date.now().toString());
+      }
+    };
+  }
+}
+
+module.exports = { DeterministicChecks };
+```
+
+### Configuration Example
+
+```json
+{
+  "plugins": [
+    ".opencode/plugins/claude-safety-check.js",
+    ".opencode/plugins/claude-heartbeat.js",
+    ".opencode/plugins/claude-code-review.js"
+  ],
+  "agents": {
+    "claude-trigger": {
+      "description": "Triggers Claude Code for complex analysis",
+      "system": "You coordinate with Claude Code for deep analysis tasks. Use deterministic checks to avoid redundant processing.",
+      "hooks": ["on:tool:use:before", "on:file:write:after"]
+    }
+  }
+}
+```
+
+### Best Practices
+
+✅ **Do:**
+- Use deterministic checks to prevent redundant Claude Code calls
+- Set appropriate timeouts for Claude Code invocations
+- Store state in `.opencode/` (already gitignored)
+- Handle errors gracefully - fail closed for safety checks
+- Use `--allow-tools` to restrict Claude's capabilities
+- Log all cross-tool interactions for debugging
+
+❌ **Don't:**
+- Trigger Claude Code synchronously on every keystroke
+- Store sensitive data in state files
+- Allow unlimited Claude Code execution without throttling
+- Forget to clean up ephemeral worktrees
+- Ignore API rate limits
+
+---
+
 *Last Updated: March 1, 2026*
