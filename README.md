@@ -30,7 +30,8 @@ agentter/
 │   ├── skills.md               # SKILL.md system
 │   ├── commands.md             # Custom slash commands
 │   ├── plugins-hooks.md        # Plugin system and events
-│   └── configuration.md        # opencode.json reference
+│   ├── configuration.md        # opencode.json reference
+│   └── advanced-agents.md      # Ephemeral, heartbeat patterns
 │
 ├── claude-code/                 # Claude Code documentation
 │   ├── README.md               # Overview and quick start
@@ -38,7 +39,8 @@ agentter/
 │   ├── skills.md               # Skills system
 │   ├── hooks.md                # Lifecycle hooks
 │   ├── agent-teams.md          # Parallel agent execution
-│   └── configuration.md        # settings.json reference
+│   ├── configuration.md        # settings.json reference
+│   └── advanced-agents.md      # Subagents, ephemeral patterns
 │
 ├── methodologies/               # Detailed methodology guides
 │   ├── README.md               # Methodology navigation
