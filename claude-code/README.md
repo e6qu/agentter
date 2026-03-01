@@ -445,6 +445,7 @@ In parallel, then integrate them"
 
 | Page | Content |
 |------|---------|
+| [Tutorial](./TUTORIAL.md) | Complete setup guide with skills, agents, security |
 | [Agents](./agents.md) | Built-in and custom subagents |
 | [Skills](./skills.md) | SKILL.md format, bundled skills, creation |
 | [Hooks](./hooks.md) | 15+ hook events, configuration, examples |
