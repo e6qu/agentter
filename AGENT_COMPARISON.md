@@ -26,16 +26,25 @@
 |------------------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 
 ### Core Interface
+
+| Feature | OpenCode | Aider | Claude Code | Codex CLI | Gemini CLI | Goose | Cline | Roo Code |
+|---------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 | **TUI Interface** | ✅ Full TUI | ✅ Terminal UI | ✅ Full TUI | ✅ Full TUI | ✅ Terminal UI | ✅ Desktop + CLI | VS Code panel | VS Code panel |
 | **CLI Mode** | ✅ Non-interactive | ✅ Yes | ✅ Limited | ✅ Yes | ✅ Yes | ✅ Yes | ❌ IDE only | ❌ IDE only |
 | **IDE Extension** | ✅ Available | ⚠️ Watch mode only | ✅ VS Code (beta) | ✅ VS Code, Cursor | ❌ | ✅ Available | ✅ Native | ✅ Native |
 
 ### Model Support
+
+| Feature | OpenCode | Aider | Claude Code | Codex CLI | Gemini CLI | Goose | Cline | Roo Code |
+|---------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 | **Multi-Provider** | ✅ 75+ providers | ✅ Multiple | ❌ Claude only | ❌ OpenAI only | ❌ Gemini only | ✅ Any LLM | ✅ OpenRouter | ✅ Multiple |
 | **Local Models** | ✅ Ollama | ✅ Ollama | ❌ | ❌ | ❌ | ✅ Ollama | ✅ Ollama | ✅ Ollama |
 | **BYOK Support** | ✅ Yes | ✅ Yes | ⚠️ API option | ❌ Subscription | ✅ API key | ✅ Yes | ✅ Yes | ✅ Yes |
 
 ### File & Code Operations
+
+| Feature | OpenCode | Aider | Claude Code | Codex CLI | Gemini CLI | Goose | Cline | Roo Code |
+|---------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 | **File Read** | ✅ read tool | ✅ Read files | ✅ Read tool | ✅ read_file | ✅ File read | ✅ Read | ✅ Read | ✅ Read |
 | **File Write** | ✅ write tool | ✅ Write files | ✅ Write tool | ✅ create_file | ✅ File write | ✅ Write | ✅ Write | ✅ Write |
 | **File Edit** | ✅ edit tool | ✅ Edit files | ✅ Edit tool | ✅ apply_patch | ✅ File edit | ✅ Edit | ✅ Edit | ✅ Edit |
@@ -43,18 +52,27 @@
 | **LSP Integration** | ✅ Native LSP | ❌ | ❌ | ⚠️ Via MCP | ❌ | ❌ | ⚠️ Via extension | ⚠️ Via extension |
 
 ### Execution & Environment
+
+| Feature | OpenCode | Aider | Claude Code | Codex CLI | Gemini CLI | Goose | Cline | Roo Code |
+|---------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 | **Bash/Shell** | ✅ bash tool | ✅ Yes | ✅ Bash tool | ✅ shell | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
 | **Sandbox** | ❌ Local | ❌ Local | ⚠️ Seatbelt (macOS) | ✅ Cloud sandbox | ❌ | ❌ Local | ❌ Local | ❌ Local |
 | **Auto-lint** | ✅ Configurable | ✅ Automatic | ✅ Via hooks | ✅ Auto-fix | ❌ | ✅ Via MCP | ✅ Auto-apply | ✅ Auto-apply |
 | **Auto-test** | ✅ Configurable | ✅ Automatic | ✅ Via hooks | ✅ Auto-run | ❌ | ✅ Via MCP | ✅ Auto-run | ✅ Auto-run |
 
 ### Git Integration
+
+| Feature | OpenCode | Aider | Claude Code | Codex CLI | Gemini CLI | Goose | Cline | Roo Code |
+|---------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 | **Auto-commit** | ⚠️ Via commands | ✅ Automatic | ✅ Via plugins | ✅ Yes | ❌ | ✅ Yes | ⚠️ Manual | ⚠️ Manual |
 | **Git worktrees** | ❌ | ✅ Yes | ✅ Yes | ✅ Yes | ❌ | ❌ | ❌ | ❌ |
 | **Commit messages** | ⚠️ Manual | ✅ Auto-generated | ✅ Via plugins | ✅ Auto | ❌ | ✅ Auto | ⚠️ Manual | ⚠️ Manual |
 | **PR creation** | ⚠️ Via GitHub MCP | ⚠️ Manual | ✅ Via plugins | ✅ Yes | ⚠️ Via Actions | ⚠️ Via MCP | ⚠️ Manual | ⚠️ Manual |
 
 ### Advanced Capabilities
+
+| Feature | OpenCode | Aider | Claude Code | Codex CLI | Gemini CLI | Goose | Cline | Roo Code |
+|---------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 | **MCP Support** | ✅ Full MCP | ❌ | ✅ Full MCP | ✅ MCP (Feb 2026) | ✅ MCP | ✅ Full MCP | ✅ MCP | ✅ MCP |
 | **Multi-Agent** | ✅ @general subagent | ❌ | ✅ Subagents/Teams | ✅ Parallel agents | ❌ | ⚠️ Via recipes | ❌ | ✅ Yes |
 | **Browser Automation** | ❌ | ❌ | ⚠️ Via plugins | ⚠️ Via skills | ❌ | ⚠️ Via MCP | ✅ Built-in | ⚠️ Via tools |
@@ -63,6 +81,9 @@
 | **Web Fetch** | ✅ webfetch | ⚠️ Manual | ⚠️ Via MCP | ⚠️ Cached search | ✅ Search grounding | ⚠️ Via MCP | ⚠️ Via browser | ⚠️ Via tools |
 
 ### Session Management
+
+| Feature | OpenCode | Aider | Claude Code | Codex CLI | Gemini CLI | Goose | Cline | Roo Code |
+|---------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 | **Session Persistence** | ✅ Yes | ✅ Yes | ✅ Checkpoints | ✅ Yes | ✅ Checkpoints | ✅ Yes | ✅ Checkpoints | ✅ Yes |
 | **Session Sharing** | ✅ Share links | ❌ | ❌ | ⚠️ Via GitHub | ❌ | ❌ | ❌ | ❌ |
 | **Multi-Session** | ✅ Parallel sessions | ❌ | ✅ Background agents | ✅ Parallel threads | ❌ | ❌ | ❌ | ⚠️ Limited |
@@ -70,18 +91,27 @@
 | **Compact/Context Mgmt** | ⚠️ Auto | ⚠️ Manual | ✅ /compact command | ✅ Auto | ⚠️ Manual | ⚠️ Manual | ⚠️ Manual | ⚠️ Manual |
 
 ### Workflow & Automation
+
+| Feature | OpenCode | Aider | Claude Code | Codex CLI | Gemini CLI | Goose | Cline | Roo Code |
+|---------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 | **Planning Mode** | ✅ plan agent | ✅ Structured mode | ✅ Planning mode | ✅ Plan mode | ❌ | ✅ Planning-first | ❌ | ✅ Architect mode |
 | **Custom Commands** | ✅ 32+ commands | ✅ Slash commands | ✅ Plugins | ✅ Skills | ❌ | ✅ Recipes | ✅ Custom modes | ✅ Custom modes |
 | **Hooks/Automation** | ✅ Plugin hooks | ❌ | ✅ 8 hook types | ⚠️ Automations | ❌ | ❌ | ❌ | ✅ Auto-approve |
 | **Scheduled Tasks** | ❌ | ❌ | ❌ | ✅ Automations | ❌ | ❌ | ❌ | ❌ |
 
 ### Security & Permissions
+
+| Feature | OpenCode | Aider | Claude Code | Codex CLI | Gemini CLI | Goose | Cline | Roo Code |
+|---------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 | **Permission System** | ✅ Granular | ⚠️ Basic | ✅ Granular | ✅ Granular | ⚠️ Basic | ✅ Granular | ✅ Granular | ✅ Granular |
 | **Approval Required** | ✅ Per-action | ⚠️ Configurable | ✅ Configurable | ✅ Configurable | ⚠️ Basic | ✅ Configurable | ✅ Always | ✅ Configurable |
 | **YOLO Mode** | ⚠️ Configurable | ❌ | ⚠️ --dangerously-skip | ⚠️ Configurable | ❌ | ❌ | ❌ | ⚠️ Auto-approve |
 | **Secret Detection** | ✅ Yes | ❌ | ✅ Hook-based | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ### Pricing Model
+
+| Feature | OpenCode | Aider | Claude Code | Codex CLI | Gemini CLI | Goose | Cline | Roo Code |
+|---------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 | **Base Cost** | Free | Free | Subscription | Subscription | Free tier | Free | Free | Free |
 | **Model Cost** | BYOK | BYOK | Included or API | Included | BYOK or free tier | BYOK | BYOK | BYOK |
 | **Free Tier Available** | ✅ Unlimited | ✅ Unlimited | ❌ | ❌ (requires sub) | ✅ 1000 req/day | ✅ Unlimited | ✅ Unlimited | ✅ Unlimited |
