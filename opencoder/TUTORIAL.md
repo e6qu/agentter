@@ -629,6 +629,7 @@ module.exports = {
 | `on:file:write:after` | After file write |
 | `on:mcp:tool:result` | MCP tool completion |
 
+
 ---
 
 ## Resources
