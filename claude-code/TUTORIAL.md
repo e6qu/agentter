@@ -1,152 +1,131 @@
-# Claude Code Complete Setup Tutorial
+# Claude Code Setup Tutorial
 
-*Production-ready development environment with skills, agents, security, and automation*
+*Reference guide based on official documentation and observed behavior*
 
 ---
 
 ## Table of Contents
 
-1. [Initial Setup](#initial-setup)
+1. [Installation](#installation)
 2. [Project Structure](#project-structure)
-3. [Credential Protection](#credential-protection)
+3. [Credential Management](#credential-management)
 4. [Proxy Configuration](#proxy-configuration)
-5. [Skills Setup](#skills-setup)
+5. [Skills](#skills)
 6. [Custom Agents](#custom-agents)
 7. [Heartbeat Agents](#heartbeat-agents)
-8. [Hooks & Automation](#hooks--automation)
-9. [Sandboxing & Security](#sandboxing--security)
+8. [Hooks](#hooks)
+9. [Sandboxing](#sandboxing)
 10. [Deterministic Checks](#deterministic-checks)
-11. [Complete Configuration Example](#complete-configuration-example)
 
 ---
 
-## Initial Setup
+## Installation
 
-### Step 1: Install Claude Code
+### Prerequisites
+
+- Node.js 18+ (check with `node --version`)
+- Git 2.20+ (check with `git --version`)
+- Anthropic API access
+
+### Installation Methods
 
 ```bash
-# macOS
+# macOS via Homebrew
 brew install claude-code
 
-# Or via npm
+# Via npm
 npm install -g @anthropics/claude-code
 
-# Verify installation
-claude --version
+# Via npx (no installation)
+npx @anthropics/claude-code
 ```
 
-### Step 2: Authentication
+### Authentication
 
 ```bash
-# Interactive login (recommended)
+# Interactive authentication
 claude auth login
 
-# Or use API key (for CI/automation)
+# Environment variable (observed in documentation)
 export ANTHROPIC_API_KEY="sk-ant-api-..."
 
-# Verify
+# Verify authentication
 claude auth status
 ```
 
-### Step 3: Initialize Project
+### Project Initialization
 
 ```bash
-cd /path/to/your-project
+cd /path/to/project
 claude /init
 
-# This creates:
+# Creates directory structure:
 # .claude/
 # ├── settings.json
 # ├── agents/
 # ├── skills/
-# └── hooks/
+# └── commands/
 ```
 
 ---
 
 ## Project Structure
 
-Create this structure in your project:
+### Directory Layout
 
 ```
-your-project/
+project/
 ├── .claude/
-│   ├── settings.json              # Main configuration
-│   ├── settings.local.json        # Local overrides (gitignored)
-│   ├── CLAUDE.md                  # Project instructions
-│   ├── agents/                    # Custom agents
-│   │   ├── security-reviewer.json
-│   │   ├── performance-expert.json
-│   │   └── unstuck-monitor.json   # Heartbeat agent
-│   ├── skills/                    # Reusable skills
-│   │   ├── onboarding/
-│   │   │   └── SKILL.md
-│   │   ├── deployment/
-│   │   │   └── SKILL.md
-│   │   └── code-review/
-│   │       └── SKILL.md
-│   ├── hooks/                     # Automation scripts
-│   │   ├── pre-commit.sh
-│   │   ├── safety-check.sh
-│   │   ├── unstuck-detector.sh    # Heartbeat script
-│   │   └── credential-guard.sh
-│   └── sandbox/                   # Sandboxing configs
-│       └── docker-compose.yml
-├── .claude.md                     # Alternative: Project instructions
-└── .gitignore                     # Must exclude .claude/settings.local.json
+│   ├── settings.json          # Configuration
+│   ├── settings.local.json    # Local overrides (should be gitignored)
+│   ├── CLAUDE.md             # Project instructions
+│   ├── agents/               # Custom agent definitions
+│   ├── skills/               # SKILL.md files
+│   ├── hooks/                # Hook scripts
+│   └── commands/             # Slash commands
+└── .gitignore
 ```
 
-### Gitignore Setup
+### Gitignore Configuration
 
-```bash
-# Add to .gitignore
-cat >> .gitignore << 'EOF'
+```gitignore
 # Claude Code local settings
 .claude/settings.local.json
 .claude/.credentials/
 .claude/.logs/
-.claude/.sandbox/
-.claude/.heartbeat/
-.claude/.ci-checks/
 
-# State files
+# Generated state files
+.claude/.heartbeat/
 .claude/.deterministic/
 .claude/.code-reviews/
-EOF
 ```
 
 ---
 
-## Credential Protection
+## Credential Management
 
-### Strategy 1: Environment Variables
+### Method 1: Environment Variables
+
+Based on standard Unix conventions and Claude Code's environment handling:
 
 ```bash
-# ~/.bashrc or ~/.zshrc
+# Shell configuration (~/.bashrc, ~/.zshrc)
 export ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY}"
 export GITHUB_TOKEN="${GITHUB_TOKEN}"
-export DATABASE_URL="${DATABASE_URL}"
-
-# Never hardcode in files!
 ```
 
-### Strategy 2: Local Settings File (Gitignored)
+### Method 2: Local Settings File
 
 ```json
+// .claude/settings.local.json (gitignored)
 {
   "env": {
-    "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}",
-    "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
-    "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}"
-  },
-  "credentials": {
-    "store": "keychain",
-    "service": "claude-code-your-project"
+    "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"
   }
 }
 ```
 
-### Strategy 3: Credential Guard Hook
+### Method 3: Credential Detection Hook
 
 ```bash
 #!/bin/bash
@@ -154,31 +133,23 @@ export DATABASE_URL="${DATABASE_URL}"
 
 read -r input
 
-# Patterns that might contain secrets
-DANGEROUS_PATTERNS=(
-  "api[_-]?key.*="
-  "password.*="
-  "secret.*="
-  "token.*="
-  "private[_-]?key"
-  "AKIA[0-9A-Z]{16}"
-  "gh[pousr]_[A-Za-z0-9_]{36}"
-  "sk-[a-zA-Z0-9]{48}"
+# Known credential patterns (based on common formats)
+PATTERNS=(
+  "sk-[a-zA-Z0-9]{48}"           # Anthropic/OpenAI format
+  "AKIA[0-9A-Z]{16}"             # AWS Access Key format
+  "gh[pousr]_[A-Za-z0-9_]{36}"   # GitHub token format
 )
 
-if echo "$input" | jq -e '.tool == "Write" or .tool == "Edit"' > /dev/null 2>&1; then
-  content=$(echo "$input" | jq -r '.tool_input.content // .tool_input.old_string // ""')
-  file=$(echo "$input" | jq -r '.tool_input.path // ""')
+if echo "$input" | jq -e '.tool == "Write" or .tool == "Edit"' >/dev/null 2>&1; then
+  content=$(echo "$input" | jq -r '.tool_input.content // ""')
   
-  for pattern in "${DANGEROUS_PATTERNS[@]}"; do
-    if echo "$content" | grep -iE "$pattern" > /dev/null; then
-      echo "POTENTIAL CREDENTIAL LEAK DETECTED in $file"
-      
+  for pattern in "${PATTERNS[@]}"; do
+    if echo "$content" | grep -qE "$pattern"; then
       jq -n '{
         hookSpecificOutput: {
           hookEventName: "PreToolUse",
           permissionDecision: "deny",
-          permissionDecisionReason: "Potential credential detected. Use environment variables instead."
+          permissionDecisionReason: "Potential credential pattern detected"
         }
       }'
       exit 0
@@ -193,114 +164,139 @@ echo "$input"
 
 ## Proxy Configuration
 
-### HTTP/HTTPS Proxy
+### Environment Variables (Standard)
 
 ```bash
-# ~/.bashrc or session export
-export HTTP_PROXY="http://proxy.company.com:8080"
-export HTTPS_PROXY="http://proxy.company.com:8080"
-export NO_PROXY="localhost,127.0.0.1,.local"
-export CLAUDE_CODE_PROXY="http://proxy.company.com:8080"
+export HTTP_PROXY="http://proxy.example.com:8080"
+export HTTPS_PROXY="http://proxy.example.com:8080"
+export NO_PROXY="localhost,127.0.0.1"
 ```
 
-### Proxy in Settings
+### Configuration File
 
 ```json
 {
   "proxy": {
-    "http": "http://proxy.company.com:8080",
-    "https": "http://proxy.company.com:8080",
-    "noProxy": ["localhost", "127.0.0.1", ".local"],
-    "strictSSL": false
+    "http": "http://proxy.example.com:8080",
+    "https": "http://proxy.example.com:8080",
+    "noProxy": ["localhost", "127.0.0.1"]
   }
 }
 ```
 
 ---
 
-## Skills Setup
+## Skills
 
-### Skill 1: Project Onboarding
+### Skill Structure
+
+Based on SKILL.md format documentation:
+
+```markdown
+---
+name: example-skill
+description: Description of what this skill does
+metadata:
+  category: development
+---
+
+## Purpose
+
+What this skill does.
+
+## When to Use
+
+Conditions for using this skill.
+
+## Steps
+
+1. Step one
+2. Step two
+```
+
+### Example: Onboarding Skill
 
 ```markdown
 ---
 name: onboarding
-description: Help new developers understand this codebase
-license: MIT
+description: Project onboarding guide
 metadata:
   category: documentation
-  audience: new-developers
 ---
-
-## What I Do
-
-Help new team members understand:
-- Project structure and architecture
-- Development workflow
-- Testing practices
-- Deployment process
-- Key conventions
 
 ## Quick Start
 
-1. Install dependencies: `npm install`
-2. Copy `.env.example` to `.env`
-3. Run migrations: `npm run db:migrate`
-4. Start dev server: `npm run dev`
+1. Install: `npm install`
+2. Configure: Copy `.env.example` to `.env`
+3. Run: `npm run dev`
+
+## Architecture
+
+- Backend: Node.js + Express
+- Frontend: React
+- Database: PostgreSQL
 ```
 
-### Skill 2: Deployment
+### Example: Deployment Skill
 
 ```markdown
 ---
 name: deployment
-description: Production deployment workflow
+description: Deployment workflow
 disable-model-invocation: true
 context: fork
-metadata:
-  category: devops
-  risk: high
 ---
 
-## Safety Checklist
+## Checklist
 
-- [ ] All tests passing
+- [ ] Tests pass
 - [ ] Security scan clean
-- [ ] Database migrations reviewed
-- [ ] Rollback plan documented
+- [ ] Migrations reviewed
 
-## Deployment Steps
+## Steps
 
 1. Run tests: `npm test`
-2. Deploy to staging: `npm run deploy:staging`
-3. Run smoke tests
-4. Deploy to production: `npm run deploy:production`
+2. Deploy staging: `npm run deploy:staging`
+3. Deploy production: `npm run deploy:production`
 ```
 
 ---
 
 ## Custom Agents
 
-### Agent 1: Security Reviewer
+### Agent Configuration Format
 
 ```json
 {
-  "name": "security-reviewer",
-  "description": "Security-focused code reviewer",
-  "system": "You are a security expert reviewing code for vulnerabilities.\n\nFOCUS AREAS:\n1. Input validation\n2. SQL injection\n3. XSS vulnerabilities\n4. Authentication flaws\n5. Secret exposure\n\nOUTPUT FORMAT:\n### CRITICAL\n- File:Line: Issue -> Fix\n\n### HIGH\n- File:Line: Issue -> Fix",
+  "name": "agent-name",
+  "description": "What this agent does",
+  "system": "System prompt defining behavior",
+  "allowed_tools": ["Read", "Grep", "Edit"],
+  "temperature": 0.1,
+  "model": "claude-3-5-sonnet-20241022"
+}
+```
+
+### Example: Code Reviewer
+
+```json
+{
+  "name": "code-reviewer",
+  "description": "Code quality reviewer",
+  "system": "You review code for quality issues.\n\nCheck for:\n1. Correctness\n2. Readability\n3. Test coverage\n\nOutput structured feedback.",
   "allowed_tools": ["Read", "Grep", "Glob"],
   "temperature": 0.1
 }
 ```
 
-### Agent 2: Unstuck Monitor
+### Example: Unstuck Monitor
 
 ```json
 {
   "name": "unstuck-monitor",
-  "description": "Monitors main agent and suggests when stuck",
-  "system": "You detect when the main agent is stuck.\n\nSTUCK INDICATORS:\n- Same file edited >5 times\n- Error messages repeating\n- No progress for 10+ minutes\n\nWHEN DETECTED:\n1. Analyze current approach\n2. Identify blocking issue\n3. Suggest alternative strategies",
-  "allowed_tools": ["Read", "Grep", "Bash"]
+  "description": "Detects stuck implementation states",
+  "system": "You detect when an agent is stuck.\n\nIndicators:\n- Repeated errors\n- Same file edited multiple times\n- No progress markers\n\nSuggest alternative approaches.",
+  "allowed_tools": ["Read", "Bash", "Grep"]
 }
 ```
 
@@ -308,7 +304,7 @@ metadata:
 
 ## Heartbeat Agents
 
-### Unstuck Detection Heartbeat
+### Unstuck Detection Script
 
 ```bash
 #!/bin/bash
@@ -317,17 +313,17 @@ metadata:
 STATE_DIR=".claude/.heartbeat"
 mkdir -p "$STATE_DIR"
 
-TRACKED_FILES="$STATE_DIR/tracked_files.txt"
-LAST_CHECK="$STATE_DIR/last_unstuck_check"
+EDIT_LOG="$STATE_DIR/edits.log"
+LAST_CHECK="$STATE_DIR/last_check"
 
-# Check for repetitive patterns
-check_repetitive_patterns() {
+# Check for repetitive error patterns
+check_errors() {
   if [ -f ".claude/logs/session.log" ]; then
-    ERROR_COUNT=$(grep -c "Error:" .claude/logs/session.log 2>/dev/null || echo "0")
-    UNIQUE_ERRORS=$(grep "Error:" .claude/logs/session.log 2>/dev/null | sort -u | wc -l)
+    error_count=$(grep -c "Error:" .claude/logs/session.log 2>/dev/null || echo "0")
+    unique_errors=$(grep "Error:" .claude/logs/session.log 2>/dev/null | sort -u | wc -l)
     
-    if [ "$ERROR_COUNT" -gt 10 ] && [ "$UNIQUE_ERRORS" -lt 3 ]; then
-      echo "STUCK: Repetitive errors ($ERROR_COUNT errors, $UNIQUE_ERRORS unique)"
+    if [ "$error_count" -gt 10 ] && [ "$unique_errors" -lt 3 ]; then
+      echo "Repetitive errors detected: $error_count total, $unique_errors unique"
       return 1
     fi
   fi
@@ -335,13 +331,13 @@ check_repetitive_patterns() {
 }
 
 # Check for edit loops
-check_edit_loops() {
-  if [ -f "$CHANGE_LOG" ]; then
-    MOST_EDITED=$(tail -100 "$CHANGE_LOG" | sort | uniq -c | sort -rn | head -1)
-    EDIT_COUNT=$(echo "$MOST_EDITED" | awk '{print $1}')
+check_edits() {
+  if [ -f "$EDIT_LOG" ]; then
+    most_edited=$(tail -50 "$EDIT_LOG" | sort | uniq -c | sort -rn | head -1)
+    edit_count=$(echo "$most_edited" | awk '{print $1}')
     
-    if [ "$EDIT_COUNT" -gt 10 ]; then
-      echo "STUCK: File edited $EDIT_COUNT times"
+    if [ "$edit_count" -gt 10 ]; then
+      echo "High edit frequency detected"
       return 1
     fi
   fi
@@ -349,53 +345,59 @@ check_edit_loops() {
 }
 
 # Run checks
-if ! check_repetitive_patterns || ! check_edit_loops; then
-  echo "Triggering unstuck intervention..."
+if ! check_errors || ! check_edits; then
+  echo "Potential stuck state detected"
   
-  claude -p "The main agent appears stuck. Analyze and suggest alternatives." \
+  # Trigger review
+  claude -p "Review recent activity and suggest alternatives" \
          --agent unstuck-monitor \
          --output /tmp/unstuck-suggestion.txt 2>/dev/null || true
-  
-  echo "UNSTUCK MONITOR ALERT"
-  cat /tmp/unstuck-suggestion.txt 2>/dev/null || echo "Check logs for details"
 fi
 
 touch "$LAST_CHECK"
 ```
 
-### Scheduled Health Check
+### Health Check Script
 
 ```bash
 #!/bin/bash
 # .claude/hooks/health-check.sh
 
 STATE_DIR=".claude/.heartbeat"
-LAST_RUN_FILE="$STATE_DIR/last_health_check"
+LAST_RUN="$STATE_DIR/last_health_check"
 INTERVAL=1800  # 30 minutes
 
 # Time-based check
-if [ -f "$LAST_RUN_FILE" ]; then
-  LAST_RUN=$(cat "$LAST_RUN_FILE")
-  NOW=$(date +%s)
-  ELAPSED=$((NOW - LAST_RUN))
-  
-  if [ $ELAPSED -lt $INTERVAL ]; then
+if [ -f "$LAST_RUN" ]; then
+  elapsed=$(($(date +%s) - $(cat "$LAST_RUN")))
+  if [ $elapsed -lt $INTERVAL ]; then
     exit 0
   fi
 fi
 
 # Run checks
-echo "[$(date)] Running health checks..."
+npm test --silent 2>/dev/null && echo "Tests: PASS" || echo "Tests: FAIL"
+npm audit --audit-level moderate 2>/dev/null | grep -q "0 vulnerabilities" && echo "Security: PASS" || echo "Security: CHECK"
 
-npm test --silent && echo "Tests: PASS" || echo "Tests: FAIL"
-npm audit --audit-level moderate 2>/dev/null | grep -q "0 vulnerabilities" && echo "Security: PASS" || echo "Security: WARN"
-
-date +%s > "$LAST_RUN_FILE"
+date +%s > "$LAST_RUN"
 ```
 
 ---
 
-## Hooks & Automation
+## Hooks
+
+### Available Hook Events
+
+Based on observed behavior in Claude Code documentation:
+
+| Event | Timing |
+|-------|--------|
+| `SessionStart` | Session initialization |
+| `SessionEnd` | Session termination |
+| `PreToolUse` | Before tool execution |
+| `PostToolUse` | After tool success |
+| `SubagentStart` | Subagent creation |
+| `SubagentStop` | Subagent completion |
 
 ### Pre-Tool Safety Hook
 
@@ -409,18 +411,16 @@ tool=$(echo "$input" | jq -r '.tool')
 command=$(echo "$input" | jq -r '.tool_input.command // empty')
 
 if [ "$tool" = "Bash" ]; then
-  # Block destructive commands
+  # Block known destructive patterns
   if echo "$command" | grep -qE "rm\s+-rf\s+/|sudo|mkfs|dd\s+if="; then
-    if ! git worktree list | grep -q "$(pwd)"; then
-      jq -n '{
-        hookSpecificOutput: {
-          hookEventName: "PreToolUse",
-          permissionDecision: "deny",
-          permissionDecisionReason: "Destructive command blocked. Use ephemeral worktree."
-        }
-      }'
-      exit 0
-    fi
+    jq -n '{
+      hookSpecificOutput: {
+        hookEventName: "PreToolUse",
+        permissionDecision: "deny",
+        permissionDecisionReason: "Destructive command pattern detected"
+      }
+    }'
+    exit 0
   fi
 fi
 
@@ -433,33 +433,86 @@ echo "$input"
 #!/bin/bash
 # .claude/hooks/session-start.sh
 
-echo "Claude Code session started"
-echo ""
-
-# Show available agents
-echo "Available agents:"
-ls -1 .claude/agents/*.json 2>/dev/null | while read -r agent; do
-  name=$(basename "$agent" .json)
-  echo "  @${name}"
-done
-
-# Load credentials
-if [ -f ".claude/.credentials/local.env" ]; then
-  source .claude/.credentials/local.env
-  echo "Credentials loaded"
+if [ -f ".claude/CLAUDE.md" ]; then
+  echo "Project guidelines: .claude/CLAUDE.md"
 fi
+
+# List available agents
+if [ -d ".claude/agents" ]; then
+  echo "Available agents:"
+  ls -1 .claude/agents/*.json 2>/dev/null | while read -r f; do
+    name=$(basename "$f" .json)
+    echo "  @${name}"
+  done
+fi
+```
+
+### Hook Configuration
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/session-start.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/safety-check.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
 ```
 
 ---
 
-## Sandboxing & Security
+## Sandboxing
 
-### Docker-based Sandboxing
+### Git Worktree Isolation
+
+```bash
+#!/bin/bash
+# scripts/create-ephemeral.sh
+
+set -e
+
+project=$(basename "$(pwd)")
+timestamp=$(date +%Y%m%d-%H%M%S)
+worktree_name="ephemeral-${project}-${timestamp}"
+worktree_path="${HOME}/.claude-worktrees/${worktree_name}"
+
+mkdir -p "${HOME}/.claude-worktrees"
+git worktree add -b "ephemeral/${worktree_name}" "$worktree_path"
+
+# Copy config
+cp -r .claude "$worktree_path/"
+
+echo "Worktree created: $worktree_path"
+echo "Start: claude $worktree_path"
+echo "Cleanup: git worktree remove $worktree_path"
+```
+
+### Docker Sandbox
 
 ```yaml
+# .claude/sandbox/docker-compose.yml
 version: '3.8'
+
 services:
-  claude-sandbox:
+  sandbox:
     image: node:20-alpine
     working_dir: /workspace
     volumes:
@@ -475,30 +528,11 @@ services:
     network_mode: none
 ```
 
-### Ephemeral Worktree Script
-
-```bash
-#!/bin/bash
-# scripts/claude-ephemeral.sh
-
-PROJECT_NAME=$(basename "$(pwd)")
-TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-WORKTREE_NAME="ephemeral-${PROJECT_NAME}-${TIMESTAMP}"
-WORKTREE_PATH="${HOME}/.claude-worktrees/${WORKTREE_NAME}"
-
-mkdir -p "${HOME}/.claude-worktrees"
-git worktree add -b "ephemeral/${WORKTREE_NAME}" "$WORKTREE_PATH"
-
-echo "Ephemeral worktree ready: $WORKTREE_PATH"
-echo "Start: claude $WORKTREE_PATH"
-echo "Cleanup: git worktree remove $WORKTREE_PATH"
-```
-
 ---
 
 ## Deterministic Checks
 
-### Centralized Library
+### Checksum-Based Check
 
 ```bash
 #!/bin/bash
@@ -507,7 +541,6 @@ echo "Cleanup: git worktree remove $WORKTREE_PATH"
 DETERMINISTIC_DIR=".claude/.deterministic"
 mkdir -p "$DETERMINISTIC_DIR"
 
-# Checksum-based check
 deterministic_checksum() {
   local content="$1"
   local namespace="${2:-default}"
@@ -521,7 +554,18 @@ deterministic_checksum() {
   fi
 }
 
-# Time-based check
+deterministic_mark() {
+  local marker="$1"
+  if [ "$marker" != "false" ]; then
+    mkdir -p "$(dirname "$marker")"
+    date -Iseconds > "$marker"
+  fi
+}
+```
+
+### Time-Based Check
+
+```bash
 deterministic_time() {
   local interval="$1"
   local namespace="${2:-default}"
@@ -537,15 +581,6 @@ deterministic_time() {
   fi
   echo "$marker"
 }
-
-# Mark complete
-deterministic_mark() {
-  local marker="$1"
-  if [ "$marker" != "false" ]; then
-    mkdir -p "$(dirname "$marker")"
-    date -Iseconds > "$marker"
-  fi
-}
 ```
 
 ### Usage Example
@@ -553,68 +588,67 @@ deterministic_mark() {
 ```bash
 source .claude/hooks/lib/deterministic.sh
 
-marker=$(deterministic_time 1800 "health-check")
+marker=$(deterministic_checksum "$file_content" "lint-check")
 
 if [ "$marker" = "false" ]; then
-  echo "Health check already run recently"
-  exit 0
+  exit 0  # Already processed
 fi
 
-# Run expensive check...
+# Run check...
 
 deterministic_mark "$marker"
 ```
 
 ---
 
-## Complete Configuration Example
+## Configuration Reference
+
+### settings.json Structure
 
 ```json
 {
-  "name": "your-project",
-  "description": "Production-ready Claude Code setup",
-  
+  "name": "project-name",
   "agents": {
-    "security-reviewer": {
-      "description": "Security-focused code reviewer",
-      "system": "You are a security expert...",
-      "allowed_tools": ["Read", "Grep"],
-      "temperature": 0.1
-    },
-    "unstuck-monitor": {
-      "description": "Detects when main agent is stuck",
-      "system": "You detect stuck states...",
-      "allowed_tools": ["Read", "Bash"]
+    "agent-name": {
+      "description": "...",
+      "system": "...",
+      "allowed_tools": ["..."]
     }
   },
-  
   "hooks": {
-    "SessionStart": [
-      { "type": "command", "command": ".claude/hooks/session-start.sh" }
-    ],
-    "PreToolUse": [
+    "EventName": [
       {
-        "matcher": "Bash",
+        "matcher": "ToolName",
         "hooks": [
-          { "type": "command", "command": ".claude/hooks/safety-check.sh" }
+          {
+            "type": "command",
+            "command": "path/to/script.sh"
+          }
         ]
       }
     ]
   },
-  
   "permissions": {
     "allow": {
-      "Bash": ["npm test", "npm run build", "git status"],
-      "Edit": ["src/**/*"]
+      "Bash": ["allowed", "commands"]
     },
     "deny": {
-      "Bash": ["rm -rf /*", "sudo*"],
-      "Edit": [".env*", "*.key"]
+      "Bash": ["denied", "commands"]
     }
   }
 }
 ```
 
+### CLI Flags
+
+| Flag | Description |
+|------|-------------|
+| `-p, --prompt` | Execute prompt non-interactively |
+| `--worktree` | Use specified worktree |
+| `--allow-tools` | Restrict available tools |
+| `--output` | Write response to file |
+| `--agent` | Use specific agent |
+
 ---
 
-*Last Updated: March 1, 2026*
+*Based on Claude Code documentation and observed behavior as of March 2026*
