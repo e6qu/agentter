@@ -450,6 +450,7 @@ In parallel, then integrate them"
 | [Hooks](./hooks.md) | 15+ hook events, configuration, examples |
 | [Agent Teams](./agent-teams.md) | Parallel execution, coordination |
 | [Configuration](./configuration.md) | settings.json, permissions, MCP |
+| [Advanced Agents](./advanced-agents.md) | Subagents, ephemeral, heartbeat patterns |
 
 ---
 

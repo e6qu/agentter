@@ -503,6 +503,7 @@ Create `.claude/skills/` for GitHub-specific workflows:
 | [Commands](./commands.md) | Custom slash commands, arguments, templates |
 | [Plugins & Hooks](./plugins-hooks.md) | Plugin API, 25+ events, custom tools |
 | [Configuration](./configuration.md) | opencode.json, TUI config, precedence |
+| [Advanced Agents](./advanced-agents.md) | Ephemeral, heartbeat, custom patterns |
 
 ---
 
