@@ -497,6 +497,7 @@ Create `.claude/skills/` for GitHub-specific workflows:
 
 | Page | Content |
 |------|---------|
+| [Tutorial](./TUTORIAL.md) | Complete setup guide with plugins, skills, security |
 | [Agents](./agents.md) | Primary/subagents, configuration, usage |
 | [Modes](./modes.md) | Build vs Plan, custom modes, switching |
 | [Skills](./skills.md) | SKILL.md format, discovery, permissions |

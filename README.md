@@ -25,6 +25,7 @@ agentter/
 │
 ├── opencoder/                   # OpenCode documentation
 │   ├── README.md               # Overview and quick start
+│   ├── TUTORIAL.md             # Complete setup guide
 │   ├── agents.md               # Agents configuration
 │   ├── modes.md                # Build/Plan modes
 │   ├── skills.md               # SKILL.md system
@@ -35,6 +36,7 @@ agentter/
 │
 ├── claude-code/                 # Claude Code documentation
 │   ├── README.md               # Overview and quick start
+│   ├── TUTORIAL.md             # Complete setup guide
 │   ├── agents.md               # Built-in and custom agents
 │   ├── skills.md               # Skills system
 │   ├── hooks.md                # Lifecycle hooks
