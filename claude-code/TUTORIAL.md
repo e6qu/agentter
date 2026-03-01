@@ -651,4 +651,43 @@ deterministic_mark "$marker"
 
 ---
 
+## Resources
+
+### Official Documentation
+
+| Resource | URL | Description |
+|----------|-----|-------------|
+| Official Docs | https://code.claude.com/docs | Primary documentation |
+| Anthropic Blog | https://www.anthropic.com/blog | Product announcements |
+
+### Community Resources
+
+| Resource | Author | Description |
+|----------|--------|-------------|
+| awesome-claude-code | hesreallyhim | Curated resource list |
+| awesome-claude-skills | ComposioHQ | Community skills collection |
+| claude-code-commands | shakacode | Commands, skills, agents |
+| claude-code-hooks | disler | Hooks examples |
+
+### Skills Repositories
+
+| Repository | License | Description |
+|------------|---------|-------------|
+| awesome-agent-skills | VoltAgent | 380+ agent skills (various licenses) |
+| claude-code-commands-skills | shakacode | MIT - Commands and skills |
+
+### Configuration Examples
+
+| Repository | Description |
+|------------|-------------|
+| claude-config | waylandzhang | Best practices configuration |
+
+### Exclusions
+
+The following are excluded due to proprietary backends:
+- Context7 (proprietary backend)
+- Tools requiring non-open infrastructure
+
+---
+
 *Based on Claude Code documentation and observed behavior as of March 2026*

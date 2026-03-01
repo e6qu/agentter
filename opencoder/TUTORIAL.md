@@ -631,4 +631,46 @@ module.exports = {
 
 ---
 
+## Resources
+
+### Official Documentation
+
+| Resource | URL | Description |
+|----------|-----|-------------|
+| OpenCode Docs | https://opencode.ai/docs | Official documentation |
+| GitHub Repository | https://github.com/anomalyco/opencode | Source code |
+| Plugin SDK | https://github.com/opencode-ai/plugin | TypeScript SDK |
+
+### Community Resources
+
+| Resource | Description |
+|----------|-------------|
+| awesome-opencode | Curated resource list |
+
+### Plugins
+
+| Plugin | Author | Description |
+|--------|--------|-------------|
+| opencode-helicone-session | Community | Helicone analytics |
+| opencode-wakatime | Community | Time tracking |
+| opencode-sync-plugin | Community | Session sync |
+
+### MCP Servers
+
+| Server | Source | Description |
+|--------|--------|-------------|
+| filesystem | modelcontextprotocol | Local file access |
+| github | modelcontextprotocol | GitHub API |
+| postgres | modelcontextprotocol | PostgreSQL |
+| sqlite | modelcontextprotocol | SQLite |
+| puppeteer | modelcontextprotocol | Browser automation |
+
+### Configuration Examples
+
+| Repository | Description |
+|------------|-------------|
+| jjmartres/opencode | Config with agents, commands, skills |
+
+---
+
 *Based on OpenCode source code and documentation as of March 2026*
