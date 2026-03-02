@@ -769,7 +769,6 @@ Would patio11 find this comment helpful? If not, reconsider posting.
 ---
 
 *Document compiled from public HN posts, profiles, and community analysis. All user quotes are from public comments. Last updated: March 2026*
-
 ---
 
 ## Companion Documents

@@ -494,6 +494,9 @@ HN tracks failed startups with particular interest:
 
 ## Related Documents
 
+
+## Related Documents
+
 | Document | Focus |
 |----------|-------|
 | [HACKER_NEWS_DEEP_DIVE.md](./HACKER_NEWS_DEEP_DIVE.md) | Community culture and contributors |
@@ -504,7 +507,5 @@ HN tracks failed startups with particular interest:
 | [FAMOUS_SPATS.md](./FAMOUS_SPATS.md) | Tech community controversies |
 
 **Total HN documentation series:** ~3,680 lines
-
----
 
 *Historical data compiled from public sources, HN posts, and community recollections. Some dates approximate. Last updated: March 2026*
