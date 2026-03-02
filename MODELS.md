@@ -2,7 +2,7 @@
 
 *Comprehensive comparison of LLM API pricing, context lengths, and capabilities*
 
-**Last Updated:** March 2, 2026
+**Last Updated:** March 2, 2026 (Updated with Chinese AI Models)
 
 ---
 
@@ -11,11 +11,17 @@
 - [OpenAI](#openai)
 - [Anthropic](#anthropic)
 - [Google (Gemini)](#google-gemini)
+- [Alibaba (Qwen)](#alibaba-qwen)
 - [DeepSeek](#deepseek)
+- [Zhipu AI (GLM)](#zhipu-ai-glm)
+- [Moonshot AI (Kimi)](#moonshot-ai-kimi)
+- [MiniMax](#minimax)
 - [Mistral AI](#mistral-ai)
 - [xAI (Grok)](#xai-grok)
 - [Cohere](#cohere)
 - [Meta (Llama)](#meta-llama)
+- [01.AI (Yi)](#01ai-yi)
+- [AI21 Labs](#ai21-labs)
 - [Amazon Bedrock](#amazon-bedrock)
 - [Other Providers](#other-providers)
 - [Quick Comparison](#quick-comparison)
@@ -181,6 +187,137 @@ The `deepseek-chat` and `deepseek-reasoner` endpoints correspond to DeepSeek-V3.
 
 ---
 
+## Alibaba (Qwen)
+
+**Source:** [Alibaba Cloud Model Studio](https://www.alibabacloud.com/help/en/model-studio/models)
+
+### Qwen Flagship Models (Commercial)
+
+| Model | Context | Input (1M) | Output (1M) | Notes |
+|-------|---------|------------|-------------|-------|
+| Qwen-Max | 256K | $1.20 | $6.00 | Most powerful |
+| Qwen-Plus | 1M | $0.40 | $1.20 | Balanced performance |
+| Qwen-Flash | 1M | $0.05 | $0.40 | Fast, cost-effective |
+| Qwen-Coder | 1M | $0.30 | $1.50 | Code specialist |
+
+### Qwen3 Series (Open Source)
+
+| Model | Context | Parameters | Notes |
+|-------|---------|------------|-------|
+| Qwen3-235B-A22B | 128K | 235B total / 22B active | MoE flagship |
+| Qwen3-32B | 128K | 32.8B | Dense model |
+| Qwen3-14B | 128K | 14B | Mid-size |
+| Qwen3-8B | 128K | 8B | Small |
+| Qwen3-4B | 32K | 4B | Tiny |
+| Qwen3-1.7B | 32K | 1.7B | Edge |
+| Qwen3-0.6B | 32K | 0.6B | Minimal |
+
+### Third-Party Pricing (Sample)
+
+| Model | Provider | Input (1M) | Output (1M) |
+|-------|----------|------------|-------------|
+| Qwen3-235B | Together AI | $0.90 | $0.90 |
+| Qwen3-32B | OpenRouter | $0.08 | $0.24 |
+
+### Multimodal Models
+
+| Model | Type | Notes |
+|-------|------|-------|
+| Qwen-VL | Vision-Language | Visual understanding |
+| QVQ | Visual reasoning | Reasoning with vision |
+| Qwen-Omni | Omni-modal | All modalities |
+| Qwen-Omni-Realtime | Real-time | Real-time multimodal |
+
+---
+
+## Zhipu AI (GLM)
+
+**Source:** [Zhipu AI Pricing](https://bigmodel.cn/pricing)
+
+### GLM-5 Series (Latest)
+
+| Model | Context | Input (1M) | Output (1M) | Notes |
+|-------|---------|------------|-------------|-------|
+| GLM-5 | 128K | ¥4-6 ($0.55-0.83) | ¥18-22 ($2.50-3.05) | 744B params, coding/agent SOTA |
+| GLM-5-Code | 128K | ¥6-8 ($0.83-1.10) | ¥28-32 ($3.88-4.43) | Code specialist (coming soon) |
+| GLM-4.7 | 200K | ¥2-4 ($0.28-0.55) | ¥8-16 ($1.10-2.22) | High performance |
+| GLM-4.5-Air | 128K | ¥0.8-1.2 ($0.11-0.17) | ¥2-8 ($0.28-1.10) | Efficient variant |
+| GLM-4.7-FlashX | 200K | ¥0.50 ($0.07) | ¥3 ($0.42) | Fast and cheap |
+| GLM-4.7-Flash | 200K | Free | Free | Free tier |
+
+### GLM-4 Series
+
+| Model | Context | Input (1M) | Output (1M) | Notes |
+|-------|---------|------------|-------------|-------|
+| GLM-4-Plus | 128K | ¥5 ($0.69) | ¥2.5 ($0.35) | Flagship |
+| GLM-4-Air | 128K | ¥0.5 ($0.07) | ¥0.25 ($0.03) | High-performance |
+| GLM-4-AirX | 8K | ¥10 ($1.38) | N/A | Fastest |
+| GLM-4-FlashX | 128K | ¥0.1 ($0.014) | ¥0.05 ($0.007) | Fast and cheap |
+| GLM-4-Long | 1M | ¥1 ($0.14) | ¥0.5 ($0.07) | Long input specialist |
+| GLM-4-Assistant | 128K | ¥5 ($0.69) | N/A | Agent model |
+
+### Batch API
+
+**50% discount** on all models for batch processing.
+
+---
+
+## Moonshot AI (Kimi)
+
+**Source:** [Moonshot AI Platform](https://platform.moonshot.cn/docs/pricing/chat)
+
+### Kimi K2.5 Series (Latest)
+
+| Model | Context | Input (1M) Cache Hit | Input (1M) Cache Miss | Output (1M) | Notes |
+|-------|---------|---------------------|----------------------|-------------|-------|
+| Kimi K2.5 | 256K | ¥0.70 ($0.10) | ¥4.00 ($0.55) | ¥21.00 ($2.90) | Most capable, multimodal |
+| Kimi K2-0905-Preview | 256K | ¥1.00 ($0.14) | ¥4.00 ($0.55) | ¥16.00 ($2.22) | Enhanced coding |
+| Kimi K2-Turbo-Preview | 256K | ¥1.00 ($0.14) | ¥8.00 ($1.10) | ¥58.00 ($8.03) | High speed (60-100 t/s) |
+| Kimi K2-Thinking | 256K | ¥1.00 ($0.14) | ¥4.00 ($0.55) | ¥16.00 ($2.22) | Reasoning model |
+| Kimi K2-Thinking-Turbo | 256K | ¥1.00 ($0.14) | ¥8.00 ($1.10) | ¥58.00 ($8.03) | Fast reasoning |
+
+### Kimi K2 Series (Previous)
+
+| Model | Context | Input (1M) | Output (1M) | Notes |
+|-------|---------|------------|-------------|-------|
+| Kimi K2-0711-Preview | 128K | ¥4.00 ($0.55) | ¥16.00 ($2.22) | Base K2 model |
+
+### Moonshot V1 Series
+
+| Model | Context | Input (1M) | Output (1M) | Notes |
+|-------|---------|------------|-------------|-------|
+| moonshot-v1-8k | 8K | ¥2.00 ($0.28) | ¥10.00 ($1.38) | Legacy small |
+| moonshot-v1-32k | 32K | ¥5.00 ($0.69) | ¥20.00 ($2.77) | Legacy medium |
+| moonshot-v1-128k | 128K | ¥10.00 ($1.38) | ¥30.00 ($4.15) | Legacy large |
+
+### Features
+
+- **Architecture:** MoE with 1T total / 32B active parameters
+- **Vision:** Native multimodal (images, video)
+- **Thinking Mode:** Can be disabled for faster responses
+- **Context Caching:** Automatic with 70% discount on cache hits
+- **Tool Calling:** Full support with JSON Mode
+
+---
+
+## MiniMax
+
+**Source:** [MiniMax GitHub](https://github.com/MiniMax-AI/MiniMax-01)
+
+| Model | Context | Input (1M) | Output (1M) | Notes |
+|-------|---------|------------|-------------|-------|
+| MiniMax-Text-01 | 1M (4M extrapolated) | $0.20 | $1.10 | 456B params / 45.9B active |
+| MiniMax-M1 | 1M | $0.40 | $2.20 | Coding optimized |
+| MiniMax-VL-01 | 1M | Contact | Contact | Vision-language |
+
+### Architecture
+
+- **Lightning Attention:** Replaces traditional Transformer
+- **4M Context:** Inference extrapolation capability
+- **456B Parameters:** 45.9B activated per token
+
+---
+
 ## Mistral AI
 
 **Source:** [Mistral Models](https://mistral.ai/models), [Mistral Docs](https://docs.mistral.ai/)
@@ -319,6 +456,49 @@ Meta's Llama models are available through various providers (AWS Bedrock, Togeth
 
 ---
 
+## 01.AI (Yi)
+
+**Source:** [01.AI](https://github.com/01-ai/Yi)
+
+| Model | Context | Input (1M) | Output (1M) | Notes |
+|-------|---------|------------|-------------|-------|
+| Yi-Lightning | 16K | $0.14 | $0.14 | Fast, efficient |
+| Yi-Large | 32K | $2.00 | $2.00 | High performance |
+| Yi-Medium | 16K | $0.30 | $0.30 | Balanced |
+| Yi-Spark | 16K | $0.10 | $0.10 | Lightweight |
+
+### Open Source Models
+
+| Model | Context | Parameters | License |
+|-------|---------|------------|---------|
+| Yi-1.5-34B | 4K | 34B | Apache 2.0 |
+| Yi-1.5-9B | 4K | 9B | Apache 2.0 |
+| Yi-1.5-6B | 4K | 6B | Apache 2.0 |
+| Yi-Coder-9B | 128K | 9B | Apache 2.0 |
+| Yi-Coder-1.5B | 128K | 1.5B | Apache 2.0 |
+
+---
+
+## AI21 Labs
+
+**Source:** [Amazon Bedrock Pricing](https://aws.amazon.com/bedrock/pricing/)
+
+| Model | Context | Input (1M) | Output (1M) | Notes |
+|-------|---------|------------|-------------|-------|
+| Jamba 1.5 Large | 256K | $2.00 | $8.00 | Hybrid SSM-Transformer |
+| Jamba 1.5 Mini | 256K | $0.20 | $0.40 | Efficient variant |
+| Jurassic-2 Mid | 8K | $12.50 | $12.50 | Legacy mid-size |
+| Jurassic-2 Ultra | 8K | $18.80 | $18.80 | Legacy large |
+
+### Rerank Models
+
+| Model | Price (1K queries) | Notes |
+|-------|-------------------|-------|
+| Rerank English v3 | $0.50 | English documents |
+| Rerank Multilingual v3 | $0.50 | Multilingual |
+
+---
+
 ## Amazon Bedrock
 
 **Source:** [Amazon Bedrock Pricing](https://aws.amazon.com/bedrock/pricing/)
@@ -387,6 +567,22 @@ Meta's Llama models are available through various providers (AWS Bedrock, Togeth
 | Sonar Pro | 200K | $3.00 | Pro search |
 | Sonar Reasoning | 128K | $2.00 | With reasoning |
 
+### Baichuan
+
+**Source:** [Baichuan AI Platform](https://platform.baichuan-ai.com/)
+
+| Model | Context | Input (1M) | Output (1M) | Notes |
+|-------|---------|------------|-------------|-------|
+| Baichuan 4 | 192K | Contact | Contact | Latest flagship |
+| Baichuan 3 | 128K | Contact | Contact | Previous gen |
+| Baichuan 2 | 32K | Contact | Contact | Legacy |
+
+### HyperGAI
+
+| Model | Context | Input (1M) | Output (1M) | Notes |
+|-------|---------|------------|-------------|-------|
+| Hyper-Codex | 128K | $0.30 | $0.90 | Code specialist |
+
 ---
 
 ## Quick Comparison
@@ -399,13 +595,22 @@ Meta's Llama models are available through various providers (AWS Bedrock, Togeth
 | Gemini 2.5 Flash-Lite | Google | $0.10 | 1M |
 | GPT-4.1-nano | OpenAI | $0.10 | 1M |
 | Gemini 2.0 Flash | Google | $0.10 | 1M |
+| Qwen-Flash | Alibaba | $0.05 | 1M |
+| GLM-4.7-Flash | Zhipu AI | Free | 200K |
+| GLM-4.7-FlashX | Zhipu AI | $0.07 | 200K |
 | DeepSeek-V3.2 | DeepSeek | $0.28 | 128K |
+| MiniMax-Text-01 | MiniMax | $0.20 | 1M |
+| Yi-Lightning | 01.AI | $0.14 | 16K |
 
 ### Longest Context Windows
 
 | Model | Provider | Context |
 |-------|----------|---------|
 | Llama 4 Scout | Meta | 10M |
+| MiniMax-Text-01 | MiniMax | 4M (extrapolated) |
+| GLM-4-Long | Zhipu AI | 1M |
+| Qwen-Plus | Alibaba | 1M |
+| Qwen-Flash | Alibaba | 1M |
 | Gemini 3 Pro | Google | 1M (2M soon) |
 | Gemini 2.5 Pro | Google | 1M |
 | Gemini 2.5 Flash | Google | 1M |
@@ -418,8 +623,13 @@ Meta's Llama models are available through various providers (AWS Bedrock, Togeth
 |-------|----------|------------|---------|
 | Claude Sonnet 4.6 | Anthropic | $3.00 | 200K |
 | GPT-5.2 | OpenAI | $1.75 | 400K |
+| GLM-5-Code | Zhipu AI | $0.83+ | 128K |
+| Kimi K2.5 | Moonshot AI | $0.55+ | 256K |
+| Qwen-Coder | Alibaba | $0.30 | 1M |
 | DeepSeek-R1 | DeepSeek | $0.55 | 128K |
+| MiniMax-M1 | MiniMax | $0.40 | 1M |
 | Mistral Large 3 | Mistral AI | $0.50 | 256K |
+| Yi-Coder | 01.AI | Free (OSS) | 128K |
 
 ### Premium Models (High Intelligence)
 
@@ -428,7 +638,22 @@ Meta's Llama models are available through various providers (AWS Bedrock, Togeth
 | Claude Opus 4.6 | Anthropic | $5.00+ | 1M |
 | o3-pro | OpenAI | $20.00 | 200K |
 | GPT-5.2-pro | OpenAI | $21.00 | 400K |
+| GLM-5 | Zhipu AI | $0.55+ | 128K |
 | Gemini 3 Pro | Google | $2.00+ | 1M |
+| Qwen-Max | Alibaba | $1.20 | 256K |
+| Kimi K2-Thinking-Turbo | Moonshot AI | $1.10+ | 256K |
+
+### Chinese AI Models Quick Reference
+
+| Model | Provider | Input (1M) | Context | Strengths |
+|-------|----------|------------|---------|-----------|
+| DeepSeek-R1 | DeepSeek | $0.55 | 128K | Reasoning, coding |
+| Qwen-Plus | Alibaba | $0.40 | 1M | Balanced, long context |
+| Qwen-Flash | Alibaba | $0.05 | 1M | Cheapest 1M context |
+| GLM-5 | Zhipu AI | $0.55+ | 128K | Coding, agents |
+| Kimi K2.5 | Moonshot AI | $0.55+ | 256K | Coding, vision |
+| MiniMax-Text-01 | MiniMax | $0.20 | 1M+ | 4M context extrapolation |
+| Yi-Lightning | 01.AI | $0.14 | 16K | Efficient |
 
 ---
 
