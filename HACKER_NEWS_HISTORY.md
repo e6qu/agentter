@@ -494,10 +494,18 @@ HN tracks failed startups with particular interest:
 
 ## Related Documents
 
-- [HACKER_NEWS_DEEP_DIVE.md](./HACKER_NEWS_DEEP_DIVE.md) - Community culture and contributors
-- [PROMINENT_HACKER_NEWS_CONTRIBUTORS.md](./PROMINENT_HACKER_NEWS_CONTRIBUTORS.md) - Contributor analysis
-- [FAMOUS_SPATS.md](./FAMOUS_SPATS.md) - Tech community controversies
 
----
+## Related Documents
+
+| Document | Focus |
+|----------|-------|
+| [HACKER_NEWS_DEEP_DIVE.md](./HACKER_NEWS_DEEP_DIVE.md) | Community culture and contributors |
+| [HACKER_NEWS_TECHNICAL.md](./HACKER_NEWS_TECHNICAL.md) | Ranking algorithm and infrastructure |
+| [HACKER_NEWS_LEGENDS.md](./HACKER_NEWS_LEGENDS.md) | Famous threads and AMAs |
+| [HACKER_NEWS_DATA_SOURCES.md](./HACKER_NEWS_DATA_SOURCES.md) | Downloading and using HN data |
+| [PROMINENT_HACKER_NEWS_CONTRIBUTORS.md](./PROMINENT_HACKER_NEWS_CONTRIBUTORS.md) | Contributor analysis |
+| [FAMOUS_SPATS.md](./FAMOUS_SPATS.md) | Tech community controversies |
+
+**Total HN documentation series:** ~3,680 lines
 
 *Historical data compiled from public sources, HN posts, and community recollections. Some dates approximate. Last updated: March 2026*

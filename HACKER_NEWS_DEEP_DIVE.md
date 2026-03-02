@@ -769,3 +769,28 @@ Would patio11 find this comment helpful? If not, reconsider posting.
 ---
 
 *Document compiled from public HN posts, profiles, and community analysis. All user quotes are from public comments. Last updated: March 2026*
+---
+
+## Companion Documents
+
+This document is part of a series on Hacker News:
+
+| Document | Focus | Length |
+|----------|-------|--------|
+| **HACKER_NEWS_DEEP_DIVE.md** (this file) | Community, culture, contributors | ~800 lines |
+| [HACKER_NEWS_TECHNICAL.md](./HACKER_NEWS_TECHNICAL.md) | Ranking algorithm, infrastructure, APIs | ~420 lines |
+| [HACKER_NEWS_LEGENDS.md](./HACKER_NEWS_LEGENDS.md) | Famous threads, AMAs, Show HN hall of fame | ~490 lines |
+| [HACKER_NEWS_HISTORY.md](./HACKER_NEWS_HISTORY.md) | Timeline 2007-2026, evolution | ~510 lines |
+| [HACKER_NEWS_DATA_SOURCES.md](./HACKER_NEWS_DATA_SOURCES.md) | Downloading and using HN data | ~550 lines |
+| [PROMINENT_HACKER_NEWS_CONTRIBUTORS.md](./PROMINENT_HACKER_NEWS_CONTRIBUTORS.md) | Verified user profiles | ~410 lines |
+| [FAMOUS_SPATS.md](./FAMOUS_SPATS.md) | Tech community controversies | ~500 lines |
+
+**Total series:** ~3,680 lines of HN documentation
+
+### Reading Order
+
+1. **New to HN:** Start with HISTORY.md → DEEP_DIVE.md
+2. **Technical interest:** TECHNICAL.md → DEEP_DIVE.md
+3. **Cultural immersion:** LEGENDS.md → DEEP_DIVE.md
+4. **Data analysis:** DATA_SOURCES.md → TECHNICAL.md
+5. **Research use:** CONTRIBUTORS.md + FAMOUS_SPATS.md
