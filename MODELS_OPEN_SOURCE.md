@@ -21,6 +21,7 @@
 - [NVIDIA (Nemotron)](#nvidia-nemotron)
 - [Quick VRAM Guide](#quick-vram-guide)
 - [Hosting Providers](#hosting-providers)
+- [Community Insights](#community-insights)
 
 ---
 
@@ -742,6 +743,240 @@ For example:
 - **I-quants** (IQ2, IQ3, IQ4) offer better quality than equivalent K-quants at very low bit rates but may be slower on some hardware.
 - Always verify the license before commercial use - some models have custom licenses despite being "open source."
 - Context length can affect VRAM usage significantly - longer context = more KV cache memory required.
+
+## Community Insights
+
+Real-world experiences from Reddit (r/LocalLLaMA, r/OpenAI), Hacker News, Substack, and Medium.
+
+### DeepSeek-R1: Real-World Local Deployment
+
+**Source:** [Reddit r/LocalLLaMA](https://www.reddit.com/r/LocalLLaMA/comments/1i8y1lx/anyone_ran_the_full_deepseekr1_locally_hardware/)
+
+| Hardware | Quantization | Performance | Notes |
+|----------|--------------|-------------|-------|
+| 128GB M4 Max MacBook Pro | Q4_K_M | 8-22 t/s | CPU-only, context-dependent |
+| 72GB VRAM (3x RTX 3090) | Q4_K_M | ~15-30 t/s | Multi-GPU setup |
+| 8x H100 (640GB) | BF16 | Full speed | Enterprise deployment |
+
+**Key Insights:**
+- IQ2_XS (~175GB) is "surprisingly usable" for budget-constrained setups
+- Q4_K_M offers best quality/size balance for most users
+- M4 Max Macs can run full 671B model without GPU acceleration
+
+**Source:** [Reddit r/LocalLLaMA](https://www.reddit.com/r/LocalLLaMA/comments/1lz1s8x/some_small_ppl_benchmarks_on_deepseek_r1_0528/)
+
+Perplexity benchmarks show minimal quality loss from Q8→Q5→Q4_K_M, but noticeable degradation below Q4.
+
+---
+
+### Llama 4 Scout: The 10M Context Beast
+
+**Source:** [Reddit r/LocalLLaMA](https://www.reddit.com/r/LocalLLaMA/comments/1k969p3/server_approved_4xh100_320gb_vram_looking_for/)
+
+Community feedback on Llama 4 Scout:
+- Q4_K_M at ~67GB fits on 4x H100 (320GB total)
+- 10M context is real but memory requirements scale with sequence length
+- MoE architecture means not all experts load simultaneously during inference
+
+**Practical Context Limits:**
+| Quant | VRAM | Max Context | Notes |
+|-------|------|-------------|-------|
+| Q4_K_M | 72GB | ~500K | Practical limit for most setups |
+| Q4_K_M | 128GB | ~2M | With optimized attention |
+| BF16 | 230GB+ | 10M | Full context requires enterprise hardware |
+
+---
+
+### Kimi K2.5: Agent Swarm Capabilities
+
+**Source:** [Hacker News](https://news.ycombinator.com/item?id=46826597)
+
+> "The key part is that you don't need to manually create or prompt sub-agents, K2.5 creates them automatically."
+
+Benchmark comparisons from community:
+- **HLE (reasoning):** 50.2% (GPT-5: 41.7%)
+- **BrowseComp:** Competitive with GPT-4 class models
+- **Coding:** Beats GPT-4.1 on many benchmarks
+
+**Local Deployment:**
+- B200 GPU achieves >40 t/s with Q4 quantization
+- MoE with 384 experts, 32GB active parameters
+- Full precision requires ~200GB+ VRAM
+
+---
+
+### Qwen3: The MoE Efficiency King
+
+**Source:** [Hacker News](https://news.ycombinator.com/item?id=44653618)
+
+> "I run Qwen3-235b in both Q4 and Q8 and can barely tell the difference so much so that I just keep Q4 since it's twice as fast."
+
+Community consensus:
+- Q4_K_M is indistinguishable from Q8 for most tasks
+- 22B active parameters out of 235B total = efficient inference
+- Apache 2.0 license enables commercial use
+
+**Source:** [Hacker News](https://news.ycombinator.com/item?id=44657727)
+
+Cerebras achieves 1,500 tokens/sec with Qwen3-235B on their wafer-scale engine.
+
+---
+
+### Phi-4: The Small Model Surprise
+
+**Source:** [Reddit r/LocalLLaMA](https://www.reddit.com/r/LocalLLaMA/comments/1mrfqsd/epoch_ai_data_shows_that_on_benchmarks_local_llms/)
+
+> "Phi 4 is better than GPT 4o on GPQA benchmarks. Local models under 32B are competitive."
+
+However, real-world performance varies:
+- LMSYS ELO scores 30-50 points behind Llama-3-8b despite benchmark wins
+- Strong on technical/reasoning tasks
+- Weaker on creative writing vs larger models
+
+**Deployment Notes:**
+- Fits easily on 16GB VRAM at Q8_0
+- Excellent for consumer GPUs (RTX 3060 12GB+)
+
+---
+
+### MiniMax-Text-01: 4M Context on Consumer Hardware?
+
+**Source:** [Substack](https://substack.com/home/post/p-154986493)
+
+MiniMax-Text-01 achieves 1M native context, 4M with extrapolation:
+- Lightning Attention replaces standard Transformer
+- 456B total / 45.9B active parameters
+- Competitive pricing at $0.20/1M input
+
+Community reports suggest 4M context requires inference tricks, not native support.
+
+---
+
+### Gemini 2.5 Pro: Long Context That Actually Works
+
+**Source:** [Hacker News](https://news.ycombinator.com/item?id=44064542)
+
+> "It's the only model where that much context produces even remotely useful results. I routinely drive it up to 4-500k tokens in my coding agent."
+
+Real-world usage patterns:
+- 1M context works but quality degrades after ~500K
+- Better than competitors at "needle in haystack" tasks
+- Full attention to 1M is computationally expensive
+
+---
+
+### Mistral Large 3: Mixed Reception
+
+**Source:** [Reddit r/LocalLLaMA](https://www.reddit.com/r/LocalLLaMA/comments/1pgv2fi/unimpressed_with_mistral_large_3_675b/)
+
+Community sentiment:
+- "Around Mistral Large 2 level, maybe slightly better creativity"
+- 675B MoE but doesn't feel like a massive leap
+- Good multilingual performance
+- License restrictions (non-commercial for some uses)
+
+---
+
+### Yi-Coder: Small But Mighty
+
+**Source:** [Substack](https://substack.com/home/post/p-148313220)
+
+Despite 1.5B/9B parameters:
+- Outperforms larger models on coding benchmarks
+- 128K context standard
+- Apache 2.0 license
+
+Best for:
+- Low-latency coding assistance
+- Resource-constrained environments
+- Embedding in applications
+
+---
+
+### Aya Expanse: Multilingual Leader
+
+**Source:** [Substack](https://substack.com/home/post/p-150725847)
+
+- 23 languages supported
+- 8B and 32B variants
+- Built on Command R fine-tuning
+- Strong performance on non-English tasks
+
+---
+
+### o3/o4-mini: Reasoning Model Reality Check
+
+**Source:** [Reddit r/OpenAI](https://www.reddit.com/r/OpenAI/comments/1k0pway/ok_o3_and_o4_mini_are_here_and_they_really_has/)
+
+Community feedback:
+- o3/o4-mini show "really good understanding of code" but "mess up basics"
+- Not always better than o1-pro for complex reasoning
+- o4-mini-high can produce buggier code than o3-mini-high
+- Best for math/reasoning, not general coding
+
+---
+
+### Claude 4.6: Context Window Reality
+
+**Source:** [Hacker News](https://news.ycombinator.com/item?id=46902223)
+
+> "Tested Opus 4.6 (1M context) on finding every spell in all Harry Potter books."
+
+Findings:
+- 1M context is in beta via API
+- High reasoning mode is "unusable" without 1M context for complex tasks
+- Better at agentic tasks than previous versions
+
+---
+
+### GLM-5/4.7: China's Open Source Challenger
+
+**Source:** [Medium](https://medium.com/@developeryusuf/china-just-built-an-open-source-ai-that-nearly-matches-claude-then-made-it-nearly-impossible-to-862150c9590d)
+
+- GLM-5: 77.8% on SWE-bench Verified (above Claude 3.5 Sonnet)
+- GLM-4.7: Near-parity with Claude Sonnet 4.x on coding
+- Free tier available (GLM-4.7-Flash)
+
+**Source:** [Medium](https://medium.com/data-science-in-your-pocket/glm-4-7-vs-glm-4-6-vs-deepseek-v3-2-vs-claude-4-5-vs-gpt-5-1-e4e69c6099df)
+
+GLM-4.7 vs GLM-4.6 shows significant behavior differences, not just a minor patch.
+
+---
+
+### Local LLM Deployment: Community Tips
+
+**Source:** [Medium](https://medium.com/@rosgluk/local-llm-hosting-complete-2025-guide-ollama-vllm-localai-jan-lm-studio-more-f98136ce7e4a)
+
+Tool recommendations:
+- **Ollama**: Easiest setup, CLI-focused
+- **LM Studio**: Best GUI for beginners
+- **llama.cpp**: Maximum control, best performance
+- **vLLM**: Production serving
+- **LocalAI**: OpenAI-compatible API
+
+**Source:** [Medium](https://haddadhesam.medium.com/one-file-to-rule-them-all-gguf-for-local-llm-testing-and-deployment-208b85934434)
+
+GGUF is the "one file to rule them all" for local deployment - single file contains model + weights + tokenizer.
+
+---
+
+### Quantization Quality: Community Consensus
+
+**Source:** [Reddit r/LocalLLaMA](https://www.reddit.com/r/LocalLLaMA/comments/1o44u78/we_know_the_rule_of_thumb_large_quantized_models/)
+
+General agreement:
+- Q4_K_M is the "sweet spot" for most models
+- Q5_K_M for models under 30B if you have VRAM headroom
+- Q8_0 rarely worth it over Q6_K (diminishing returns)
+- IQ quants (IQ3, IQ4) better than Q3/Q4 at same size
+- Below Q3 quality drops significantly
+
+**VRAM Rule of Thumb:**
+```
+Required VRAM = Model Size (GB) × 1.1 + 2 GB overhead
+```
+
+---
 
 ## See Also
 
