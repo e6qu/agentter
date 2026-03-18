@@ -67,21 +67,32 @@ Spec-Driven Development is the evolution from "vibe coding" (prompting and prayi
 
 ---
 
+## When SDD is Overkill
+
+Not every change needs a full specification cycle. Skip SDD (or use a lightweight version) when:
+
+- **Trivial bug fixes**: A one-line typo fix, an off-by-one error, or a missing null check does not need a SPEC.md.
+- **Minor config changes**: Updating environment variables, dependency versions, or feature flags.
+- **Quick refactors under 15 minutes**: Renaming a variable across a file, extracting a small helper function.
+- **Exploratory prototyping**: When you are still figuring out *what* to build, writing a spec is premature. Brainstorm first, then write the spec once direction is clear.
+
+**Rule of thumb**: If you can describe the change in one sentence and verify it in under a minute, just do it. Use SDD when the task has multiple requirements, edge cases, or will take more than 30 minutes.
+
+---
+
 ## Phase 1: Brainstorming
 
 ### Starting the Conversation
 
-```markdown
-# Initial Prompt
+    # Initial Prompt
 
-I'm planning to build [FEATURE]. Help me think through:
+    I'm planning to build [FEATURE]. Help me think through:
 
-1. What are the core requirements?
-2. What are the edge cases?
-3. What technologies should I consider?
-4. What are potential pitfalls?
-5. How should I structure this?
-```
+    1. What are the core requirements?
+    2. What are the edge cases?
+    3. What technologies should I consider?
+    4. What are potential pitfalls?
+    5. How should I structure this?
 
 ### Iterative Refinement
 
@@ -111,74 +122,72 @@ Continue until you've covered:
 
 ### SPEC.md Template
 
-```markdown
-# Specification: [Feature Name]
+    # Specification: [Feature Name]
 
-## Overview
-Brief description of what this feature does and why it exists.
+    ## Overview
+    Brief description of what this feature does and why it exists.
 
-## Requirements
+    ## Requirements
 
-### Functional Requirements
-1. REQ-001: Users can register with email/password
-2. REQ-002: Passwords must be at least 12 characters
-3. REQ-003: Users can enable TOTP 2FA
-...
+    ### Functional Requirements
+    1. REQ-001: Users can register with email/password
+    2. REQ-002: Passwords must be at least 12 characters
+    3. REQ-003: Users can enable TOTP 2FA
+    ...
 
-### Non-Functional Requirements
-- Performance: Login < 200ms
-- Security: OWASP compliance
-- Availability: 99.9% uptime
+    ### Non-Functional Requirements
+    - Performance: Login < 200ms
+    - Security: OWASP compliance
+    - Availability: 99.9% uptime
 
-## Architecture
+    ## Architecture
 
-### Data Models
-```typescript
-interface User {
-  id: string;
-  email: string;
-  passwordHash: string;
-  twoFactorSecret?: string;
-  createdAt: Date;
-}
-```
+    ### Data Models
+    ```typescript
+    interface User {
+      id: string;
+      email: string;
+      passwordHash: string;
+      twoFactorSecret?: string;
+      createdAt: Date;
+    }
+    ```
 
-### API Endpoints
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | /api/auth/register | Create account |
-| POST | /api/auth/login | Authenticate |
-| POST | /api/auth/2fa/setup | Enable 2FA |
+    ### API Endpoints
+    | Method | Path | Description |
+    |--------|------|-------------|
+    | POST | /api/auth/register | Create account |
+    | POST | /api/auth/login | Authenticate |
+    | POST | /api/auth/2fa/setup | Enable 2FA |
 
-## Implementation Plan
+    ## Implementation Plan
 
-### Phase 1: Core Authentication
-- [ ] Database schema
-- [ ] Registration endpoint
-- [ ] Login endpoint
-- [ ] Password hashing
+    ### Phase 1: Core Authentication
+    - [ ] Database schema
+    - [ ] Registration endpoint
+    - [ ] Login endpoint
+    - [ ] Password hashing
 
-### Phase 2: Security
-- [ ] Rate limiting
-- [ ] Input validation
-- [ ] Error handling
+    ### Phase 2: Security
+    - [ ] Rate limiting
+    - [ ] Input validation
+    - [ ] Error handling
 
-### Phase 3: 2FA
-- [ ] TOTP generation
-- [ ] QR code display
-- [ ] Verification endpoint
+    ### Phase 3: 2FA
+    - [ ] TOTP generation
+    - [ ] QR code display
+    - [ ] Verification endpoint
 
-## Testing Strategy
-- Unit tests for all endpoints
-- Integration tests for flows
-- Security audit checklist
+    ## Testing Strategy
+    - Unit tests for all endpoints
+    - Integration tests for flows
+    - Security audit checklist
 
-## Acceptance Criteria
-- [ ] All requirements implemented
-- [ ] All tests passing
-- [ ] Security review complete
-- [ ] Documentation updated
-```
+    ## Acceptance Criteria
+    - [ ] All requirements implemented
+    - [ ] All tests passing
+    - [ ] Security review complete
+    - [ ] Documentation updated
 
 ---
 
@@ -194,37 +203,35 @@ Each implementation phase should be:
 
 ### Example Plan
 
-```markdown
-## Implementation Plan: User Authentication
+    ## Implementation Plan: User Authentication
 
-### Task 1: Database Setup (Est: 30 min)
-**Goal**: Create users table with proper schema
-**Files**: `migrations/001_users.sql`, `src/models/user.ts`
-**Acceptance**: 
-- Migration runs successfully
-- Model type-checks
-- Tests pass
+    ### Task 1: Database Setup (Est: 30 min)
+    **Goal**: Create users table with proper schema
+    **Files**: `migrations/001_users.sql`, `src/models/user.ts`
+    **Acceptance**:
+    - Migration runs successfully
+    - Model type-checks
+    - Tests pass
 
-### Task 2: Registration Endpoint (Est: 45 min)
-**Goal**: POST /api/auth/register working
-**Files**: `src/routes/auth.ts`, `src/services/auth.ts`
-**Acceptance**:
-- Can create user via API
-- Passwords are hashed (bcrypt)
-- Duplicate email handled
-- Tests pass
+    ### Task 2: Registration Endpoint (Est: 45 min)
+    **Goal**: POST /api/auth/register working
+    **Files**: `src/routes/auth.ts`, `src/services/auth.ts`
+    **Acceptance**:
+    - Can create user via API
+    - Passwords are hashed (bcrypt)
+    - Duplicate email handled
+    - Tests pass
 
-### Task 3: Login Endpoint (Est: 45 min)
-**Goal**: POST /api/auth/login working
-**Files**: `src/routes/auth.ts`, `src/services/auth.ts`
-**Acceptance**:
-- Valid credentials return token
-- Invalid credentials return 401
-- Rate limited (5 attempts/min)
-- Tests pass
+    ### Task 3: Login Endpoint (Est: 45 min)
+    **Goal**: POST /api/auth/login working
+    **Files**: `src/routes/auth.ts`, `src/services/auth.ts`
+    **Acceptance**:
+    - Valid credentials return token
+    - Invalid credentials return 401
+    - Rate limited (5 attempts/min)
+    - Tests pass
 
-[Continue for all tasks...]
-```
+    [Continue for all tasks...]
 
 ---
 
@@ -311,18 +318,16 @@ npm run typecheck
 
 ### Manual Review Checklist
 
-```markdown
-## Pre-Completion Review
+    ## Pre-Completion Review
 
-- [ ] All functional requirements implemented
-- [ ] All non-functional requirements met
-- [ ] Edge cases handled
-- [ ] Error messages are user-friendly
-- [ ] No TODO comments remaining
-- [ ] Documentation is complete
-- [ ] API responses match spec
-- [ ] Security best practices followed
-```
+    - [ ] All functional requirements implemented
+    - [ ] All non-functional requirements met
+    - [ ] Edge cases handled
+    - [ ] Error messages are user-friendly
+    - [ ] No TODO comments remaining
+    - [ ] Documentation is complete
+    - [ ] API responses match spec
+    - [ ] Security best practices followed
 
 ---
 
@@ -389,7 +394,7 @@ opencode
 
 ### SDD + Ralph Loops
 
-Use Ralph loops within SDD for complex tasks:
+Use Ralph loops within SDD for complex tasks that the agent might try to abandon early:
 
 ```bash
 # Spec is complete
@@ -398,9 +403,11 @@ Use Ralph loops within SDD for complex tasks:
 ./ralph-loop.sh "Implement algorithm from SPEC.md section 4.2" "SPEC.md"
 ```
 
+See [01 - Ralph Loops](01-ralph-loops.md) for details on persistent execution.
+
 ### SDD + Agent Teams
 
-Parallelize independent tasks:
+Parallelize independent tasks across multiple agents:
 
 ```bash
 # Terminal 1: Task 1 (Database)
@@ -409,6 +416,18 @@ opencode run "Implement Task 1 per SPEC.md"
 # Terminal 2: Task 2 (API) - can be parallel if files don't overlap
 opencode run "Implement Task 2 per SPEC.md"
 ```
+
+See [03 - Agent Teams](03-agent-teams.md) for multi-agent coordination.
+
+---
+
+## Cross-References
+
+- [01 - Ralph Loops](01-ralph-loops.md): Use within SDD for tasks the agent might exit prematurely.
+- [03 - Agent Teams](03-agent-teams.md): Parallelize independent SDD tasks across multiple agents.
+- [04 - Context Management](04-context-management.md): Essential for SDD sessions that span multiple hours; use memory files to track spec progress.
+- [05 - Session Teleportation](05-session-teleportation.md): Review specs and progress from other devices.
+- [METHODOLOGIES.md](../METHODOLOGIES.md): Overview of all methodologies.
 
 ---
 
@@ -419,4 +438,4 @@ opencode run "Implement Task 2 per SPEC.md"
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

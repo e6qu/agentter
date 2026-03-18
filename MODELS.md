@@ -2,7 +2,7 @@
 
 *Comprehensive comparison of LLM API pricing, context lengths, and capabilities*
 
-**Last Updated:** March 2, 2026 (Updated with Chinese AI Models)
+**Last Updated:** March 18, 2026
 
 ---
 
@@ -443,7 +443,7 @@ Meta's Llama models are available through various providers (AWS Bedrock, Togeth
 | Model | Context | Parameters | Notes |
 |-------|---------|------------|-------|
 | Llama 3.3 70B | 128K | 70B | Instruction-tuned |
-| Llama 3.3 8B | 128K | 8B | Compact |
+| Llama 3.1 8B | 128K | 8B | Compact |
 
 ### Sample Third-Party Pricing (Together AI)
 
@@ -452,7 +452,7 @@ Meta's Llama models are available through various providers (AWS Bedrock, Togeth
 | Llama 4 Maverick | $0.27 | $0.85 | Via Together AI |
 | Llama 4 Scout | $0.18 | $0.60 | Via Together AI |
 | Llama 3.3 70B | $0.88 | $0.88 | Via Together AI |
-| Llama 3.3 8B | $0.20 | $0.20 | Via Together AI |
+| Llama 3.1 8B | $0.20 | $0.20 | Via Together AI |
 
 ---
 

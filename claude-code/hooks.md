@@ -21,23 +21,45 @@
 
 | Event | When it fires | Matcher Support |
 |-------|---------------|-----------------|
-| `SessionStart` | Session begins/resumes | ✅ (startup, resume, clear, compact) |
-| `UserPromptSubmit` | User submits prompt | ❌ |
-| `PreToolUse` | Before tool executes | ✅ (tool name) |
-| `PermissionRequest` | Permission dialog appears | ✅ (tool name) |
-| `PostToolUse` | After tool succeeds | ✅ (tool name) |
-| `PostToolUseFailure` | After tool fails | ✅ (tool name) |
-| `Notification` | Notification sent | ✅ (type) |
-| `SubagentStart` | Subagent spawned | ✅ (agent type) |
-| `SubagentStop` | Subagent finishes | ✅ (agent type) |
-| `Stop` | Claude finishes responding | ❌ |
-| `TeammateIdle` | Agent team member idle | ❌ |
-| `TaskCompleted` | Task marked complete | ❌ |
-| `ConfigChange` | Config file changes | ✅ (source) |
-| `WorktreeCreate` | Worktree being created | ❌ |
-| `WorktreeRemove` | Worktree being removed | ❌ |
-| `PreCompact` | Before context compaction | ✅ (manual, auto) |
-| `SessionEnd` | Session terminates | ✅ (reason) |
+| `SessionStart` | Session begins/resumes | Yes (startup, resume, clear, compact) |
+| `UserPromptSubmit` | User submits prompt | No |
+| `PreToolUse` | Before tool executes | Yes (tool name) |
+| `PermissionRequest` | Permission dialog appears | Yes (tool name) |
+| `PostToolUse` | After tool succeeds | Yes (tool name) |
+| `PostToolUseFailure` | After tool fails | Yes (tool name) |
+| `Notification` | Notification sent | Yes (type) |
+| `SubagentStart` | Subagent spawned | Yes (agent type) |
+| `SubagentStop` | Subagent finishes | Yes (agent type) |
+| `Stop` | Claude finishes responding | No |
+| `TeammateIdle` | Agent team member idle | No |
+| `TaskCompleted` | Task marked complete | No |
+| `ConfigChange` | Config file changes | Yes (source) |
+| `WorktreeCreate` | Worktree being created | No |
+| `WorktreeRemove` | Worktree being removed | No |
+| `PreCompact` | Before context compaction | Yes (manual, auto) |
+| `SessionEnd` | Session terminates | Yes (reason) |
+
+---
+
+## Hook Execution Behavior
+
+### Timeouts
+
+Hook commands have a default execution timeout. If a hook script exceeds the timeout, it is terminated and treated as a failure. Keep hook scripts fast to avoid blocking the agent loop.
+
+### Error Handling
+
+- If a hook script exits with a **non-zero exit code**, the hook is considered failed.
+- For `PreToolUse` hooks: a failed hook (non-zero exit, no JSON output) does **not** block the tool -- it is treated as "no opinion" (equivalent to allowing the tool). To explicitly block a tool, return JSON with `permissionDecision: "deny"`.
+- For `PostToolUse` hooks: failures are logged but do not affect the tool result.
+- If a hook script produces **invalid JSON** on stdout, the output is ignored and the hook is treated as having no opinion.
+- Multiple hooks for the same event run sequentially in order. If any `PreToolUse` hook returns `deny`, the tool is blocked regardless of other hooks.
+- Hooks that crash or time out are logged for debugging but do not crash the Claude Code session.
+
+### Blocking vs Non-Blocking
+
+- `PreToolUse` and `PermissionRequest` hooks are **blocking** -- they run before the tool executes and can prevent execution.
+- `PostToolUse`, `SessionStart`, `SessionEnd`, and other hooks are **non-blocking** -- they run for side effects (logging, notifications) and do not affect the agent's behavior.
 
 ---
 
@@ -462,12 +484,13 @@ Return from `PreToolUse` and `PermissionRequest`:
 
 ## Best Practices
 
-1. **Fast execution**: Hooks block the agent loop
+1. **Fast execution**: Hooks block the agent loop -- keep them under a few seconds
 2. **Graceful failures**: Exit 0 to allow if uncertain
 3. **Specific matchers**: Avoid wildcard `*` for performance
 4. **Logging**: Use hooks for audit trails
 5. **Security**: Validate inputs in hook scripts
+6. **Idempotency**: Design hooks to be safe if run multiple times
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

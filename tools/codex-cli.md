@@ -1,7 +1,7 @@
 # Codex CLI
 
-**Type**: Proprietary CLI Tool  
-**License**: Proprietary (OpenAI)  
+**Type**: Open Source CLI Tool
+**License**: Apache 2.0
 **Primary Developer**: OpenAI  
 **Website**: https://openai.com/codex
 
@@ -78,7 +78,7 @@ npm i -g @openai/codex
 brew install --cask codex
 
 # Or run without installing
-npx @google/gemini-cli
+npx @openai/codex
 ```
 
 Source: [OpenAI Codex Installation](https://openai.com/index/introducing-the-codex-app/)
@@ -157,9 +157,9 @@ Source: [OpenAI Codex Skills Creation](https://openai.com/index/introducing-the-
 ## Supported Models
 
 Codex CLI only supports OpenAI models:
-- GPT-5.3-Codex
-- GPT-5.2-Codex
-- GPT-5.1-Codex-Mini
+- o4-mini (default)
+- o3
+- GPT-4.1
 
 Source: [OpenAI Codex Models](https://openai.com/index/introducing-the-codex-app/)
 

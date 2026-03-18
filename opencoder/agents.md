@@ -168,6 +168,8 @@ Add to `opencode.json`:
 
 Create `.opencode/agents/<name>.md`:
 
+> **Note**: The markdown filename (without extension) becomes the agent name. For example, `.opencode/agents/code-reviewer.md` creates an agent named `code-reviewer`.
+
 ```markdown
 ---
 description: Reviews code for quality and best practices
@@ -552,4 +554,4 @@ Provide designs as markdown documentation with clear sections for:
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

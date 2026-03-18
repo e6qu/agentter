@@ -9,7 +9,7 @@
 
 Claude Code is Anthropic's official terminal-based AI coding assistant. It runs locally, integrates deeply with Claude models, and provides features like subagents, hooks, and an extensible plugin system.
 
-Source: [Claude Code Documentation](https://code.claude.com/docs/)
+Source: [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code/)
 
 ## Key Features
 
@@ -28,7 +28,7 @@ Claude Code supports specialized subagents that run in isolated context windows:
 | General-purpose | Inherits | All | Complex multi-step tasks |
 | Bash | Inherits | Shell | Terminal commands |
 
-Source: [Claude Code Subagents](https://code.claude.com/docs/en/sub-agents)
+Source: [Claude Code Subagents](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents)
 
 #### Subagent Configuration
 
@@ -61,7 +61,7 @@ Claude Code supports 8 lifecycle hook types:
 | `SubagentStart` | When a subagent begins |
 | `SubagentStop` | When a subagent completes |
 
-Source: [Claude Code Hooks](https://code.claude.com/docs/en/hooks)
+Source: [Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/en/hooks)
 
 ### Plugin Marketplace
 
@@ -74,7 +74,7 @@ Install plugins via:
 /plugin install plugin-name
 ```
 
-Source: [Claude Code Plugins](https://code.claude.com/docs/en/plugins)
+Source: [Claude Code Plugins](https://docs.anthropic.com/en/docs/claude-code/en/plugins)
 
 ### Persistent Memory
 
@@ -86,7 +86,7 @@ Subagents can have persistent memory across conversations:
 | `project` | `.claude/agent-memory/<name>/` | Project-specific, version controlled |
 | `local` | `.claude/agent-memory-local/<name>/` | Project-specific, not version controlled |
 
-Source: [Claude Code Memory](https://code.claude.com/docs/en/sub-agents)
+Source: [Claude Code Memory](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents)
 
 ## Installation
 
@@ -101,7 +101,7 @@ brew install --cask claude-code
 npm install -g @anthropic-ai/claude-code
 ```
 
-Source: [Claude Code Installation](https://code.claude.com/docs/en/getting-started)
+Source: [Claude Code Installation](https://docs.anthropic.com/en/docs/claude-code/en/getting-started)
 
 ## Configuration
 
@@ -142,7 +142,7 @@ Configuration is stored in `~/.claude/settings.json`:
 | `bypassPermissions` | Skip all permission checks |
 | `plan` | Read-only exploration |
 
-Source: [Claude Code Permissions](https://code.claude.com/docs/en/permissions)
+Source: [Claude Code Permissions](https://docs.anthropic.com/en/docs/claude-code/en/permissions)
 
 ## API and Customization
 
@@ -160,7 +160,7 @@ await claude.run({
 });
 ```
 
-Source: [Claude Code SDK](https://code.claude.com/docs/en/agent-sdk)
+Source: [Claude Code SDK](https://docs.anthropic.com/en/docs/claude-code/en/agent-sdk)
 
 ### CLI Flags
 
@@ -175,7 +175,7 @@ claude --dangerously-skip-permissions
 claude --disallowedTools "Task(Explore)"
 ```
 
-Source: [Claude Code CLI](https://code.claude.com/docs/en/cli)
+Source: [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code/en/cli)
 
 ### Custom Subagents
 
@@ -188,7 +188,7 @@ Define subagents at different scopes:
 | `~/.claude/agents/` | All projects | 3 |
 | Plugin's `agents/` | Where plugin enabled | 4 (lowest) |
 
-Source: [Claude Code Subagent Scopes](https://code.claude.com/docs/en/sub-agents)
+Source: [Claude Code Subagent Scopes](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents)
 
 ## Worktree Isolation
 
@@ -198,7 +198,7 @@ Subagents can run in isolated Git worktrees:
 
 This enables parallel work on different branches without conflicts.
 
-Source: [Claude Code Worktree Isolation](https://code.claude.com/docs/en/sub-agents)
+Source: [Claude Code Worktree Isolation](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents)
 
 ## Context Management
 
@@ -217,7 +217,7 @@ Source: [Claude Code Worktree Isolation](https://code.claude.com/docs/en/sub-age
 # Set via CLAUDE_AUTOCOMPACT_PCT_OVERRIDE environment variable
 ```
 
-Source: [Claude Code Token Optimization](https://code.claude.com/docs/en/token-optimization)
+Source: [Claude Code Token Optimization](https://docs.anthropic.com/en/docs/claude-code/en/token-optimization)
 
 ## Supported Models
 
@@ -239,12 +239,12 @@ Source: [Anthropic Pricing](https://www.anthropic.com/pricing)
 
 ## Sources and References
 
-1. [Claude Code Documentation](https://code.claude.com/docs/)
-2. [Claude Code Subagents](https://code.claude.com/docs/en/sub-agents)
-3. [Claude Code Hooks](https://code.claude.com/docs/en/hooks)
-4. [Claude Code Plugins](https://code.claude.com/docs/en/plugins)
-5. [Claude Code Permissions](https://code.claude.com/docs/en/permissions)
+1. [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code/)
+2. [Claude Code Subagents](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents)
+3. [Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/en/hooks)
+4. [Claude Code Plugins](https://docs.anthropic.com/en/docs/claude-code/en/plugins)
+5. [Claude Code Permissions](https://docs.anthropic.com/en/docs/claude-code/en/permissions)
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

@@ -131,28 +131,26 @@ export GITHUB_TOKEN="${GITHUB_TOKEN}"
 
 ```javascript
 // .opencode/plugins/credential-guard.js
+export const CredentialGuard = async (ctx) => {
+  // Known credential patterns
+  const patterns = [
+    { regex: /sk-[a-zA-Z0-9]{48}/, name: 'API key' },
+    { regex: /AKIA[0-9A-Z]{16}/, name: 'AWS key' },
+    { regex: /gh[pousr]_[A-Za-z0-9_]{36}/, name: 'GitHub token' }
+  ];
 
-module.exports = {
-  name: 'credential-guard',
-  hooks: {
-    'on:file:write:before': async (event) => {
-      const { content, path, logger } = event;
-      
-      // Known credential patterns
-      const patterns = [
-        { regex: /sk-[a-zA-Z0-9]{48}/, name: 'API key' },
-        { regex: /AKIA[0-9A-Z]{16}/, name: 'AWS key' },
-        { regex: /gh[pousr]_[A-Za-z0-9_]{36}/, name: 'GitHub token' }
-      ];
-      
+  return {
+    "file.edited": async (event) => {
+      const { content, path } = event;
+
       for (const { regex, name } of patterns) {
         if (regex.test(content)) {
-          logger.error(`Potential ${name} pattern in ${path}`);
+          console.error(`Potential ${name} pattern in ${path}`);
           throw new Error('Credential pattern detected');
         }
       }
     }
-  }
+  };
 };
 ```
 
@@ -240,10 +238,10 @@ tools: [Read, Edit, Grep, Bash]
 {
   "name": "agent-name",
   "description": "Agent function",
-  "system": "System prompt",
+  "prompt": "System prompt",
   "tools": ["Read", "Edit"],
   "provider": "anthropic",
-  "model": "claude-3-5-sonnet-20241022"
+  "model": "claude-sonnet-4-20250514"
 }
 ```
 
@@ -254,7 +252,7 @@ tools: [Read, Edit, Grep, Bash]
 {
   "name": "code-reviewer",
   "description": "Code quality review",
-  "system": "You review code for correctness, readability, and test coverage.",
+  "prompt": "You review code for correctness, readability, and test coverage.",
   "tools": ["Read", "Grep"],
   "provider": "anthropic"
 }
@@ -265,7 +263,7 @@ tools: [Read, Edit, Grep, Bash]
 {
   "name": "unstuck-monitor",
   "description": "Detects stuck states",
-  "system": "You detect when implementation is stuck and suggest alternatives.",
+  "prompt": "You detect when implementation is stuck and suggest alternatives.",
   "tools": ["Read", "Bash"]
 }
 ```
@@ -278,22 +276,45 @@ tools: [Read, Edit, Grep, Bash]
 
 ```javascript
 // .opencode/plugins/unstuck-detector.js
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const STATE_DIR = '.opencode/.heartbeat';
 
-module.exports = {
-  name: 'unstuck-detector',
-  hooks: {
-    'on:session:start': async ({ logger }) => {
-      fs.mkdirSync(STATE_DIR, { recursive: true });
-      
-      setInterval(() => checkIfStuck(logger), 300000);
-      logger.info('Unstuck detector active');
+export const UnstuckDetector = async (ctx) => {
+  fs.mkdirSync(STATE_DIR, { recursive: true });
+
+  const checkIfStuck = () => {
+    const editLog = path.join(STATE_DIR, 'edits.jsonl');
+    if (!fs.existsSync(editLog)) return;
+
+    const recent = fs.readFileSync(editLog, 'utf8')
+      .split('\n')
+      .filter(Boolean)
+      .slice(-50)
+      .map(JSON.parse)
+      .filter(e => e.timestamp > Date.now() - 600000);
+
+    // Count edits per file
+    const counts = {};
+    for (const e of recent) {
+      counts[e.path] = (counts[e.path] || 0) + 1;
+    }
+
+    const stuck = Object.entries(counts).filter(([_, c]) => c > 5);
+    if (stuck.length > 0) {
+      console.warn('High edit frequency detected', { files: stuck.map(([f]) => f) });
+    }
+  };
+
+  setInterval(checkIfStuck, 300000);
+
+  return {
+    "session.created": async () => {
+      console.info('Unstuck detector active');
     },
-    
-    'on:file:write:after': async (event) => {
+
+    "file.edited": async (event) => {
       const entry = {
         timestamp: Date.now(),
         path: event.path
@@ -303,68 +324,47 @@ module.exports = {
         JSON.stringify(entry) + '\n'
       );
     }
-  }
+  };
 };
-
-async function checkIfStuck(logger) {
-  const editLog = path.join(STATE_DIR, 'edits.jsonl');
-  if (!fs.existsSync(editLog)) return;
-  
-  const recent = fs.readFileSync(editLog, 'utf8')
-    .split('\n')
-    .filter(Boolean)
-    .slice(-50)
-    .map(JSON.parse)
-    .filter(e => e.timestamp > Date.now() - 600000);
-  
-  // Count edits per file
-  const counts = {};
-  for (const e of recent) {
-    counts[e.path] = (counts[e.path] || 0) + 1;
-  }
-  
-  const stuck = Object.entries(counts).filter(([_, c]) => c > 5);
-  if (stuck.length > 0) {
-    logger.warn('High edit frequency detected', { files: stuck.map(([f]) => f) });
-  }
-}
 ```
 
 ### Health Check Plugin
 
 ```javascript
 // .opencode/plugins/health-check.js
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
 
 const STATE_DIR = '.opencode/.heartbeat';
 const INTERVAL = 30 * 60 * 1000; // 30 minutes
 
-module.exports = {
-  name: 'health-check',
-  hooks: {
-    'on:session:start': async ({ logger }) => {
-      fs.mkdirSync(STATE_DIR, { recursive: true });
-      setInterval(() => runChecks(logger), INTERVAL);
-    }
-  }
-};
+export const HealthCheck = async (ctx) => {
+  fs.mkdirSync(STATE_DIR, { recursive: true });
 
-async function runChecks(logger) {
-  const results = {};
-  
-  try {
-    execSync('npm test --silent', { timeout: 120000 });
-    results.tests = true;
-  } catch {
-    results.tests = false;
-    logger.error('Tests failing');
-  }
-  
-  const reportFile = path.join(STATE_DIR, `report-${Date.now()}.json`);
-  fs.writeFileSync(reportFile, JSON.stringify(results));
-}
+  const runChecks = () => {
+    const results = {};
+
+    try {
+      execSync('npm test --silent', { timeout: 120000 });
+      results.tests = true;
+    } catch {
+      results.tests = false;
+      console.error('Tests failing');
+    }
+
+    const reportFile = path.join(STATE_DIR, `report-${Date.now()}.json`);
+    fs.writeFileSync(reportFile, JSON.stringify(results));
+  };
+
+  setInterval(runChecks, INTERVAL);
+
+  return {
+    "session.created": async () => {
+      console.info('Health check plugin active');
+    }
+  };
+};
 ```
 
 ---
@@ -375,20 +375,20 @@ async function runChecks(logger) {
 
 ```javascript
 // .opencode/plugins/example.js
+export const ExamplePlugin = async ({ project, client, $ }) => {
+  console.info('Plugin initialized');
 
-module.exports = {
-  name: 'plugin-name',
-  hooks: {
-    'on:session:start': async ({ logger, config }) => {
-      logger.info('Session started');
+  return {
+    "session.created": async () => {
+      console.info('Session started');
     },
-    'on:tool:use:before': async (event) => {
+    "tool.execute.before": async (input, output) => {
       // Pre-tool logic
     },
-    'on:file:write:after': async (event) => {
+    "file.edited": async (event) => {
       // Post-write logic
     }
-  }
+  };
 };
 ```
 
@@ -396,30 +396,26 @@ module.exports = {
 
 ```javascript
 // .opencode/plugins/safety-check.js
-
-module.exports = {
-  name: 'safety-check',
-  hooks: {
-    'on:tool:use:before': async (event) => {
-      const { tool, input, logger } = event;
-      
-      if (tool === 'Bash' && input.command) {
+export const SafetyCheck = async (ctx) => {
+  return {
+    "tool.execute.before": async (input, output) => {
+      if (input.tool === 'Bash' && output.args.command) {
         const dangerous = [
-          /rm\s+-rf\s+\/,
+          /rm\s+-rf\s+\//,
           /sudo/,
           /mkfs/,
           /dd\s+if=/
         ];
-        
+
         for (const pattern of dangerous) {
-          if (pattern.test(input.command)) {
-            logger.error('Destructive command pattern detected');
+          if (pattern.test(output.args.command)) {
+            console.error('Destructive command pattern detected');
             throw new Error('Command blocked');
           }
         }
       }
     }
-  }
+  };
 };
 ```
 
@@ -427,10 +423,10 @@ module.exports = {
 
 ```json
 {
-  "plugins": [
-    ".opencode/plugins/credential-guard.js",
-    ".opencode/plugins/safety-check.js",
-    ".opencode/plugins/unstuck-detector.js"
+  "plugin": [
+    "opencode-credential-guard",
+    "opencode-safety-check",
+    "opencode-unstuck-detector"
   ]
 }
 ```
@@ -472,15 +468,14 @@ services:
 
 ```javascript
 // .opencode/plugins/ephemeral.js
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 
-module.exports = {
-  name: 'ephemeral',
-  commands: {
-    'sandbox:create': async ({ logger }) => {
+export const EphemeralPlugin = async ({ $ }) => {
+  return {
+    "session.created": async () => {
       const project = path.basename(process.cwd());
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const worktree = path.join(
@@ -488,13 +483,13 @@ module.exports = {
         '.opencode-worktrees',
         `ephemeral-${project}-${timestamp}`
       );
-      
+
       fs.mkdirSync(path.dirname(worktree), { recursive: true });
       execSync(`git worktree add -b "ephemeral/..." "${worktree}"`);
-      
-      logger.info(`Worktree: ${worktree}`);
+
+      console.info(`Worktree: ${worktree}`);
     }
-  }
+  };
 };
 ```
 
@@ -506,24 +501,24 @@ module.exports = {
 
 ```javascript
 // .opencode/plugins/lib/deterministic.js
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
 
-class DeterministicChecks {
+export class DeterministicChecks {
   constructor(baseDir = '.opencode/.deterministic') {
     this.baseDir = path.join(process.cwd(), baseDir);
     fs.mkdirSync(this.baseDir, { recursive: true });
   }
-  
+
   checksumCheck(content, namespace = 'default') {
     const hash = crypto.createHash('sha256').update(content).digest('hex');
     const marker = path.join(this.baseDir, namespace, `${hash}.checked`);
-    
+
     if (fs.existsSync(marker)) {
       return { shouldRun: false };
     }
-    
+
     return {
       shouldRun: true,
       markComplete: () => {
@@ -532,18 +527,18 @@ class DeterministicChecks {
       }
     };
   }
-  
+
   timeCheck(intervalMs, namespace = 'default') {
     const marker = path.join(this.baseDir, 'timestamps', `${namespace}.last`);
     const now = Date.now();
-    
+
     if (fs.existsSync(marker)) {
       const last = parseInt(fs.readFileSync(marker, 'utf8'));
       if (now - last < intervalMs) {
         return { shouldRun: false };
       }
     }
-    
+
     return {
       shouldRun: true,
       markComplete: () => {
@@ -553,33 +548,30 @@ class DeterministicChecks {
     };
   }
 }
-
-module.exports = { DeterministicChecks };
 ```
 
 ### Usage in Plugins
 
 ```javascript
-const { DeterministicChecks } = require('./lib/deterministic');
+import { DeterministicChecks } from './lib/deterministic.js';
 const checks = new DeterministicChecks();
 
-module.exports = {
-  name: 'expensive-check',
-  hooks: {
-    'on:file:write:after': async (event) => {
-      const { path, content, logger } = event;
-      
+export const ExpensiveCheckPlugin = async (ctx) => {
+  return {
+    "file.edited": async (event) => {
+      const { path, content } = event;
+
       const check = checks.checksumCheck(content, `check:${path}`);
       if (!check.shouldRun) {
-        logger.debug(`Skipping ${path}`);
+        console.debug(`Skipping ${path}`);
         return;
       }
-      
+
       // Run check...
-      
+
       check.markComplete();
     }
-  }
+  };
 };
 ```
 
@@ -598,17 +590,17 @@ module.exports = {
       "defaultModel": "..."
     }
   },
-  "agents": {
+  "agent": {
     "agent-name": {
       "description": "...",
-      "system": "...",
+      "prompt": "...",
       "tools": ["..."]
     }
   },
-  "plugins": [
-    "path/to/plugin.js"
+  "plugin": [
+    "opencode-my-plugin"
   ],
-  "permissions": {
+  "permission": {
     "Bash": {
       "allow": ["..."],
       "deny": ["..."]
@@ -617,17 +609,16 @@ module.exports = {
 }
 ```
 
-### Available Hooks
+### Available Events
 
-| Hook | Trigger |
-|------|---------|
-| `on:session:start` | Session initialization |
-| `on:session:end` | Session termination |
-| `on:tool:use:before` | Before tool execution |
-| `on:tool:use:after` | After tool execution |
-| `on:file:write:before` | Before file write |
-| `on:file:write:after` | After file write |
-| `on:mcp:tool:result` | MCP tool completion |
+| Event | Trigger |
+|-------|---------|
+| `session.created` | Session initialization |
+| `session.deleted` | Session termination |
+| `tool.execute.before` | Before tool execution |
+| `tool.execute.after` | After tool execution |
+| `file.edited` | When a file is edited |
+| `session.idle` | Session becomes idle |
 
 
 ---
@@ -674,4 +665,4 @@ module.exports = {
 
 ---
 
-*Based on OpenCode source code and documentation as of March 2026*
+*Last Updated: March 18, 2026*

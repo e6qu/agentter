@@ -154,7 +154,7 @@ Heartbeat agents perform periodic checks and monitoring:
   while true; do
     sleep 1800  # 30 minutes
     echo "[$(date)] Heartbeat check" >> ~/.claude/heartbeat.log
-    
+
     # Run health checks
     if ! npm test --silent; then
       echo "[$(date)] Tests failing!" >> ~/.claude/heartbeat.log
@@ -196,10 +196,10 @@ DELTA=$((NOW - LAST_CHECK))
 if [ $DELTA -gt 1800 ]; then
   # Run checks
   echo "Running periodic checks..."
-  
+
   # Check for security updates
   npm audit --audit-level moderate
-  
+
   # Update timestamp
   echo $NOW > ~/.claude/last-check.timestamp
 fi
@@ -408,16 +408,6 @@ fi
           }
         ]
       }
-    ],
-    "SessionIdle": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/session-summary.sh"
-          }
-        ]
-      }
     ]
   }
 }
@@ -509,7 +499,6 @@ Usage:
 | Command | Agent Type | Duration |
 |---------|-----------|----------|
 | `claude` | Default agent | Session |
-| `claude --worktree <path>` | Ephemeral agent | Until worktree removed |
 | `@explore` | Read-only ephemeral | Single query |
 | `@custom-agent` | Custom subagent | Task completion |
 | `/batch` | Multiple ephemeral | Until all tasks complete |
@@ -546,34 +535,34 @@ git worktree prune
 ## Best Practices
 
 ### Ephemeral Agents
-✅ Do:
+Do:
 - Use for experimentation
 - Clean up after use
 - Report findings back to parent
 
-❌ Don't:
+Don't:
 - Store important state in ephemeral agents
 - Forget to cleanup worktrees
 - Run long-term tasks in ephemeral mode
 
 ### Heartbeat Agents
-✅ Do:
+Do:
 - Keep checks lightweight
 - Log failures clearly
 - Use appropriate intervals
 
-❌ Don't:
+Don't:
 - Block on long operations
 - Spam notifications
 - Run expensive checks too frequently
 
 ### Agent Teams
-✅ Do:
+Do:
 - Ensure file-disjoint tasks
 - Clear task boundaries
 - Use worktree isolation
 
-❌ Don't:
+Don't:
 - Have agents edit same files
 - Create circular dependencies
 - Forget to aggregate results
@@ -590,27 +579,24 @@ Claude Code can be triggered programmatically from hook scripts to create autono
 
 ```bash
 # Single prompt, non-interactive
-claude -p "Refactor the auth module" --allow-tools "Read,Grep,Edit"
+claude -p "Refactor the auth module" --allowedTools "Read,Grep,Edit"
 
 # With specific subagent
 claude -p "@security-reviewer audit src/auth.ts"
 
 # Ephemeral worktree execution
-claude --worktree /tmp/ephemeral-check -p "Run tests and report"
-
-# With output to file
-claude -p "Summarize recent changes" --output summary.md
+cd /tmp/ephemeral-check && claude -p "Run tests and report"
 ```
 
 ### CLI Flags Reference
 
 | Flag | Description | Example |
 |------|-------------|---------|
-| `-p, --prompt` | Execute prompt and exit | `-p "Fix bug"` |
-| `--worktree` | Use isolated worktree | `--worktree /tmp/wt` |
-| `--output` | Save response to file | `--output result.md` |
-| `--allow-tools` | Restrict tools | `--allow-tools "Read,Bash"` |
-| `--agent` | Use specific agent | `--agent security-reviewer` |
+| `-p, --print` | Execute prompt non-interactively | `-p "Fix bug"` |
+| `--allowedTools` | Restrict tools | `--allowedTools "Read,Bash"` |
+| `--permission-mode` | Set permission level | `--permission-mode plan` |
+| `--continue, --resume` | Resume last conversation | `--continue` |
+| `--add-dir` | Add directory to session | `--add-dir ../lib` |
 
 ### Pattern 1: Pre-Commit Hook with Deterministic Checks
 
@@ -623,7 +609,7 @@ CHECKSUM=$(git diff --cached --name-only | sort | xargs cat 2>/dev/null | sha256
 STATE_FILE=".claude/.pre-commit-checks/$CHECKSUM"
 
 if [ -f "$STATE_FILE" ]; then
-  echo "✓ Pre-commit checks already passed for this state"
+  echo "Pre-commit checks already passed for this state"
   exit 0
 fi
 
@@ -642,18 +628,18 @@ STAGED_FILES:\n$(git diff --cached --name-only)
 
 If any issues found, output 'BLOCK: [reason]' on its own line.
 If clean, output 'PASS'.
-" --allow-tools "Read,Grep" --output /tmp/claude-review.txt
+" --allowedTools "Read,Grep" > /tmp/claude-review.txt
 
 # Deterministic check of results
 if grep -q "BLOCK:" /tmp/claude-review.txt; then
-  echo "✗ Pre-commit checks failed:"
+  echo "Pre-commit checks failed:"
   grep "BLOCK:" /tmp/claude-review.txt
   exit 1
 fi
 
 # Mark as passed for this state
 touch "$STATE_FILE"
-echo "✓ Pre-commit checks passed"
+echo "Pre-commit checks passed"
 exit 0
 ```
 
@@ -692,7 +678,7 @@ if [ -f "$LAST_RUN_FILE" ]; then
   LAST_RUN=$(cat "$LAST_RUN_FILE")
   NOW=$(date +%s)
   ELAPSED=$((NOW - LAST_RUN))
-  
+
   if [ $ELAPSED -lt $MIN_INTERVAL ]; then
     echo "Skipping: ${ELAPSED}s since last check (min: ${MIN_INTERVAL}s)"
     exit 0
@@ -715,7 +701,7 @@ For each check:
 - Action: What to do (if FAIL)
 
 Output as markdown report.
-" --allow-tools "Read,Bash,Grep" --output ".claude/.heartbeat/report-$(date +%Y%m%d-%H%M%S).md"
+" --allowedTools "Read,Bash,Grep" > ".claude/.heartbeat/report-$(date +%Y%m%d-%H%M%S).md"
 
 # Deterministic: Update timestamp on successful completion
 date +%s > "$LAST_RUN_FILE"
@@ -733,12 +719,12 @@ COMMIT=$(git rev-parse HEAD)
 STATE_FILE=".claude/.ci-checks/$COMMIT"
 
 if [ -f "$STATE_FILE.pass" ]; then
-  echo "✓ CI checks passed for commit $COMMIT"
+  echo "CI checks passed for commit $COMMIT"
   exit 0
 fi
 
 if [ -f "$STATE_FILE.fail" ]; then
-  echo "✗ CI checks failed for commit $COMMIT"
+  echo "CI checks failed for commit $COMMIT"
   cat "$STATE_FILE.fail"
   exit 1
 fi
@@ -750,7 +736,7 @@ WORKTREE=".claude/.ci-checks/worktrees/$COMMIT"
 git worktree add "$WORKTREE" "$COMMIT" 2>/dev/null || true
 
 # Run Claude Code in ephemeral worktree
-claude --worktree "$WORKTREE" -p "
+cd "$WORKTREE" && claude -p "
 Run the full CI pipeline:
 1. Install dependencies
 2. Run linting
@@ -759,7 +745,10 @@ Run the full CI pipeline:
 5. Check build
 
 Report: PASS or FAIL with details.
-" --output "/tmp/ci-result-$COMMIT.txt"
+" > "/tmp/ci-result-$COMMIT.txt"
+
+# Return to original directory
+cd -
 
 # Cleanup worktree
 git worktree remove "$WORKTREE" 2>/dev/null || true
@@ -767,11 +756,11 @@ git worktree remove "$WORKTREE" 2>/dev/null || true
 # Check result deterministically
 if grep -q "^PASS" "/tmp/ci-result-$COMMIT.txt"; then
   touch "$STATE_FILE.pass"
-  echo "✓ CI checks passed"
+  echo "CI checks passed"
   exit 0
 else
   cp "/tmp/ci-result-$COMMIT.txt" "$STATE_FILE.fail"
-  echo "✗ CI checks failed"
+  echo "CI checks failed"
   cat "$STATE_FILE.fail"
   exit 1
 fi
@@ -808,8 +797,8 @@ For each issue, classify:
 - Assignment: frontend, backend, devops, or needs-triage
 
 Output JSON format:
-[{"number": 123, "priority": "P1", "type": "bug", "assignment": "backend"}]
-" --output /tmp/triage-result.json
+[{\"number\": 123, \"priority\": \"P1\", \"type\": \"bug\", \"assignment\": \"backend\"}]
+" > /tmp/triage-result.json
 
 # Apply labels deterministically
 jq -r '.[] | "\(.number) \(.priority) \(.type)"' /tmp/triage-result.json | while read -r num priority type; do
@@ -842,7 +831,7 @@ fi
 mkdir -p ".claude/.reviews"
 
 # Get PR diff
-gh pr diff "$PR_NUMBER" > /tmp/pr-$PR-number.diff
+gh pr diff "$PR_NUMBER" > /tmp/pr-$PR_NUMBER.diff
 
 # Run Claude Code review
 claude -p "
@@ -857,7 +846,7 @@ Provide structured review:
 4. Approval recommendation: APPROVE / REQUEST_CHANGES / COMMENT
 
 Be thorough but constructive.
-" --allow-tools "Read,Grep" --output /tmp/pr-review-$PR_NUMBER.md
+" --allowedTools "Read,Grep" > /tmp/pr-review-$PR_NUMBER.md
 
 # Post review comment
 gh pr comment "$PR_NUMBER" --body-file /tmp/pr-review-$PR_NUMBER.md
@@ -919,14 +908,14 @@ echo "Review posted for PR #$PR_NUMBER"
 
 ### Best Practices
 
-✅ **Do:**
+Do:
 - Use deterministic checks to avoid redundant processing
 - Store state in `.claude/` directory (already gitignored)
-- Use `--allow-tools` to restrict Claude's capabilities for safety
+- Use `--allowedTools` to restrict Claude's capabilities for safety
 - Clean up ephemeral worktrees after use
 - Log all automation actions for auditability
 
-❌ **Don't:**
+Don't:
 - Run expensive checks on every invocation without throttling
 - Store sensitive state outside project directory
 - Allow Claude unlimited tool access in automated contexts
@@ -934,4 +923,4 @@ echo "Review posted for PR #$PR_NUMBER"
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

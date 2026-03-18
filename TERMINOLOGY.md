@@ -50,12 +50,12 @@ The maximum number of tokens an LLM can process in a single inference call (inpu
 
 | Model | Context Window |
 |-------|---------------|
-| GPT-3.5 | 16K tokens |
-| GPT-4 | 128K tokens |
-| Claude 3.5 Sonnet | 200K tokens |
-| Claude 3 Opus | 200K tokens |
-| Llama 3.1 | 128K tokens |
-| Gemini 1.5 Pro | 2M tokens |
+| GPT-4.1 | 1M tokens |
+| Claude Opus 4.6 | 1M tokens |
+| Llama 4 Scout | 10M tokens |
+| Gemini 2.5 Pro | 1M tokens |
+| DeepSeek-V3 | 128K tokens |
+| Qwen3 | 32K tokens |
 
 **Importance for Agents**: Larger windows enable more history, more retrieved documents, and longer reasoning chains.
 
@@ -203,7 +203,7 @@ Fine-tuning LLMs on datasets of (instruction, response) pairs to make them bette
 3. Fine-tune model on instructions
 4. Results in "chat" or "instruct" model
 
-**Examples**: GPT-3 → GPT-3.5, Llama → Llama Chat
+**Examples**: Llama 3 Base → Llama 3 Instruct, Qwen Base → Qwen Chat
 
 ---
 
@@ -945,8 +945,8 @@ Benchmark testing knowledge across 57 subjects (STEM, humanities, social science
 
 **Scores**:
 - Random: 25%
-- GPT-3.5: ~70%
 - GPT-4: ~86%
+- Claude Opus 4: ~90%
 - Human expert: ~89%
 
 ---
@@ -1046,7 +1046,7 @@ A pre-trained model before any task-specific fine-tuning.
 ### Instruct Model / Chat Model
 A fine-tuned model optimized for following instructions and conversation.
 
-**Examples**: GPT-3.5-turbo, Llama-3-instruct, Claude-3
+**Examples**: GPT-4.1, Llama-4-Scout, Claude Sonnet 4.6
 
 ---
 
@@ -1055,7 +1055,7 @@ Architecture using multiple "expert" networks with a gating mechanism.
 
 **Benefit**: Scale parameters without proportional compute increase.
 
-**Examples**: GPT-4 (rumored), Mixtral 8x7B
+**Examples**: Llama 4 Scout/Maverick, Mixtral 8x7B, DeepSeek-V3, Qwen3-235B
 
 ---
 
@@ -1082,4 +1082,72 @@ When citing this terminology guide:
 
 ---
 
-*Last Updated: March 1, 2026*
+## Additional Terms
+
+### Harness
+The runtime environment that wraps an LLM agent, providing tool execution, permission management, context injection, and lifecycle control. Examples include Claude Code, OpenCode, and Aider — the harness orchestrates the agent's interaction with the outside world.
+
+---
+
+### Worktree
+A Git feature allowing multiple working trees attached to the same repository. Used by agent teams to work on parallel branches without merge conflicts. Each agent gets its own worktree with an isolated copy of the codebase.
+
+---
+
+### Context Compaction
+The process of summarizing or compressing conversation history to free up context window space. When an agent's conversation approaches the context limit, older messages are condensed into summaries while preserving key decisions, code changes, and task state.
+
+---
+
+### GGUF (GPT-Generated Unified Format)
+A file format for storing quantized LLM weights, used primarily by llama.cpp and compatible inference engines. Replaced the older GGML format. Supports various quantization levels (Q4_K_M, Q5_K_M, Q6_K, Q8_0) trading off size vs quality. Cross-platform (Linux, macOS, Windows).
+
+---
+
+### MLX (Apple Machine Learning eXploration)
+Apple's open-source ML framework purpose-built for Apple Silicon's unified memory architecture. MLX models use a different quantization format than GGUF, with 4-bit, 6-bit, and 8-bit options. Key advantage: zero-copy memory sharing between CPU and GPU on Apple Silicon. The [mlx-community](https://huggingface.co/mlx-community) on Hugging Face hosts 4,000+ pre-converted models. Install via `pip install mlx-lm`. macOS-only.
+
+---
+
+### Subagent
+A specialized agent spawned by a parent agent to handle a specific subtask. The subagent operates with its own context window and tool permissions, returning results to the parent. Used for parallelizing work or isolating complex subtasks.
+
+---
+
+### Grounding
+Connecting LLM outputs to verifiable external information sources to reduce hallucination. Includes techniques like RAG, web search integration, and tool use that lets the model verify claims against real data.
+
+---
+
+### Guardrail
+A constraint or check applied to LLM inputs/outputs to ensure safety, accuracy, or policy compliance. Can be implemented as input validation, output filtering, tool permission rules, or content classifiers.
+
+---
+
+### Structured Output
+LLM output constrained to follow a specific format (JSON, XML, YAML) or schema. Enables reliable parsing and integration with downstream systems. Most modern APIs support JSON schema constraints natively.
+
+---
+
+### Scaffold
+The surrounding code/infrastructure that supports an LLM agent — prompt templates, tool definitions, memory systems, retry logic, and error handling. The scaffold determines how the raw model capability translates into reliable agent behavior.
+
+---
+
+### Prompt Caching
+An optimization where the provider caches the processed representation of static prompt prefixes, reducing latency and cost on subsequent requests that share the same prefix. Anthropic, OpenAI, and Google all offer prompt caching with varying implementations.
+
+---
+
+### Distillation
+Training a smaller "student" model to replicate the behavior of a larger "teacher" model. Produces more efficient models that retain much of the teacher's capability at lower inference cost. Common in deploying specialized models for specific tasks.
+
+---
+
+### BYOK (Bring Your Own Key)
+A pricing model where the tool is free but users provide their own API keys for the underlying LLM provider. The user pays the provider directly for token usage rather than paying the tool developer.
+
+---
+
+*Last Updated: March 18, 2026*
+

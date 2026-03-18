@@ -24,7 +24,7 @@ Create `.opencode/commands/<name>.md`:
 ---
 description: Run tests with coverage
 agent: build
-model: anthropic/claude-3-5-sonnet-20241022
+model: anthropic/claude-sonnet-4-20250514
 ---
 Run the full test suite with coverage report and show any failures.
 Focus on the failing tests and suggest fixes.
@@ -50,7 +50,7 @@ Add to `opencode.json`:
       "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
       "description": "Run tests with coverage",
       "agent": "build",
-      "model": "anthropic/claude-3-5-sonnet-20241022"
+      "model": "anthropic/claude-sonnet-4-20250514"
     }
   }
 }
@@ -130,7 +130,7 @@ Override the default model for this command.
 {
   "command": {
     "analyze": {
-      "model": "anthropic/claude-3-5-sonnet-20241022"
+      "model": "anthropic/claude-sonnet-4-20250514"
     }
   }
 }
@@ -507,4 +507,4 @@ Then generate the migration file.
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

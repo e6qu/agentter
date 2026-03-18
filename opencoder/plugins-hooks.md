@@ -75,7 +75,7 @@ A plugin is a JavaScript/TypeScript module exporting a plugin function:
 // .opencode/plugins/my-plugin.js
 export const MyPlugin = async ({ project, client, $, directory, worktree }) => {
   console.log("Plugin initialized!")
-  
+
   return {
     // Hook implementations
     "session.created": async () => {
@@ -456,13 +456,13 @@ export const LoggerPlugin = async ({ client }) => {
       service: "my-plugin",
       level: "info",  // debug, info, warn, error
       message: "Plugin initialized",
-      extra: { 
+      extra: {
         version: "1.0.0",
         features: ["logging", "analytics"]
       }
     }
   })
-  
+
   return {
     "session.error": async (event) => {
       await client.app.log({
@@ -490,10 +490,10 @@ export const SmartPlugin = async () => {
     "tool.execute.before": async (input, output) => {
       // Only modify certain tools
       if (input.tool !== "write") return
-      
+
       // Only modify certain file types
       if (!output.args.filePath.endsWith(".ts")) return
-      
+
       // Apply transformation
       output.args.content = addHeader(output.args.content)
     }
@@ -509,7 +509,7 @@ export const StatefulPlugin = async () => {
     commandCount: 0,
     lastCommand: null
   }
-  
+
   return {
     "tool.execute.after": async (input) => {
       if (input.tool === "bash") {
@@ -530,7 +530,7 @@ export const StatefulPlugin = async () => {
 export const AsyncPlugin = async ({ $ }) => {
   // Fetch data at plugin load time
   const config = await $`cat ~/.my-plugin-config.json`.json()
-  
+
   return {
     "tool.execute.before": async (input, output) => {
       // Use loaded config
@@ -602,4 +602,4 @@ export const AsyncPlugin = async ({ $ }) => {
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

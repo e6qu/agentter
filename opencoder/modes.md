@@ -46,13 +46,13 @@ A restricted mode designed for planning and analysis without making changes.
 **Default Restrictions**:
 | Tool | Plan Mode | Notes |
 |------|-----------|-------|
-| `write` | ❌ Disabled | Cannot create new files |
-| `edit` | ❌ Disabled | Cannot modify files (except `.opencode/plans/*.md`) |
-| `patch` | ❌ Disabled | Cannot apply patches |
-| `bash` | ❌ Disabled | Cannot execute shell commands |
-| `read` | ✅ Enabled | Can read files |
-| `grep` | ✅ Enabled | Can search code |
-| `glob` | ✅ Enabled | Can find files |
+| `write` | Disabled | Cannot create new files |
+| `edit` | Disabled | Cannot modify files (except `.opencode/plans/*.md`) |
+| `patch` | Disabled | Cannot apply patches |
+| `bash` | Disabled | Cannot execute shell commands |
+| `read` | Enabled | Can read files |
+| `grep` | Enabled | Can search code |
+| `glob` | Enabled | Can find files |
 
 **Use for**:
 - Code analysis and understanding
@@ -69,7 +69,7 @@ A restricted mode designed for planning and analysis without making changes.
 
 ### In TUI
 
-Press `Tab` to cycle between available modes.
+Press `Tab` to cycle between available modes. The `Tab` key cycles through primary agents; to invoke a subagent, use `@mention` instead.
 
 Or use your configured `switch_mode` keybind.
 
@@ -107,7 +107,8 @@ Add to `opencode.json`:
         "edit": true,
         "bash": false,
         "read": true,
-        "grep": true
+        "grep": true,
+        "glob": true
       }
     },
     "debug": {
@@ -118,6 +119,7 @@ Add to `opencode.json`:
         "bash": true,
         "read": true,
         "grep": true,
+        "glob": true,
         "write": false,
         "edit": false
       }
@@ -138,6 +140,7 @@ tools:
   bash: true
   read: true
   grep: true
+  glob: true
   write: false
   edit: false
 ---
@@ -291,6 +294,7 @@ tools:
   edit: true
   read: true
   grep: true
+  glob: true
   bash: false
 ---
 You are in documentation mode. Your task is to write clear, comprehensive documentation.
@@ -346,6 +350,7 @@ temperature: 0.1
 tools:
   read: true
   grep: true
+  glob: true
   bash: false
   write: false
   edit: false
@@ -379,6 +384,7 @@ tools:
   write: true
   read: true
   bash: true
+  glob: true
 ---
 You are in test mode. Write comprehensive tests for the codebase.
 
@@ -401,7 +407,7 @@ Run tests after writing: `npm test` or equivalent.
 | Feature | Mode | Agent |
 |---------|------|-------|
 | **Purpose** | Tool permissions + behavior | Specialized assistant |
-| **Switching** | Tab key | Tab key or @mention |
+| **Switching** | Tab key (cycles primary agents) | Tab key (primary) or @mention (subagent) |
 | **Use case** | Task-type restriction | Capability specialization |
 | **Configuration** | `mode` key | `agent` key |
 
@@ -464,4 +470,4 @@ You can combine them:
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

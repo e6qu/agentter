@@ -30,36 +30,34 @@
 ### Installation Methods
 
 ```bash
-# macOS via Homebrew
-brew install claude-code
-
-# Via npm
-npm install -g @anthropics/claude-code
+# Via npm (recommended)
+npm install -g @anthropic-ai/claude-code
 
 # Via npx (no installation)
-npx @anthropics/claude-code
+npx @anthropic-ai/claude-code
 ```
 
 ### Authentication
 
 ```bash
-# Interactive authentication
-claude auth login
+# Run claude and follow the interactive OAuth login flow on first run
+claude
 
-# Environment variable (observed in documentation)
+# Or set API key via environment variable
 export ANTHROPIC_API_KEY="sk-ant-api-..."
-
-# Verify authentication
-claude auth status
 ```
 
 ### Project Initialization
 
+To initialize Claude Code in a project, start an interactive session and use the `/init` slash command:
+
 ```bash
 cd /path/to/project
-claude /init
-
-# Creates directory structure:
+claude
+# Then inside the session, type:
+# /init
+#
+# This creates the directory structure:
 # .claude/
 # ├── settings.json
 # ├── agents/
@@ -91,7 +89,6 @@ project/
 ```gitignore
 # Claude Code local settings
 .claude/settings.local.json
-.claude/.credentials/
 .claude/.logs/
 
 # Generated state files
@@ -114,16 +111,11 @@ export ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY}"
 export GITHUB_TOKEN="${GITHUB_TOKEN}"
 ```
 
-### Method 2: Local Settings File
+### Method 2: Interactive Login
 
-```json
-// .claude/settings.local.json (gitignored)
-{
-  "env": {
-    "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"
-  }
-}
-```
+Run `claude` with no arguments and follow the interactive OAuth login flow. Credentials are stored automatically.
+
+> **Note**: The `env` field in `settings.local.json` is a speculative feature and may not be supported. Use environment variables or interactive login for authentication.
 
 ### Method 3: Credential Detection Hook
 
@@ -142,7 +134,7 @@ PATTERNS=(
 
 if echo "$input" | jq -e '.tool == "Write" or .tool == "Edit"' >/dev/null 2>&1; then
   content=$(echo "$input" | jq -r '.tool_input.content // ""')
-  
+
   for pattern in "${PATTERNS[@]}"; do
     if echo "$content" | grep -qE "$pattern"; then
       jq -n '{
@@ -172,17 +164,7 @@ export HTTPS_PROXY="http://proxy.example.com:8080"
 export NO_PROXY="localhost,127.0.0.1"
 ```
 
-### Configuration File
-
-```json
-{
-  "proxy": {
-    "http": "http://proxy.example.com:8080",
-    "https": "http://proxy.example.com:8080",
-    "noProxy": ["localhost", "127.0.0.1"]
-  }
-}
-```
+> **Note**: Proxy configuration via a `proxy` field in `settings.json` is a speculative feature and may not be supported. Use standard environment variables (`HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`) which Claude Code inherits from your shell environment.
 
 ---
 
@@ -321,7 +303,7 @@ check_errors() {
   if [ -f ".claude/logs/session.log" ]; then
     error_count=$(grep -c "Error:" .claude/logs/session.log 2>/dev/null || echo "0")
     unique_errors=$(grep "Error:" .claude/logs/session.log 2>/dev/null | sort -u | wc -l)
-    
+
     if [ "$error_count" -gt 10 ] && [ "$unique_errors" -lt 3 ]; then
       echo "Repetitive errors detected: $error_count total, $unique_errors unique"
       return 1
@@ -335,7 +317,7 @@ check_edits() {
   if [ -f "$EDIT_LOG" ]; then
     most_edited=$(tail -50 "$EDIT_LOG" | sort | uniq -c | sort -rn | head -1)
     edit_count=$(echo "$most_edited" | awk '{print $1}')
-    
+
     if [ "$edit_count" -gt 10 ]; then
       echo "High edit frequency detected"
       return 1
@@ -347,11 +329,10 @@ check_edits() {
 # Run checks
 if ! check_errors || ! check_edits; then
   echo "Potential stuck state detected"
-  
-  # Trigger review
+
+  # Trigger review using non-interactive mode
   claude -p "Review recent activity and suggest alternatives" \
-         --agent unstuck-monitor \
-         --output /tmp/unstuck-suggestion.txt 2>/dev/null || true
+         --allowedTools "Read,Grep" 2>/dev/null || true
 fi
 
 touch "$LAST_CHECK"
@@ -481,6 +462,25 @@ fi
 
 ## Sandboxing
 
+### Claude Code Built-in Sandbox Mode
+
+Claude Code has a built-in sandbox mode that restricts tool permissions for safer operation. Key aspects:
+
+- **Permission modes**: Use `--permission-mode` to control tool access levels. For example, `--permission-mode plan` restricts Claude to read-only operations with no file modifications or command execution.
+- **Tool allowlists**: Use `--allowedTools` to restrict which tools Claude can use in a session.
+- **Automatic permission prompts**: By default, Claude Code prompts for confirmation before running potentially destructive commands (e.g., `rm`, `sudo`). Permissions can be pre-configured in `settings.json`.
+- **Network restrictions**: Commands that attempt network access can be gated via PreToolUse hooks.
+
+Example of running Claude Code in a restricted mode:
+
+```bash
+# Read-only planning mode
+claude --permission-mode plan
+
+# Restrict to specific tools
+claude --allowedTools "Read,Grep,Glob"
+```
+
 ### Git Worktree Isolation
 
 ```bash
@@ -546,7 +546,7 @@ deterministic_checksum() {
   local namespace="${2:-default}"
   local hash=$(echo -n "$content" | sha256sum | cut -d' ' -f1)
   local marker="$DETERMINISTIC_DIR/${namespace}/${hash}.checked"
-  
+
   if [ -f "$marker" ]; then
     echo "false"
   else
@@ -570,7 +570,7 @@ deterministic_time() {
   local interval="$1"
   local namespace="${2:-default}"
   local marker="$DETERMINISTIC_DIR/timestamps/${namespace}.last"
-  
+
   if [ -f "$marker" ]; then
     local last=$(cat "$marker")
     local now=$(date +%s)
@@ -629,12 +629,14 @@ deterministic_mark "$marker"
     ]
   },
   "permissions": {
-    "allow": {
-      "Bash": ["allowed", "commands"]
-    },
-    "deny": {
-      "Bash": ["denied", "commands"]
-    }
+    "allow": [
+      "Bash(npm test)",
+      "Bash(npm run build)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(sudo *)"
+    ]
   }
 }
 ```
@@ -643,11 +645,13 @@ deterministic_mark "$marker"
 
 | Flag | Description |
 |------|-------------|
-| `-p, --prompt` | Execute prompt non-interactively |
-| `--worktree` | Use specified worktree |
-| `--allow-tools` | Restrict available tools |
-| `--output` | Write response to file |
-| `--agent` | Use specific agent |
+| `-p, --print` | Execute prompt non-interactively and print response |
+| `--continue, --resume` | Continue the most recent conversation |
+| `--allowedTools` | Restrict available tools |
+| `--permission-mode` | Set permission mode (e.g., `plan`, `auto-edit`) |
+| `--add-dir` | Add additional directories to the session |
+| `--model` | Override the model to use |
+| `--verbose` | Enable verbose logging |
 
 
 ---
@@ -658,7 +662,7 @@ deterministic_mark "$marker"
 
 | Resource | URL | Description |
 |----------|-----|-------------|
-| Official Docs | https://code.claude.com/docs | Primary documentation |
+| Official Docs | https://docs.anthropic.com/en/docs/claude-code | Primary documentation |
 | Anthropic Blog | https://www.anthropic.com/blog | Product announcements |
 
 ### Community Resources
@@ -691,4 +695,4 @@ The following are excluded due to proprietary backends:
 
 ---
 
-*Based on Claude Code documentation and observed behavior as of March 2026*
+*Last Updated: March 18, 2026*

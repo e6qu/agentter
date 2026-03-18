@@ -25,7 +25,7 @@
 | Desktop Application | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
 | Web Interface | ⚠️ [^5] | ❌ | ⚠️ [^6] | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 
-[^1]: Claude Code supports programmatic access via Agent SDK but not direct CLI command execution
+[^1]: Claude Code supports programmatic access via Agent SDK and `-p` flag for non-interactive use
 [^2]: Aider has "watch mode" for IDE integration, not a native extension
 [^3]: OpenCode supports ACP protocol for Zed and JetBrains via `opencode kiml acp`
 [^4]: Kimi Code supports ACP protocol for IDE integration
@@ -47,13 +47,13 @@
 | BYOK Support | ✅ | ✅ | ⚠️ [^13] | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Free Tier Available | ✅ | ✅ | ❌ | ❌ | ✅ [^14] | ✅ | ✅ | ✅ | ❌ |
 | Fixed-Price Subscription | ⚠️* | ⚠️* | ❌ | ❌ | ❌ | ⚠️* | ⚠️* | ⚠️* | ✅ [^15] |
-| Open Source License | ✅ MIT | ✅ Apache 2 | ❌ | ❌ | ✅ Apache 2 | ✅ Apache 2 | ✅ | ✅ | ✅ |
+| Open Source License | ✅ MIT | ✅ Apache 2 | ❌ | ✅ Apache 2 | ✅ Apache 2 | ✅ Apache 2 | ✅ | ✅ | ✅ |
 
 *Via BYOK to Kimi Code or GLM Code
 
 [^7]: OpenCode uses Models.dev for 75+ provider support
 [^8]: Claude Code only supports Anthropic models (Sonnet, Opus, Haiku)
-[^9]: Codex CLI only supports GPT-5-Codex and related models
+[^9]: Codex CLI supports o4-mini (default), o3, and GPT-4.1
 [^10]: Gemini CLI only supports Gemini models (Flash, Pro)
 [^11]: Kimi Code uses kimi-k2.5 and kimi-for-coding models
 [^12]: Aider supports local models via Ollama integration
@@ -172,13 +172,14 @@
 |---------|:--------:|:-----:|:-----------:|:---------:|:----------:|:-----:|:-----:|:--------:|:---------:|
 | Text Prompts | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Voice Input | ❌ | ✅ [^61] | ❌ | ⚠️ [^62] | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Image Input | ❌ | ✅ [^63] | ❌ | ❌ | ✅ [^64] | ❌ | ✅ | ✅ | ⚠️ |
+| Image Input | ❌ | ✅ [^63] | ✅ [^63a] | ❌ | ✅ [^64] | ❌ | ✅ | ✅ | ⚠️ |
 | PDF/Documents | ❌ | ⚠️ | ❌ | ❌ | ✅ [^65] | ❌ | ⚠️ | ⚠️ | ⚠️ |
 | Web Page Context | ✅ [^66] | ✅ [^67] | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ✅ |
 
 [^61]: Aider: "Speak with aider about your code! Request new features, test cases or bug fixes using your voice"
 [^62]: Codex CLI: Voice transcription marked as experimental
 [^63]: Aider: "Add images and web pages to the chat to provide visual context"
+[^63a]: Claude Code: Read tool supports image files (PNG, JPG, etc.) and presents them visually to the multimodal LLM
 [^64]: Gemini CLI: Multimodal input including PDFs and images
 [^65]: Gemini CLI: "Generate apps from PDFs, images, or hand-drawn sketches"
 [^66]: OpenCode: `webfetch` tool
@@ -343,4 +344,16 @@
 
 ---
 
-*Last Updated: March 1, 2026*
+## See Also
+
+- [AGENT_COMPARISON.md](AGENT_COMPARISON.md) - Side-by-side comparison with analysis and decision guide
+- [FEATURE_MATRIX.md](FEATURE_MATRIX.md) - Condensed feature comparison matrix
+- [FEATURES.md](FEATURES.md) - In-depth feature explanations and technical concepts
+- [MODELS.md](MODELS.md) - AI model pricing and specifications
+- [AI_AGENT_TRICKS.md](AI_AGENT_TRICKS.md) - Tips and tricks for working with AI coding agents
+- [MODELS_OPEN_SOURCE.md](MODELS_OPEN_SOURCE.md) - Open-source model guide
+- [MODELS_WITHIN_128_GiB_RAM.md](MODELS_WITHIN_128_GiB_RAM.md) - Models that fit in 128 GiB RAM
+
+---
+
+*Last Updated: March 18, 2026*
