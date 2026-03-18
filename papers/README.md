@@ -37,6 +37,12 @@ This directory contains detailed explanations of the most important research pap
 |-------|---------|------|------------------|
 | [LoRA / QLoRA](lora.md) | Hu et al. / Dettmers et al. | 2021/2023 | Parameter-efficient fine-tuning |
 
+### Reasoning & Inference Paradigms
+
+| Paper | Authors | Year | Key Contribution |
+|-------|---------|------|------------------|
+| [Recursive Language Models](recursive-language-models.md) | Zhang, Kraska, Khattab | 2025 | Recursive self-invocation scaffold for unbounded context |
+
 ### Foundational Agent Papers
 
 | Paper | Authors | Year | Key Contribution |
@@ -227,6 +233,14 @@ When citing these papers in your work:
   year={2023}
 }
 
+% Reasoning & Inference Paradigms
+@article{zhang2025recursive,
+  title={Recursive Language Models},
+  author={Zhang, Alex and Kraska, Tim and Khattab, Omar},
+  journal={arXiv:2512.24601},
+  year={2025}
+}
+
 % Foundational Agent Papers
 @article{wei2022chain,
   title={Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
@@ -376,6 +390,7 @@ Practical applications and code examples.
 
 | Date | Change |
 |------|--------|
+| 2026-03-18 | Added Recursive Language Models (RLM) detailed summary |
 | 2026-03-18 | Added AlphaGo, LoRA/QLoRA, and Generative Agents detailed summaries; major PAPERS.md expansion with 32 new papers |
 | 2026-03-18 | Added Attention Is All You Need and Chinchilla scaling detailed summaries |
 | 2026-03-01 | Initial paper summaries added |
