@@ -187,13 +187,17 @@ Phase 2 (Parallel):
   @frontend create login form
 ```
 
-### Communication
+### How Agents Communicate
 
-Agents communicate via:
-1. Task files (`.claude/current_tasks/`)
-2. Shared documentation
-3. Commit messages
-4. PR descriptions
+Agents in a team coordinate through several mechanisms:
+
+1. **Task files** (`.claude/current_tasks/`): Each agent writes a claim file declaring which files it is working on. Other agents read these files to avoid conflicts.
+2. **Shared filesystem**: Agents in separate worktrees share the same git history. When one agent commits, others can see the changes via git.
+3. **Coordinator agent**: The parent/coordinator agent orchestrates the team. It receives status updates as subagents complete their tasks, and can reassign work or merge results.
+4. **Commit messages**: Agents write descriptive commit messages that serve as communication to other agents and the coordinator about what was changed and why.
+5. **PR descriptions**: When agents create PRs, the descriptions document the changes for review and integration.
+
+Agents do **not** have direct real-time message passing between them. Communication is asynchronous and file-based. The coordinator polls or waits for subagent completion, then aggregates results.
 
 ---
 
@@ -202,12 +206,12 @@ Agents communicate via:
 ### 1. File-Disjoint Tasks
 
 ```
-✅ Good:
+Good:
   Agent 1: src/auth/*.ts
   Agent 2: src/user/*.ts
   Agent 3: src/components/*.tsx
 
-❌ Bad:
+Bad:
   Agent 1: src/app.ts (lines 1-50)
   Agent 2: src/app.ts (lines 51-100)
   → Will conflict!
@@ -327,4 +331,4 @@ rm .claude/current_tasks/agent-name.txt
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

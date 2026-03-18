@@ -8,18 +8,23 @@
 
 Session Teleportation allows you to start work in one place (terminal), continue in another (web browser), switch to a third (mobile), and resume seamlessly. This is essential for long-running projects that span days and devices.
 
+> **Note:** This document describes both **currently available** features and **aspirational/future** capabilities. Features marked with "(Future)" or "(Experimental)" do not exist in current tools and represent design patterns the ecosystem is moving toward. Currently available session continuity is limited to:
+> - Claude Code: `--continue` / `--resume` flags for resuming sessions on the same machine
+> - OpenCode: Session export/import via JSON files
+> - Git-based state: CLAUDE.md / AGENTS.md files persist context across sessions
+
 ---
 
 ## The Problem
 
 Traditional workflow:
 ```
-Work on laptop → Go home → Try to remember state → Re-explain to new session → Lost time
+Work on laptop -> Go home -> Try to remember state -> Re-explain to new session -> Lost time
 ```
 
 With Session Teleportation:
 ```
-Work on laptop → Teleport session to phone → Review on commute → Teleport to desktop → Continue seamlessly
+Work on laptop -> Teleport session to phone -> Review on commute -> Teleport to desktop -> Continue seamlessly
 ```
 
 ---
@@ -32,7 +37,7 @@ Sessions are stored server-side, not locally:
 
 ```
 ┌──────────────┐      ┌──────────────┐      ┌──────────────┐
-│   Laptop     │◄────▶│   Server     │◄────▶│    Phone     │
+│   Laptop     │◄────▶│   Server     │◆────▶│    Phone     │
 │   Terminal   │      │  (opencode   │      │   Browser    │
 └──────────────┘      │   server)    │      └──────────────┘
                       └──────────────┘
@@ -53,7 +58,9 @@ What gets synchronized:
 
 ---
 
-## OpenCode Implementation
+## What Works Today
+
+The features in this section are available now with current tooling.
 
 ### Starting a Teleportable Session
 
@@ -110,7 +117,7 @@ opencode import my-session.json
 9:00 AM - Office
   Terminal: "Implement user authentication"
   Made progress, need to pause
-  
+
   > /share
   Link: https://opencode.ai/s/auth-456
 
@@ -138,7 +145,7 @@ Developer B (different timezone):
   Opens share link
   Reviews the code
   Suggests fix in comments
-  
+
 Developer A (next morning):
   Sees suggestion
   Implements fix
@@ -157,7 +164,7 @@ In meeting:
   Project browser with share link
   Walk through changes
   Stakeholders review
-  
+
 After meeting:
   Close share link
   Merge changes
@@ -165,35 +172,41 @@ After meeting:
 
 ---
 
-## Advanced Features
+## Experimental / Aspirational Features
 
-### Session Branching
+> **These features are aspirational designs that do not yet exist in current tools.** They represent patterns that would be valuable if implemented.
+
+### Session Branching (Experimental)
+
+Session branching would allow you to fork a session to try an alternative approach without losing your current progress. This concept is inspired by git branching but applied to conversation and agent state.
 
 ```bash
-# Main session
-opencode --session main
-> Working on feature A
-
-# Branch to experiment
+# Concept: Branch a session to experiment
 opencode branch main experiment
 > Try alternative approach
 > If it works: opencode merge experiment main
 > If not: opencode delete experiment
 ```
 
-### Session Snapshots
+**Status**: Not widely supported. Some tools offer session duplication, but true branching with merge support is not yet available.
+
+### Session Snapshots (Experimental)
+
+Named checkpoints within a session that you can restore to, similar to VM snapshots.
 
 ```bash
-# Create named checkpoint
+# Concept: Create a named checkpoint
 opencode snapshot "Before refactoring"
 
 # Work, make changes
 
-# Oops, need to go back
+# Restore to checkpoint
 opencode restore "Before refactoring"
 ```
 
-### Selective Sync
+**Status**: Basic session persistence exists, but named snapshot/restore within a session is not yet a standard feature. Use git commits as a practical alternative.
+
+### Selective Sync (Experimental)
 
 ```bash
 # Sync only conversation, not files
@@ -205,6 +218,8 @@ opencode --sync=files
 # Full sync
 opencode --sync=all
 ```
+
+**Status**: Most tools sync all-or-nothing. Granular sync control is a planned feature in some tools.
 
 ---
 
@@ -261,7 +276,7 @@ opencode serve --self-hosted
       "interval": 30
     }
   },
-  
+
   "sharing": {
     "defaultExpiry": "24h",
     "maxExpiry": "30d",
@@ -289,7 +304,7 @@ opencode serve --self-hosted
 ### DO
 
 - **Use descriptive session names**: `auth-implementation` not `session-1`
-- **Snapshot before big changes**: Easy rollback
+- **Snapshot before big changes**: Easy rollback (use git commits as a practical alternative today)
 - **Set appropriate share permissions**: Read-only for reviews
 - **Close shares when done**: Clean up access
 - **Sync before switching devices**: Ensure latest state
@@ -298,7 +313,7 @@ opencode serve --self-hosted
 
 - **Don't leave shares open indefinitely**: Security risk
 - **Don't sync sensitive data unencrypted**: Use --encrypt
-- **Don't forget to snapshot**: You'll want to rollback eventually
+- **Don't forget to checkpoint**: You'll want to rollback eventually
 - **Don't mix personal and work sessions**: Keep separate
 
 ---
@@ -343,6 +358,16 @@ opencode /share --regenerate
 # Check permissions
 opencode share-info <link-id>
 ```
+
+---
+
+## Cross-References
+
+- [01 - Ralph Loops](01-ralph-loops.md): Teleport a long-running Ralph Loop session to another device for monitoring.
+- [02 - Spec-Driven Development](02-spec-driven-development.md): Share spec review sessions with collaborators for feedback.
+- [03 - Agent Teams](03-agent-teams.md): Team members can monitor agent progress from any device via session sharing.
+- [04 - Context Management](04-context-management.md): Compact context before teleporting to minimize transfer overhead and ensure a clean session on the target device.
+- [METHODOLOGIES.md](../METHODOLOGIES.md): Overview of all methodologies.
 
 ---
 
@@ -394,7 +419,11 @@ Agent 3 (Cloud): Reviewer
 
 ## Future Directions
 
-### VR/AR Interfaces
+> **Note**: These are speculative ideas about where session teleportation could go. None of these are implemented or available today.
+
+### VR/AR Interfaces (Future)
+
+Immersive visualization of codebases could allow spatial navigation of architecture, with the ability to teleport back to traditional interfaces for implementation.
 
 ```
 VR headset: 3D visualization of codebase
@@ -403,7 +432,9 @@ VR headset: 3D visualization of codebase
   > Teleport to desktop for implementation
 ```
 
-### Voice Integration
+### Voice Integration (Future)
+
+Voice-based session interaction could enable hands-free review and task management during commutes or other activities.
 
 ```
 Car: Voice interface
@@ -416,9 +447,9 @@ Car: Voice interface
 
 ## References
 
-- [Claude Code Sessions](https://code.claude.com/docs/en/sessions)
+- [Claude Code Sessions](https://docs.anthropic.com/en/docs/claude-code/en/sessions)
 - [Reddit - Multi-Device Workflow](https://www.reddit.com/r/ClaudeAI/)
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

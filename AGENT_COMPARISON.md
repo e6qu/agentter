@@ -8,10 +8,10 @@
 |------|------|---------|------------------|---------|-------------------|
 | **OpenCode** | TUI/CLI | Open Source (MIT) | 75+ providers via Models.dev | Free (BYOK) | Via Kimi/GLM BYOK |
 | **Aider** | TUI/CLI | Open Source (Apache 2.0) | Claude, GPT, Gemini, local via Ollama | Free (BYOK) | Via Kimi/GLM BYOK |
-| **Claude Code** | TUI/CLI | Proprietary | Claude models only | $17-200/month or API | ❌ Pay-per-token |
+| **Claude Code** | TUI/CLI | Source-available | Claude models only | $20-200/month or API | ❌ Pay-per-token |
 | **Continue.dev** | IDE Plugin | Open Source | Multiple providers | Free (BYOK) | Via Kimi/GLM BYOK |
 | **Cody** | IDE Plugin/CLI | Proprietary (Sourcegraph) | Multiple providers | Freemium | ❌ Usage-based |
-| **Codex CLI** | TUI/CLI | Proprietary (OpenAI) | GPT-5-Codex models only | ChatGPT subscription | ❌ Included in sub |
+| **Codex CLI** | TUI/CLI | Open Source (Apache 2.0) | o4-mini, o3, GPT-4.1 | ChatGPT subscription | ❌ Included in sub |
 | **Kimi Code** | TUI/CLI | Proprietary (Moonshot AI) | Moonshot models | ¥49-199/month | ✅ Fixed-price tiers |
 | **GLM Code** | TUI/CLI | Proprietary (Zhipu AI) | GLM models | $3-60/month | ✅ Fixed-price tiers |
 | **Cline** | IDE Extension | Open Source | Multiple via OpenRouter | Free (BYOK) | Via Kimi/GLM BYOK |
@@ -30,7 +30,7 @@
 | Feature | OpenCode | Aider | Claude Code | Codex CLI | Gemini CLI | Goose | Cline | Roo Code |
 |---------|----------|-------|-------------|-----------|------------|-------|-------|----------|
 | **TUI Interface** | ✅ Full TUI | ✅ Terminal UI | ✅ Full TUI | ✅ Full TUI | ✅ Terminal UI | ✅ Desktop + CLI | VS Code panel | VS Code panel |
-| **CLI Mode** | ✅ Non-interactive | ✅ Yes | ✅ Limited | ✅ Yes | ✅ Yes | ✅ Yes | ❌ IDE only | ❌ IDE only |
+| **CLI Mode** | ✅ Non-interactive | ✅ Yes | ✅ Full (`-p` flag, Agent SDK) | ✅ Yes | ✅ Yes | ✅ Yes | ❌ IDE only | ❌ IDE only |
 | **IDE Extension** | ✅ Available | ⚠️ Watch mode only | ✅ VS Code (beta) | ✅ VS Code, Cursor | ❌ | ✅ Available | ✅ Native | ✅ Native |
 
 ### Model Support
@@ -77,7 +77,7 @@
 | **Multi-Agent** | ✅ @general subagent | ❌ | ✅ Subagents/Teams | ✅ Parallel agents | ❌ | ⚠️ Via recipes | ❌ | ✅ Yes |
 | **Browser Automation** | ❌ | ❌ | ⚠️ Via plugins | ⚠️ Via skills | ❌ | ⚠️ Via MCP | ✅ Built-in | ⚠️ Via tools |
 | **Voice Input** | ❌ | ✅ Yes | ❌ | ⚠️ Experimental | ❌ | ❌ | ❌ | ❌ |
-| **Image Input** | ❌ | ✅ Yes | ❌ | ❌ | ✅ Yes | ❌ | ✅ Yes | ✅ Yes |
+| **Image Input** | ❌ | ✅ Yes | ✅ Yes (via Read tool) | ❌ | ✅ Yes | ❌ | ✅ Yes | ✅ Yes |
 | **Web Fetch** | ✅ webfetch | ⚠️ Manual | ⚠️ Via MCP | ⚠️ Cached search | ✅ Search grounding | ⚠️ Via MCP | ⚠️ Via browser | ⚠️ Via tools |
 
 ### Session Management
@@ -179,10 +179,11 @@
 - Worktree isolation for conflict-free parallel work
 - HTTP hooks for external service integration (Feb 2026)
 - 200K context window (up to 1M via API)
+- Image input supported via the Read tool (PNG, JPG, etc.)
 
 **Limitations**:
 - Claude models only (no provider flexibility)
-- Subscription gate ($17-200/month)
+- Subscription gate ($20-200/month)
 - Can be overkill for simple, focused tasks
 
 **Supported Models**: Claude Sonnet, Opus, Haiku (Anthropic models only)
@@ -209,7 +210,7 @@
 - Cloud execution sends code to OpenAI servers
 - No local model support
 
-**Supported Models**: GPT-5.3-Codex, GPT-5.2-Codex, GPT-5.1-Codex-Mini
+**Supported Models**: o4-mini (default), o3, GPT-4.1
 
 ---
 
@@ -314,7 +315,7 @@
 ### Pay-Per-Token / Usage-Based
 | Service | Pricing Model | Notes |
 |---------|---------------|-------|
-| **Claude Code** | $17-200/month subscription OR API key | API usage metered by tokens |
+| **Claude Code** | $20-200/month subscription OR API key | API usage metered by tokens |
 | **Codex CLI** | Included in ChatGPT Plus/Pro ($20-200/month) | No separate billing; usage within subscription limits |
 | **Cody** | Freemium + usage-based | Pro features require subscription |
 | **Gemini CLI** | Free tier + API pricing | 1000 req/day free, then API rates |
@@ -424,4 +425,14 @@ This "BYOK to fixed-price service" model gives you:
 
 ---
 
-*Last updated: March 1, 2026*
+## See Also
+
+- [MODELS.md](MODELS.md) - Detailed AI model pricing and specifications
+- [AI_AGENT_TRICKS.md](AI_AGENT_TRICKS.md) - Tips and tricks for working with AI coding agents
+- [MODELS_OPEN_SOURCE.md](MODELS_OPEN_SOURCE.md) - Open-source model guide
+- [MODELS_WITHIN_128_GiB_RAM.md](MODELS_WITHIN_128_GiB_RAM.md) - Models that fit in 128 GiB RAM
+- [FEATURE_MATRIX.md](FEATURE_MATRIX.md) - Condensed feature comparison matrix
+
+---
+
+*Last updated: March 18, 2026*

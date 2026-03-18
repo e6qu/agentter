@@ -6,7 +6,7 @@
 
 ## Overview
 
-This repository contains comprehensive research, documentation, and guides for AI coding agents including OpenCode, Claude Code, and related tools. It covers feature comparisons, implementation methodologies, research papers, and terminology.
+This repository contains comprehensive research, documentation, and guides for AI coding agents including OpenCode, Claude Code, and related tools. It covers feature comparisons, implementation methodologies, research papers, AI models, Hacker News culture, and terminology.
 
 ---
 
@@ -15,13 +15,27 @@ This repository contains comprehensive research, documentation, and guides for A
 ```
 agentter/
 ├── README.md                    # This file - navigation hub
+├── AGENTS.md                    # Agent instructions for AI assistants
+├── AI_AGENT_TRICKS.md           # Tips and tricks for AI agent usage
 ├── AGENT_COMPARISON.md          # High-level comparison of AI coding tools
 ├── FEATURE_MATRIX.md            # Detailed feature comparison matrix
 ├── FEATURES.md                  # Technical concepts explained
 ├── METHODOLOGIES.md             # Agent orchestration methodologies
+├── MODELS.md                    # AI model pricing and specifications
+├── MODELS_OPEN_SOURCE.md        # Open source models guide
+├── MODELS_WITHIN_128_GiB_RAM.md # Models that fit in 128 GiB RAM
 ├── PAPERS.md                    # Important research papers index
 ├── TERMINOLOGY.md               # Complete glossary of terms
 ├── TOOLS_RESEARCH.md            # Research on available tools
+├── PROMINENT_PEOPLE.md          # Notable figures in AI/tech
+├── PROMINENT_HACKER_NEWS_CONTRIBUTORS.md # Notable HN contributors
+├── FAMOUS_SPATS.md              # Famous tech disagreements
+├── HACKER_NEWS_DEEP_DIVE.md     # Deep dive into Hacker News
+├── HACKER_NEWS_HISTORY.md       # History of Hacker News
+├── HACKER_NEWS_LEGENDS.md       # Legendary HN moments
+├── HACKER_NEWS_TECHNICAL.md     # Technical aspects of HN
+├── HACKER_NEWS_DATA_SOURCES.md  # HN data sources and APIs
+├── Hacker_News_opinions.md      # HN community opinions
 │
 ├── opencoder/                   # OpenCode documentation
 │   ├── README.md               # Overview and quick start
@@ -75,7 +89,14 @@ agentter/
     ├── goose.md
     ├── cline.md
     ├── roo-code.md
-    └── kimi-code.md
+    ├── kimi-code.md
+    ├── TUTORIAL-aider.md        # Aider setup tutorial
+    ├── TUTORIAL-cline.md        # Cline setup tutorial
+    ├── TUTORIAL-codex-cli.md    # Codex CLI setup tutorial
+    ├── TUTORIAL-gemini-cli.md   # Gemini CLI setup tutorial
+    ├── TUTORIAL-goose.md        # Goose setup tutorial
+    ├── TUTORIAL-kimi-code.md    # Kimi Code setup tutorial
+    └── TUTORIAL-roo-code.md     # Roo Code setup tutorial
 ```
 
 ---
@@ -89,6 +110,35 @@ agentter/
 | **Compare Tools** | [AGENT_COMPARISON.md](./AGENT_COMPARISON.md) | High-level comparison of 9 AI coding tools |
 | **Feature Matrix** | [FEATURE_MATRIX.md](./FEATURE_MATRIX.md) | 60+ features across 14 categories |
 | **Terminology** | [TERMINOLOGY.md](./TERMINOLOGY.md) | Complete glossary of AI/LLM terms |
+| **Agent Instructions** | [AGENTS.md](./AGENTS.md) | Agent instructions for AI assistants |
+| **Agent Tricks** | [AI_AGENT_TRICKS.md](./AI_AGENT_TRICKS.md) | Tips and tricks for AI agent usage |
+
+### Models
+
+| Topic | Document | Description |
+|-------|----------|-------------|
+| **Model Pricing & Specs** | [MODELS.md](./MODELS.md) | AI model pricing and specifications |
+| **Open Source Models** | [MODELS_OPEN_SOURCE.md](./MODELS_OPEN_SOURCE.md) | Guide to open source models |
+| **Models for 128 GiB RAM** | [MODELS_WITHIN_128_GiB_RAM.md](./MODELS_WITHIN_128_GiB_RAM.md) | Models that fit within 128 GiB RAM |
+
+### Hacker News
+
+| Topic | Document | Description |
+|-------|----------|-------------|
+| **Deep Dive** | [HACKER_NEWS_DEEP_DIVE.md](./HACKER_NEWS_DEEP_DIVE.md) | Comprehensive deep dive into HN |
+| **History** | [HACKER_NEWS_HISTORY.md](./HACKER_NEWS_HISTORY.md) | History of Hacker News |
+| **Legends** | [HACKER_NEWS_LEGENDS.md](./HACKER_NEWS_LEGENDS.md) | Legendary HN moments |
+| **Technical** | [HACKER_NEWS_TECHNICAL.md](./HACKER_NEWS_TECHNICAL.md) | Technical aspects of HN |
+| **Data Sources** | [HACKER_NEWS_DATA_SOURCES.md](./HACKER_NEWS_DATA_SOURCES.md) | HN data sources and APIs |
+| **Opinions** | [Hacker_News_opinions.md](./Hacker_News_opinions.md) | Community opinions and takes |
+
+### People & Culture
+
+| Topic | Document | Description |
+|-------|----------|-------------|
+| **Prominent People** | [PROMINENT_PEOPLE.md](./PROMINENT_PEOPLE.md) | Notable figures in AI and tech |
+| **HN Contributors** | [PROMINENT_HACKER_NEWS_CONTRIBUTORS.md](./PROMINENT_HACKER_NEWS_CONTRIBUTORS.md) | Notable Hacker News contributors |
+| **Famous Spats** | [FAMOUS_SPATS.md](./FAMOUS_SPATS.md) | Famous tech disagreements and debates |
 
 ### Tool Documentation
 
@@ -98,6 +148,20 @@ agentter/
 | **Claude Code** | [claude-code/](./claude-code/) | Subagents, hooks, agent teams |
 | **Aider** | [tools/aider.md](./tools/aider.md) | Git workflow, repo map |
 | **Codex CLI** | [tools/codex-cli.md](./tools/codex-cli.md) | Parallel agents, automations |
+
+### Tool Tutorials
+
+| Tool | Tutorial | Description |
+|------|----------|-------------|
+| **OpenCode** | [opencoder/TUTORIAL.md](./opencoder/TUTORIAL.md) | Complete OpenCode setup guide |
+| **Claude Code** | [claude-code/TUTORIAL.md](./claude-code/TUTORIAL.md) | Complete Claude Code setup guide |
+| **Aider** | [tools/TUTORIAL-aider.md](./tools/TUTORIAL-aider.md) | Aider setup tutorial |
+| **Cline** | [tools/TUTORIAL-cline.md](./tools/TUTORIAL-cline.md) | Cline setup tutorial |
+| **Codex CLI** | [tools/TUTORIAL-codex-cli.md](./tools/TUTORIAL-codex-cli.md) | Codex CLI setup tutorial |
+| **Gemini CLI** | [tools/TUTORIAL-gemini-cli.md](./tools/TUTORIAL-gemini-cli.md) | Gemini CLI setup tutorial |
+| **Goose** | [tools/TUTORIAL-goose.md](./tools/TUTORIAL-goose.md) | Goose setup tutorial |
+| **Kimi Code** | [tools/TUTORIAL-kimi-code.md](./tools/TUTORIAL-kimi-code.md) | Kimi Code setup tutorial |
+| **Roo Code** | [tools/TUTORIAL-roo-code.md](./tools/TUTORIAL-roo-code.md) | Roo Code setup tutorial |
 
 ### Implementation Guides
 
@@ -233,18 +297,21 @@ See [PAPERS.md](./PAPERS.md) for full index.
 1. Read [AGENT_COMPARISON.md](./AGENT_COMPARISON.md) for high-level comparison
 2. Review [FEATURE_MATRIX.md](./FEATURE_MATRIX.md) for detailed features
 3. Check [TOOLS_RESEARCH.md](./TOOLS_RESEARCH.md) for pricing and setup
+4. Browse [MODELS.md](./MODELS.md) for model pricing and specs
 
 ### For Developers
 
 1. Choose tool docs: [opencoder/](./opencoder/) or [claude-code/](./claude-code/)
 2. Read methodologies: [methodologies/](./methodologies/)
 3. Implement patterns from [METHODOLOGIES.md](./METHODOLOGIES.md)
+4. Review [AI_AGENT_TRICKS.md](./AI_AGENT_TRICKS.md) for practical tips
 
 ### For Researchers
 
 1. Start with [PAPERS.md](./PAPERS.md)
 2. Read paper summaries: [papers/](./papers/)
 3. Review [TERMINOLOGY.md](./TERMINOLOGY.md)
+4. Explore [HACKER_NEWS_DEEP_DIVE.md](./HACKER_NEWS_DEEP_DIVE.md) for community perspectives
 
 ---
 
@@ -270,7 +337,7 @@ This documentation is released under [AGPL-3.0](./LICENSE).
 ### Official Documentation
 
 - [OpenCode Docs](https://opencode.ai/docs)
-- [Claude Code Docs](https://code.claude.com/docs)
+- [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)
 - [MCP Specification](https://modelcontextprotocol.io/)
 
 ### Community
@@ -291,8 +358,9 @@ This documentation is released under [AGPL-3.0](./LICENSE).
 
 | Date | Change |
 |------|--------|
+| 2026-03-18 | Added Models, Hacker News, People & Culture, and Tool Tutorials navigation sections; updated tree structure with all repo files |
 | 2026-03-01 | Initial comprehensive documentation |
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

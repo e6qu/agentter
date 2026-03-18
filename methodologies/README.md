@@ -2,6 +2,8 @@
 
 *Practical guides for long-running autonomous agent sessions*
 
+For a high-level overview and research summary, see the root [METHODOLOGIES.md](../METHODOLOGIES.md).
+
 ---
 
 ## Overview
@@ -91,15 +93,15 @@ done
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  Is this a single focused task?                             │
-│  ├── YES → Ralph Loops                                     │
+│  ├── YES -> Ralph Loops                                     │
 │  │                                                             │
-│  └── NO → Do you need multiple people/agents?              │
-│      ├── YES → Agent Teams                                 │
+│  └── NO -> Do you need multiple people/agents?              │
+│      ├── YES -> Agent Teams                                 │
 │      │                                                         │
-│      └── NO → Do you have clear requirements?              │
-│          ├── YES → Spec-Driven Development                 │
+│      └── NO -> Do you have clear requirements?              │
+│          ├── YES -> Spec-Driven Development                 │
 │          │                                                     │
-│          └── NO → Start with brainstorming, then SDD       │
+│          └── NO -> Start with brainstorming, then SDD       │
 │                                                             │
 │  For all of the above:                                      │
 │  - Context Management for sessions > 1 hour                │
@@ -112,11 +114,11 @@ done
 
 | Methodology | Ralph Loops | Spec-Driven | Agent Teams | Context Mgmt | Teleportation |
 |-------------|-------------|-------------|-------------|--------------|---------------|
-| Ralph Loops | — | ✅ | ✅ | ✅ | ✅ |
-| Spec-Driven | ✅ | — | ✅ | ✅ | ✅ |
-| Agent Teams | ✅ | ✅ | — | ✅ | ✅ |
-| Context Mgmt | ✅ | ✅ | ✅ | — | ✅ |
-| Teleportation | ✅ | ✅ | ✅ | ✅ | — |
+| Ralph Loops | -- | Yes | Yes | Yes | Yes |
+| Spec-Driven | Yes | -- | Yes | Yes | Yes |
+| Agent Teams | Yes | Yes | -- | Yes | Yes |
+| Context Mgmt | Yes | Yes | Yes | -- | Yes |
+| Teleportation | Yes | Yes | Yes | Yes | -- |
 
 All methodologies are designed to work together.
 
@@ -153,13 +155,13 @@ All methodologies are designed to work together.
 
 ```
 Spec-Driven Development
-    ↓
+    |
 Agent Teams (for parallel work)
-    ↓
+    |
 Ralph Loops (within each agent)
-    ↓
+    |
 Context Management (throughout)
-    ↓
+    |
 Session Teleportation (for monitoring)
 ```
 
@@ -167,9 +169,9 @@ Session Teleportation (for monitoring)
 
 ```
 Spec-Driven Development
-    ↓
+    |
 Context Management
-    ↓
+    |
 Session Teleportation (review on phone/tablet)
 ```
 
@@ -177,7 +179,7 @@ Session Teleportation (review on phone/tablet)
 
 ```
 Ralph Loops (simple, focused task)
-    ↓
+    |
 Context Management (if task grows)
 ```
 
@@ -208,23 +210,23 @@ Context Management (if task grows)
 
 ### Agent keeps trying to exit
 
-→ Use **Ralph Loops** with clear completion criteria
+-> Use **Ralph Loops** with clear completion criteria
 
 ### Context window keeps filling up
 
-→ Apply **Context Management** techniques
+-> Apply **Context Management** techniques
 
 ### Task too complex for one agent
 
-→ Switch to **Agent Teams** with task decomposition
+-> Switch to **Agent Teams** with task decomposition
 
 ### Need to switch devices mid-task
 
-→ Enable **Session Teleportation**
+-> Enable **Session Teleportation**
 
 ### Requirements unclear
 
-→ Start with **Spec-Driven Development** planning phase
+-> Start with **Spec-Driven Development** planning phase
 
 ---
 
@@ -233,7 +235,7 @@ Context Management (if task grows)
 ### Primary Sources
 
 - [Anthropic Research - Long-Running Agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
-- [Claude Code Documentation](https://code.claude.com/docs)
+- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [OpenCode Documentation](https://opencode.ai/docs)
 
 ### Community Resources
@@ -255,31 +257,32 @@ To add a new methodology:
 
 ### Methodology Template
 
-```markdown
-# Methodology Name
+    # Methodology Name
 
-## Overview
-Brief description and core concept
+    ## Overview
+    Brief description and core concept
 
-## The Problem
-What this solves
+    ## The Problem
+    What this solves
 
-## The Solution
-How it works
+    ## The Solution
+    How it works
 
-## Implementation
-Step-by-step guide
+    ## Implementation
+    Step-by-step guide
 
-## Examples
-Real-world use cases
+    ## Examples
+    Real-world use cases
 
-## Best Practices
-Do's and don'ts
+    ## Best Practices
+    Do's and don'ts
 
-## References
-Sources and further reading
-```
+    ## Cross-References
+    Links to related methodology docs
+
+    ## References
+    Sources and further reading
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

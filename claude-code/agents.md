@@ -74,11 +74,19 @@ An agent focused on analysis and planning without making changes.
 
 ---
 
-## Using Subagents
+## How Subagents Work
 
-### Invocation Syntax
+### Automatic Spawning
 
-Use `@agent-name` to invoke a subagent:
+Claude Code automatically spawns subagents in certain situations:
+
+- **Bundled skills**: The `/simplify` skill spawns 3 parallel review subagents (reuse, quality, efficiency) automatically.
+- **`/batch` command**: Decomposes work into independent units and spawns one subagent per unit in separate worktrees.
+- **Complex tasks**: The main agent may decide to spawn an `@explore` subagent to investigate a question before making changes, without the user explicitly requesting it.
+
+### Explicit Invocation
+
+Users can explicitly invoke subagents using the `@agent-name` syntax:
 
 ```
 @explore find usages of User.findById
@@ -86,23 +94,33 @@ Use `@agent-name` to invoke a subagent:
 @backend implement the auth middleware
 ```
 
-### Context Handling
+When you invoke a subagent explicitly:
+1. The main agent creates a new subagent instance
+2. The subagent receives the current conversation context
+3. The subagent executes with its defined tool restrictions
+4. Results are reported back to the main (parent) agent
+5. The parent agent continues with the subagent's findings
+
+### Context and Isolation
 
 Subagents:
-- Get current conversation context
-- Can spawn their own subagents
-- Report back to parent agent
-- Can be run in isolated worktrees
+- Get current conversation context from the parent
+- Can spawn their own subagents (nested)
+- Report back to parent agent when complete
+- Can be run in isolated worktrees (especially for `/batch`)
+- Have their own tool restrictions independent of the parent
 
 ### Parallel Execution
 
-Invoke multiple subagents in parallel:
+Multiple subagents can run in parallel:
 
 ```
 @frontend create the login form
 @backend implement the login endpoint
 @explore verify the current auth implementation
 ```
+
+When multiple subagents are invoked, they execute concurrently. Each operates independently and reports results back to the parent agent.
 
 ---
 
@@ -186,14 +204,13 @@ Tools the agent can use.
 ```
 
 **Available Tools**:
-- `Read` - Read files
+- `Read` - Read files (also handles Jupyter notebooks)
 - `Edit` - Edit files
 - `Write` - Write files
 - `Bash` - Execute commands
 - `Grep` - Search content
 - `Glob` - Find files
-- `NotebookEdit` - Edit notebooks
-- `NotebookRead` - Read notebooks
+- `NotebookEdit` - Edit Jupyter notebooks
 
 ### `model`
 
@@ -319,4 +336,4 @@ Use descriptive, consistent names:
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

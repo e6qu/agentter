@@ -23,6 +23,38 @@ Claude Code is configured through `settings.json` files at various scopes. Confi
 
 ---
 
+## CLI Configuration Flags
+
+These flags control Claude Code's behavior at launch:
+
+| Flag | Description |
+|------|-------------|
+| `--permission-mode <mode>` | Set the permission mode for the session. Modes include `default`, `plan` (read-only), and `auto-edit` (auto-approve file edits). |
+| `--add-dir <path>` | Add an additional directory to the session's working set. Can be specified multiple times to include files from multiple directories. |
+| `--allowedTools <tools>` | Restrict which tools Claude can use (comma-separated list). |
+| `--model <model>` | Override the model used for the session. |
+| `-p, --print` | Execute a prompt non-interactively and print the response. |
+| `--continue, --resume` | Continue the most recent conversation. |
+| `--verbose` | Enable verbose logging output. |
+
+### Examples
+
+```bash
+# Start in plan mode (read-only, no modifications)
+claude --permission-mode plan
+
+# Add multiple directories
+claude --add-dir ../shared-lib --add-dir ../common-types
+
+# Restrict tools to read-only operations
+claude --allowedTools "Read,Grep,Glob"
+
+# Non-interactive prompt execution
+claude -p "Explain the auth module"
+```
+
+---
+
 ## Configuration Sections
 
 ### Hooks
@@ -63,18 +95,22 @@ See [Hooks documentation](./hooks.md) for all events.
 
 ### Permissions
 
-Control tool access:
+Control tool access. Permissions use an **array format** with entries like `"ToolName(pattern)"`:
 
 ```json
 {
   "permissions": {
-    "allow": {
-      "Bash": ["npm test", "npm run build", "git status"],
-      "Edit": ["*.md", "*.txt"]
-    },
-    "deny": {
-      "Bash": ["rm -rf /", "sudo *"]
-    }
+    "allow": [
+      "Bash(npm test)",
+      "Bash(npm run build)",
+      "Bash(git status)",
+      "Edit(*.md)",
+      "Edit(*.txt)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(sudo *)"
+    ]
   }
 }
 ```
@@ -83,20 +119,20 @@ Control tool access:
 ```json
 {
   "permissions": {
-    "allow": {
-      "ToolName": ["pattern1", "pattern2"]
-    },
-    "deny": {
-      "ToolName": ["pattern1", "pattern2"]
-    }
+    "allow": [
+      "ToolName(pattern)"
+    ],
+    "deny": [
+      "ToolName(pattern)"
+    ]
   }
 }
 ```
 
 **Pattern matching**:
-- Exact match: `"npm test"`
-- Wildcard: `"npm run *"`
-- Any: `"*"`
+- Exact match: `"Bash(npm test)"`
+- Wildcard: `"Bash(npm run *)"`
+- Any argument: `"Bash(*)"`
 
 ---
 
@@ -187,12 +223,16 @@ Model Context Protocol configuration:
     ]
   },
   "permissions": {
-    "allow": {
-      "Bash": ["npm *", "git *", "ls *"]
-    },
-    "deny": {
-      "Bash": ["rm -rf /", "sudo *", "*password*"]
-    }
+    "allow": [
+      "Bash(npm *)",
+      "Bash(git *)",
+      "Bash(ls *)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(sudo *)",
+      "Bash(*password*)"
+    ]
   },
   "agents": {
     "backend": {
@@ -259,8 +299,8 @@ Loaded automatically in every session.
 # Anthropic
 export ANTHROPIC_API_KEY=your_key
 
-# Or use
-claude auth login
+# Or run claude and follow the interactive login flow
+claude
 ```
 
 ### MCP Environment
@@ -307,4 +347,4 @@ Organization-wide configuration:
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

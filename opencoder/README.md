@@ -39,7 +39,7 @@
 │          ▼                    ▼                    ▼            │
 │  ┌──────────────┐   ┌──────────────┐   ┌──────────────┐        │
 │  │  MCP Servers │   │   Plugins    │   │   Skills     │        │
-│  │  (Tools)     │   │  (Hooks)     │   │  (SKILL.md)  │        │
+│  │  (Tools)     │   │  (Events)    │   │  (SKILL.md)  │        │
 │  └──────────────┘   └──────────────┘   └──────────────┘        │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
@@ -185,8 +185,9 @@ Configure via `opencode.json` (JSON/JSONC) or markdown files.
 1. Remote config (`.well-known/opencode`)
 2. Global config (`~/.config/opencode/opencode.json`)
 3. Custom path (`OPENCODE_CONFIG`)
-4. Project config (`opencode.json`)
-5. `.opencode/` directory
+4. Config content (`OPENCODE_CONFIG_CONTENT`)
+5. Project config (`opencode.json`)
+6. `.opencode/` directory
 
 **Key Sections**:
 - `agent`: Custom agent definitions
@@ -194,6 +195,7 @@ Configure via `opencode.json` (JSON/JSONC) or markdown files.
 - `tools`: Tool enable/disable
 - `mcp`: MCP server configuration
 - `plugin`: Plugin loading
+- `permission`: Permission rules
 
 [Learn more about Configuration →](./configuration.md)
 
@@ -299,7 +301,7 @@ OpenCode supports MCP servers for external tool integration:
       "args": ["-y", "@modelcontextprotocol/server-github"]
     },
     "postgres": {
-      "command": "npx", 
+      "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost/mydb"]
     }
   }
@@ -413,6 +415,17 @@ Check these into Git:
 - Check OAuth authentication
 - Review server logs
 
+**Issue**: Plugins not loading
+- Verify file extension is `.js` or `.ts`
+- Ensure exported function name matches conventions
+- Check for syntax errors with `node -c <file>`
+- Confirm plugin is in `.opencode/plugins/` or listed in `opencode.json` under `plugin`
+
+**Issue**: Hooks not firing
+- Event names are case-sensitive (use `session.created` not `on:session:start`)
+- Verify the event actually occurs during your workflow
+- Add `console.log` at plugin init to confirm loading
+
 ---
 
 ## Resources
@@ -508,4 +521,4 @@ Create `.claude/skills/` for GitHub-specific workflows:
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

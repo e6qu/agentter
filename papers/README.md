@@ -18,13 +18,38 @@ This directory contains detailed explanations of the most important research pap
 
 ## Paper Categories
 
-### Foundational Papers
+### Deep Learning Foundations
+
+| Paper | Authors | Year | Key Contribution |
+|-------|---------|------|------------------|
+| [AlphaGo / AlphaZero](alphago.md) | Silver et al. | 2016 | Deep RL + tree search for superhuman game play |
+
+### Foundational Architecture
+
+| Paper | Authors | Year | Key Contribution |
+|-------|---------|------|------------------|
+| [Attention Is All You Need](attention-is-all-you-need.md) | Vaswani et al. | 2017 | The Transformer architecture |
+| [Chinchilla Scaling](chinchilla-scaling.md) | Hoffmann et al. | 2022 | Compute-optimal training laws |
+
+### Scaling & Efficiency
+
+| Paper | Authors | Year | Key Contribution |
+|-------|---------|------|------------------|
+| [LoRA / QLoRA](lora.md) | Hu et al. / Dettmers et al. | 2021/2023 | Parameter-efficient fine-tuning |
+
+### Foundational Agent Papers
 
 | Paper | Authors | Year | Key Contribution |
 |-------|---------|------|------------------|
 | [ReAct](react-reasoning-acting.md) | Yao et al. | 2022 | Interleaving reasoning and acting |
 | [Chain-of-Thought](chain-of-thought.md) | Wei et al. | 2022 | Eliciting reasoning through intermediate steps |
 | [RAG](rag-lewis-2020.md) | Lewis et al. | 2020 | Retrieval-augmented generation |
+
+### Agents & Tool Use
+
+| Paper | Authors | Year | Key Contribution |
+|-------|---------|------|------------------|
+| [Generative Agents](generative-agents.md) | Park et al. | 2023 | Memory-retrieval-reflection agent architecture |
 
 ### Context Management & Engineering
 
@@ -61,40 +86,77 @@ This directory contains detailed explanations of the most important research pap
 
 Start with these papers to build foundational understanding:
 
-1. **Chain-of-Thought** - Understand how to elicit reasoning
-2. **ReAct** - Learn the reasoning+acting pattern
-3. **RAG** - Understand external knowledge integration
-4. **LLMs Get Lost in Multi-Turn** - Learn about conversation limitations
+1. **Attention Is All You Need** - The Transformer architecture underlying everything
+2. **Chain-of-Thought** - Understand how to elicit reasoning
+3. **ReAct** - Learn the reasoning+acting pattern
+4. **RAG** - Understand external knowledge integration
+5. **LLMs Get Lost in Multi-Turn** - Learn about conversation limitations
 
 ### For Agent Builders
 
 Papers with practical implementation guidance:
 
-1. **Effective Harnesses** - Patterns for long-running agents
-2. **MetaGPT** - Multi-agent collaboration frameworks
-3. **Context Engineering Survey** - Systematic context management
-4. **SWE-bench** - What makes agents succeed/fail
+1. **Generative Agents** - Memory-retrieval-reflection architecture for believable agents
+2. **LoRA / QLoRA** - Fine-tune models for agent tasks on consumer hardware
+3. **Effective Harnesses** - Patterns for long-running agents
+4. **MetaGPT** - Multi-agent collaboration frameworks
+5. **Context Engineering Survey** - Systematic context management
+6. **SWE-bench** - What makes agents succeed/fail
+7. **Chinchilla Scaling** - Understanding model training tradeoffs
 
 ### For Researchers
 
 Key papers for understanding the field:
 
-1. **METR Time Horizons** - Measuring agent capabilities
-2. **Context Engineering Survey** - Comprehensive taxonomy
-3. **WebArena/OSWorld** - Real-world evaluation
-4. **LLMs Get Lost** - Fundamental limitations
+1. **AlphaGo / AlphaZero** - Self-play and search as foundations for agent reasoning
+2. **METR Time Horizons** - Measuring agent capabilities
+3. **Context Engineering Survey** - Comprehensive taxonomy
+4. **WebArena/OSWorld** - Real-world evaluation
+5. **LLMs Get Lost** - Fundamental limitations
+6. **Chinchilla Scaling** - Compute-optimal training
 
 ---
 
 ## Key Insights Summary
 
-### From Foundational Papers
+### From Deep Learning Foundations
+
+| Insight | Implication |
+|---------|-------------|
+| Deep networks + GPUs unlock visual recognition | Started the revolution that led to LLMs |
+| Self-play transcends human knowledge | AI can surpass experts without human data |
+| Skip connections enable depth | Residual connections power every Transformer |
+
+### From Foundational Architecture
+
+| Insight | Implication |
+|---------|-------------|
+| Attention alone suffices for sequence modeling | Parallelization enables massive scale |
+| Data and model size should scale together | Proper training > bigger models |
+| IO-aware attention removes memory bottleneck | Long context windows become practical |
+
+### From Scaling & Efficiency
+
+| Insight | Implication |
+|---------|-------------|
+| Fine-tuning updates have low intrinsic rank | LoRA makes customization accessible |
+| 4-bit quantization preserves quality | QLoRA enables consumer-GPU fine-tuning |
+| DPO simplifies alignment | No need for complex RL pipelines |
+
+### From Foundational Agent Papers
 
 | Insight | Implication |
 |---------|-------------|
 | Reasoning + Acting > Either alone | Agents need both capabilities |
 | Intermediate steps improve reasoning | Always show work |
 | External knowledge reduces hallucination | Use RAG for facts |
+
+### From Agents & Tool Use
+
+| Insight | Implication |
+|---------|-------------|
+| Memory + retrieval + reflection = believable agents | Architecture matters more than model size |
+| Emergent behavior arises from simple rules | Complex coordination needs no central planner |
 
 ### From Context Management
 
@@ -108,7 +170,7 @@ Key papers for understanding the field:
 
 | Insight | Implication |
 |---------|-------------|
-| Real software is hard (1% → 60%) | Agents need tools and iteration |
+| Real software is hard (1% -> 60%) | Agents need tools and iteration |
 | Task length predicts difficulty | Match task to model capability |
 | Web/computer use has large gap | Visual grounding essential |
 
@@ -127,7 +189,45 @@ Key papers for understanding the field:
 When citing these papers in your work:
 
 ```bibtex
-% Foundational
+% Deep Learning Foundations
+@article{silver2016mastering,
+  title={Mastering the game of Go with deep neural networks and tree search},
+  author={Silver, David and others},
+  journal={Nature},
+  year={2016}
+}
+
+% Foundational Architecture
+@inproceedings{vaswani2017attention,
+  title={Attention is All You Need},
+  author={Vaswani, Ashish and others},
+  booktitle={NeurIPS},
+  year={2017}
+}
+
+@inproceedings{hoffmann2022training,
+  title={Training Compute-Optimal Large Language Models},
+  author={Hoffmann, Jordan and others},
+  booktitle={NeurIPS},
+  year={2022}
+}
+
+% Scaling & Efficiency
+@inproceedings{hu2022lora,
+  title={LoRA: Low-Rank Adaptation of Large Language Models},
+  author={Hu, Edward J. and others},
+  booktitle={ICLR},
+  year={2022}
+}
+
+@inproceedings{dettmers2023qlora,
+  title={QLoRA: Efficient Finetuning of Quantized LLMs},
+  author={Dettmers, Tim and others},
+  booktitle={NeurIPS},
+  year={2023}
+}
+
+% Foundational Agent Papers
 @article{wei2022chain,
   title={Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
   author={Wei, Jason and others},
@@ -139,6 +239,14 @@ When citing these papers in your work:
   title={ReAct: Synergizing Reasoning and Acting in Language Models},
   author={Yao, Shunyu and others},
   journal={ICLR},
+  year={2023}
+}
+
+% Agents & Tool Use
+@inproceedings{park2023generative,
+  title={Generative Agents: Interactive Simulacra of Human Behavior},
+  author={Park, Joon Sung and others},
+  booktitle={UIST},
   year={2023}
 }
 
@@ -198,9 +306,9 @@ To add a new paper:
 ```markdown
 # Paper Title
 
-**Authors**: Names  
-**Institution**: Affiliation  
-**Published**: Date  
+**Authors**: Names
+**Institution**: Affiliation
+**Published**: Date
 **Paper**: [Link](URL)
 
 ---
@@ -268,8 +376,10 @@ Practical applications and code examples.
 
 | Date | Change |
 |------|--------|
+| 2026-03-18 | Added AlphaGo, LoRA/QLoRA, and Generative Agents detailed summaries; major PAPERS.md expansion with 32 new papers |
+| 2026-03-18 | Added Attention Is All You Need and Chinchilla scaling detailed summaries |
 | 2026-03-01 | Initial paper summaries added |
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

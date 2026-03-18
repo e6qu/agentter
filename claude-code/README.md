@@ -19,7 +19,6 @@
 | **Hooks** | Lifecycle automation with shell commands |
 | **MCP Support** | Model Context Protocol integration |
 | **Git Integration** | Native git workflows and PR creation |
-| **Worktrees** | Isolated git worktrees for parallel work |
 
 ---
 
@@ -57,24 +56,21 @@
 ### Installation
 
 ```bash
-# macOS
-brew install claude-code
-
-# npm
-npm install -g @anthropics/claude-code
+# Via npm (recommended)
+npm install -g @anthropic-ai/claude-code
 
 # Or use without installing
-npx @anthropics/claude-code
+npx @anthropic-ai/claude-code
 ```
 
 ### Authentication
 
 ```bash
-# Login to Anthropic
-claude auth login
-
-# Or set API key
+# Set API key via environment variable
 export ANTHROPIC_API_KEY=your_key
+
+# Or run claude and follow the interactive login flow
+claude
 ```
 
 ### First Run
@@ -89,6 +85,20 @@ claude /path/to/project
 # With a prompt
 claude "Explain this codebase"
 ```
+
+---
+
+## CLI Flags
+
+| Flag | Description |
+|------|-------------|
+| `-p, --print` | Execute prompt non-interactively and print response |
+| `--continue, --resume` | Continue the most recent conversation |
+| `--allowedTools` | Restrict available tools |
+| `--permission-mode` | Set permission mode (e.g., `plan`, `auto-edit`) |
+| `--add-dir` | Add additional directories to the session |
+| `--model` | Override the model to use |
+| `--verbose` | Enable verbose logging |
 
 ---
 
@@ -207,9 +217,10 @@ project/
 
 | Command | Description |
 |---------|-------------|
-| `/init` | Initialize Claude Code in project |
+| `/init` | Initialize Claude Code in project (run inside a `claude` session) |
 | `/clear` | Clear conversation history |
-| `/compact` | Compact conversation context |
+| `/compact` | Compact conversation context to reduce token usage |
+| `/config` | View or edit configuration settings |
 | `/cost` | Show token usage and cost |
 | `/help` | Show help |
 | `/exit` | Exit Claude Code |
@@ -267,9 +278,10 @@ Project instructions for Claude:
     ]
   },
   "permissions": {
-    "allow": {
-      "Bash": ["npm test", "npm run build"]
-    }
+    "allow": [
+      "Bash(npm test)",
+      "Bash(npm run build)"
+    ]
   }
 }
 ```
@@ -298,18 +310,6 @@ Claude Code supports MCP servers for external tool integration:
 ---
 
 ## Git Integration
-
-### Worktrees
-
-Claude Code uses git worktrees for isolation:
-
-```bash
-# Automatic worktree creation for subagents
-# Each subagent gets isolated git environment
-
-# Manual worktree with --worktree flag
-claude --worktree /path/to/worktree
-```
 
 ### PR Creation
 
@@ -406,7 +406,7 @@ In parallel, then integrate them"
 
 ## Resources
 
-- [Official Documentation](https://code.claude.com/docs)
+- [Official Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [Anthropic Blog](https://www.anthropic.com/blog)
 - [Claude Code on X](https://x.com/anthropic)
 
@@ -418,7 +418,7 @@ In parallel, then integrate them"
 
 | Resource | Description | Link |
 |----------|-------------|------|
-| **Documentation** | Official docs | [code.claude.com/docs](https://code.claude.com/docs) |
+| **Documentation** | Official docs | [docs.anthropic.com/en/docs/claude-code](https://docs.anthropic.com/en/docs/claude-code) |
 | **Anthropic** | Company blog | [anthropic.com](https://www.anthropic.com) |
 | **Claude API** | API reference | [docs.anthropic.com](https://docs.anthropic.com) |
 
@@ -455,4 +455,4 @@ In parallel, then integrate them"
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

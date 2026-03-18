@@ -266,7 +266,7 @@ The most famous threads, AMAs, and cultural touchstones of Hacker News.
 | GitLab | 2011 | Open source Git hosting | $6B+ company |
 | Stripe | 2010 | "7 lines of code" | $50B+ company |
 | Notion | 2016 | Note-taking app | $10B+ company |
-| Figma | 2012 | Design tool | Acquired by Adobe ($20B) |
+| Figma | 2012 | Design tool | Adobe deal ($20B) collapsed Dec 2023; independent |
 | Linear | 2019 | Issue tracker | $500M+ valuation |
 | Raycast | 2020 | Spotlight replacement | $250M+ valuation |
 | Vercel | 2015 | React deployment | $2.5B valuation |

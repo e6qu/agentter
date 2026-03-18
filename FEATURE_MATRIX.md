@@ -35,7 +35,7 @@
 | BYOK Support | ✅ | ✅ | ⚠️ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Free Tier Available | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Fixed-Price Subscription | ⚠️* | ⚠️* | ❌ | ❌ | ❌ | ⚠️* | ⚠️* | ⚠️* | ✅ |
-| Open Source License | ✅ MIT | ✅ Apache 2 | ❌ | ❌ | ✅ Apache 2 | ✅ Apache 2 | ✅ | ✅ | ✅ |
+| Open Source License | ✅ MIT | ✅ Apache 2 | ❌ | ✅ Apache 2 | ✅ Apache 2 | ✅ Apache 2 | ✅ Apache 2 | ✅ Apache 2 | ✅ |
 
 *Via BYOK to Kimi Code or GLM Code
 
@@ -101,7 +101,7 @@
 |---------|:--------:|:-----:|:-----------:|:---------:|:----------:|:-----:|:-----:|:--------:|:---------:|
 | Text Prompts | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Voice Input | ❌ | ✅ | ❌ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Image Input | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ | ✅ | ⚠️ |
+| Image Input | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ | ⚠️ |
 | PDF/Documents | ❌ | ⚠️ | ❌ | ❌ | ✅ | ❌ | ⚠️ | ⚠️ | ⚠️ |
 | Web Page Context | ✅ | ✅ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ✅ |
 
@@ -230,4 +230,16 @@
 
 ---
 
-*Last Updated: March 1, 2026*
+## See Also
+
+- [AGENT_COMPARISON.md](AGENT_COMPARISON.md) - Detailed comparison with analysis and decision guide
+- [FEATURES.md](FEATURES.md) - In-depth feature explanations and technical concepts
+- [TOOLS_RESEARCH.md](TOOLS_RESEARCH.md) - Comprehensive research document with sourced footnotes
+- [MODELS.md](MODELS.md) - AI model pricing and specifications
+- [AI_AGENT_TRICKS.md](AI_AGENT_TRICKS.md) - Tips and tricks for working with AI coding agents
+- [MODELS_OPEN_SOURCE.md](MODELS_OPEN_SOURCE.md) - Open-source model guide
+- [MODELS_WITHIN_128_GiB_RAM.md](MODELS_WITHIN_128_GiB_RAM.md) - Models that fit in 128 GiB RAM
+
+---
+
+*Last Updated: March 18, 2026*

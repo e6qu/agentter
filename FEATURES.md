@@ -14,6 +14,7 @@ This document provides detailed, sourced explanations of features, technical con
 4. [Session Management](#session-management)
 5. [Integration Protocols](#integration-protocols)
 6. [Security & Execution Models](#security--execution-models)
+7. [Emerging Concepts](#emerging-concepts)
 
 ---
 
@@ -189,7 +190,7 @@ Key characteristics:
 - Can use different models (e.g., Haiku for fast exploration, Opus for complex tasks)
 - Return summaries to the parent agent rather than full conversation history
 
-Source: [Claude Code Subagents Documentation](https://code.claude.com/docs/en/sub-agents)
+Source: [Claude Code Subagents Documentation](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents)
 
 #### Types of Subagents
 
@@ -200,7 +201,7 @@ Source: [Claude Code Subagents Documentation](https://code.claude.com/docs/en/su
 | General-purpose | Inherits | All | Complex multi-step tasks |
 | Bash | Inherits | Shell | Terminal command execution |
 
-Source: [Claude Code Built-in Subagents](https://code.claude.com/docs/en/sub-agents)
+Source: [Claude Code Built-in Subagents](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents)
 
 ### Agent Coordination and Orchestration
 
@@ -219,7 +220,7 @@ Agent coordination refers to patterns for managing multiple AI agents working to
 
 **OpenCode Multi-Session**: OpenCode supports "run multiple agents in parallel on the same project without conflicts — one refactoring while another writes tests."
 
-Source: [Claude Code Agent Teams](https://code.claude.com/docs/en/sub-agents), [OpenCode Multi-Session](https://opencode.ai/docs/)
+Source: [Claude Code Agent Teams](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents), [OpenCode Multi-Session](https://opencode.ai/docs/)
 
 ### Ephemeral Agents
 
@@ -230,7 +231,7 @@ Ephemeral agents are temporary agent instances created for a specific task and d
 - Clean state for each task (no contamination from previous work)
 - Used for exploration, testing, or isolated operations
 
-Source: [Claude Code Subagent Documentation](https://code.claude.com/docs/en/sub-agents): "Each subagent invocation creates a new instance with fresh context."
+Source: [Claude Code Subagent Documentation](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents): "Each subagent invocation creates a new instance with fresh context."
 
 ### Persistent Memory
 
@@ -242,7 +243,7 @@ Persistent memory allows agents to retain information across conversations and s
 | `project` | `.claude/agent-memory/<agent-name>/` | Project-specific, version controlled |
 | `local` | `.claude/agent-memory-local/<agent-name>/` | Project-specific, not version controlled |
 
-Source: [Claude Code Persistent Memory](https://code.claude.com/docs/en/sub-agents)
+Source: [Claude Code Persistent Memory](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents)
 
 ### Context Compaction
 
@@ -267,6 +268,17 @@ According to OpenCode documentation:
 - **Reserved**: Token buffer to avoid overflow during compaction
 
 Source: [OpenCode Compaction Configuration](https://opencode.ai/docs/config/)
+
+### Image Input
+
+Several AI coding agents support image input, allowing users to provide visual context alongside text prompts:
+
+- **Aider**: Supports adding images and web pages to chat for visual context
+- **Claude Code**: Supports reading image files (PNG, JPG, etc.) via its Read tool, which presents image contents visually to the multimodal LLM
+- **Gemini CLI**: Full multimodal input including PDFs, images, and hand-drawn sketches
+- **Cline / Roo Code**: Support image input via their VS Code extension interfaces
+
+Source: [Aider Documentation](https://aider.chat/docs/), [Claude Code Read Tool Documentation](https://docs.anthropic.com/en/docs/claude-code/)
 
 ---
 
@@ -293,7 +305,7 @@ Git worktrees allow multiple working directories connected to a single repositor
 
 According to Claude Code documentation: "Set `isolation: worktree` to run the subagent in a temporary git worktree, giving it an isolated copy of the repository."
 
-Source: [Claude Code Worktree Isolation](https://code.claude.com/docs/en/sub-agents)
+Source: [Claude Code Worktree Isolation](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents)
 
 ### Conversation Checkpoints
 
@@ -341,6 +353,10 @@ ACP enables communication between the CLI tool and IDE plugins via stdin/stdout 
 
 Source: [Kimi Code ACP Documentation](https://github.com/MoonshotAI/kimi-cli)
 
+### Agent Communication Protocol (ACP) - Broader Concept
+
+Beyond Kimi Code's specific ACP, the broader concept of Agent Communication Protocol refers to emerging standards for inter-agent communication. These protocols aim to standardize how autonomous AI agents discover, authenticate, and exchange structured messages with each other -- enabling multi-agent systems where agents from different vendors can collaborate on tasks. This is distinct from MCP (which connects agents to tools/data sources) in that ACP focuses on agent-to-agent communication.
+
 ### Language Server Agent Protocol (LSAP)
 
 LSAP is an emerging protocol that transforms low-level LSP capabilities into high-level agent-native cognitive tools. According to the specification:
@@ -373,15 +389,15 @@ Source: [OpenAI Codex Documentation](https://openai.com/index/introducing-the-co
 
 #### Local Sandbox (Claude Code Seatbelt)
 
-Claude Code uses Seatbelt on macOS for local sandboxing:
-
-> "Claude Code v2.1+ automatically loads hooks/hooks.json from any installed plugin by convention."
+Claude Code uses macOS Seatbelt for local sandboxing. Seatbelt is a macOS kernel-level sandboxing framework (also known as `sandbox_init` / `sandbox-exec`) that enforces mandatory access controls on processes. Claude Code applies Seatbelt profiles to restrict Bash tool execution, limiting file system access, network connectivity, and process spawning.
 
 Characteristics:
-- System-level permission controls
-- File access restrictions
+- System-level permission controls via macOS kernel sandbox
+- File access restrictions (scoped to project directory)
 - Network access controls
 - No cloud dependency
+
+Source: [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code/)
 
 ### Permission Modes
 
@@ -395,7 +411,7 @@ Permission modes control how agents handle operations requiring user approval:
 | `bypassPermissions` | Skip all permission checks |
 | `plan` | Read-only exploration mode |
 
-Source: [Claude Code Permission Modes](https://code.claude.com/docs/en/sub-agents)
+Source: [Claude Code Permission Modes](https://docs.anthropic.com/en/docs/claude-code/en/sub-agents)
 
 ### YOLO Mode
 
@@ -408,7 +424,34 @@ YOLO (You Only Live Once) mode refers to configurations where all safety checks 
 
 Warning: All tools caution against using YOLO mode in production or with sensitive codebases.
 
-Source: [Claude Code CLI Reference](https://code.claude.com/docs/)
+Source: [Claude Code CLI Reference](https://docs.anthropic.com/en/docs/claude-code/)
+
+---
+
+## Emerging Concepts
+
+### Prompt Caching
+
+Prompt caching is an optimization technique where the provider caches the prefix of a prompt (system prompt, tool definitions, conversation history) so that subsequent requests sharing the same prefix avoid reprocessing those tokens. This reduces latency and cost for long conversations.
+
+Anthropic's implementation caches prompt prefixes automatically when the cached portion exceeds a minimum length. Cached input tokens are billed at a reduced rate (typically 90% discount). This is particularly impactful for coding agents with large system prompts and tool definitions that remain constant across turns.
+
+### Deferred Tool Loading
+
+Deferred tool loading is a pattern where an agent's full set of available tools is not loaded into context at startup. Instead, only tool names are listed initially, and the full schema (parameters, descriptions) is fetched on demand when a tool is likely to be needed. This reduces the baseline token cost of tool definitions in the system prompt, which can be significant when dozens of tools are available (e.g., MCP servers exposing many tools).
+
+Claude Code implements this pattern: tools appear in `<available-deferred-tools>` messages and are fetched via a `ToolSearch` mechanism before first use.
+
+### Agent Communication Protocol (ACP) - Emerging Standard
+
+The Agent Communication Protocol concept extends beyond Kimi Code's specific implementation to a general class of protocols enabling structured communication between autonomous AI agents. Key goals include:
+
+- **Discovery**: Agents can find and identify other agents and their capabilities
+- **Authentication**: Secure identity verification between agents
+- **Message Exchange**: Structured, typed messages with defined semantics
+- **Task Delegation**: Protocols for requesting, accepting, and reporting on delegated work
+
+This is an active area of development as multi-agent systems become more prevalent.
 
 ---
 
@@ -423,6 +466,7 @@ Source: [Claude Code CLI Reference](https://code.claude.com/docs/)
 | **Hook** | Event-triggered automation script |
 | **LSP** | Language Server Protocol - standard for editor-language integration |
 | **MCP** | Model Context Protocol - standard for AI tool integration |
+| **Prompt Caching** | Provider-side caching of prompt prefixes to reduce latency and cost |
 | **Repo Map** | Condensed structural representation of a codebase |
 | **Skill** | Reusable prompt/workflow definition |
 | **Subagent** | Specialized AI instance with isolated context |
@@ -432,4 +476,14 @@ Source: [Claude Code CLI Reference](https://code.claude.com/docs/)
 
 ---
 
-*Last Updated: March 1, 2026*
+## See Also
+
+- [MODELS.md](MODELS.md) - Detailed AI model pricing and specifications
+- [AI_AGENT_TRICKS.md](AI_AGENT_TRICKS.md) - Tips and tricks for working with AI coding agents
+- [AGENT_COMPARISON.md](AGENT_COMPARISON.md) - Side-by-side tool comparison
+- [FEATURE_MATRIX.md](FEATURE_MATRIX.md) - Condensed feature comparison matrix
+- [TOOLS_RESEARCH.md](TOOLS_RESEARCH.md) - Comprehensive research with sourced footnotes
+
+---
+
+*Last Updated: March 18, 2026*

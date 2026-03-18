@@ -6,7 +6,7 @@
 
 ## Overview
 
-The context window is like working memory - expensive and limited. For long-running sessions (30+ hours), effective context management is the difference between success and failure.
+The context window is like working memory - expensive and limited. For long-running sessions, effective context management is the difference between success and failure. In practice, sessions exceeding a few hours typically require active context management techniques; multi-hour sessions are common, though the upper bound depends heavily on task complexity, model, and tooling.
 
 **The Context Rot Problem**:
 - Performance degrades sharply beyond 10k-32k tokens
@@ -66,7 +66,7 @@ Keep context usage under 60% of window:
 
 **Benefits**: 29% performance boost
 
-**When to use**: 
+**When to use**:
 - Repetitive tool calls (file reads, searches)
 - Stable project state (not actively changing)
 - Long-running single task
@@ -83,9 +83,9 @@ Keep context usage under 60% of window:
 Implementing user authentication per SPEC.md
 
 ## Progress
-- ✅ Database schema created
-- ✅ Registration endpoint complete
-- 🔄 Login endpoint in progress
+- Done: Database schema created
+- Done: Registration endpoint complete
+- In progress: Login endpoint
 
 ## Decisions Made
 - Using bcrypt with cost factor 12
@@ -137,16 +137,16 @@ opencode run "Update memory.md with final state and next steps for tomorrow"
 **Standard Approach** (inefficient):
 ```
 Load all skills at startup (~5000 tokens)
-→ Most never used
-→ Context bloat
+-> Most never used
+-> Context bloat
 ```
 
 **Progressive Disclosure** (efficient):
 ```
 Load skill name/description only (~50 tokens)
-→ Triggered by need
-→ Full content loaded just-in-time
-→ Context efficient
+-> Triggered by need
+-> Full content loaded just-in-time
+-> Context efficient
 ```
 
 **OpenCode Implementation**:
@@ -183,9 +183,9 @@ Before summarization: 15000 tokens
   [Full conversation history]
 
 After summarization: 500 tokens
-  "Summary: We've implemented the database schema and 
-   registration endpoint. Current task is implementing 
-   login with JWT tokens. Using bcrypt for hashing, 
+  "Summary: We've implemented the database schema and
+   registration endpoint. Current task is implementing
+   login with JWT tokens. Using bcrypt for hashing,
    planning 24h token expiry."
 ```
 
@@ -236,11 +236,11 @@ After summarization: 500 tokens
 # Regular checkpoint every 30 minutes
 while true; do
   sleep 1800
-  
+
   # Auto-commit changes
   git add -A
   git commit -m "Checkpoint: $(date '+%Y-%m-%d %H:%M')"
-  
+
   # Update memory
   echo "Checkpoint at $(date)" >> memory.md
 done
@@ -250,11 +250,11 @@ done
 
 **Principle**: Don't mix topics in one session
 
-**Bad**: 
+**Bad**:
 ```
 Session: "Implement auth AND refactor database AND fix CSS"
-→ 39% performance drop
-→ Context pollution
+-> 39% performance drop
+-> Context pollution
 ```
 
 **Good**:
@@ -262,8 +262,8 @@ Session: "Implement auth AND refactor database AND fix CSS"
 Session 1: "Implement auth"
 Session 2: "Refactor database"
 Session 3: "Fix CSS"
-→ Each has focused context
-→ Better results
+-> Each has focused context
+-> Better results
 ```
 
 ### Pattern 3: Cross-Session Notes
@@ -298,6 +298,77 @@ Watch for these signals that context is degrading:
 
 ---
 
+## Recovering from Context Rot
+
+When context rot has already set in, the agent is producing unreliable output. Continuing without intervention will make things worse. Follow these steps:
+
+### Step 1: Stop and Assess
+
+Do not let the agent continue making changes. Check for:
+- Incorrect file modifications (review `git diff`)
+- Contradictory commits (review `git log` for conflicting changes)
+- Hallucinated content (files referenced that do not exist)
+
+### Step 2: Revert Damaged Work
+
+```bash
+# See what changed since last known-good state
+git log --oneline -10
+git diff <last-good-commit> HEAD
+
+# Revert to last known-good checkpoint
+git revert HEAD~N..HEAD   # or git reset if appropriate
+```
+
+### Step 3: Capture Current State
+
+Before starting a new session, write down what the rotted session actually accomplished:
+
+```bash
+# Create a handoff document from the damaged session
+cat > recovery-notes.md << 'EOF'
+## Recovery Notes
+
+### What was completed successfully (verified)
+- Database migration created and tested
+- Registration endpoint working (tests pass)
+
+### What needs to be redone
+- Login endpoint (agent started contradicting its own approach)
+- JWT middleware (hallucinated a library that doesn't exist)
+
+### Key decisions to preserve
+- bcrypt cost factor 12
+- JWT 24h expiry
+- Rate limit: 5 attempts/min
+
+### Files to review before continuing
+- src/routes/auth.ts (partially complete, may have issues)
+- src/middleware/jwt.ts (created but uses wrong library)
+EOF
+```
+
+### Step 4: Start a Fresh Session
+
+```bash
+# Start new session with clean context
+opencode
+
+# First prompt: load recovery state
+"Read recovery-notes.md and memory.md. Resume work on the login endpoint.
+Do NOT re-implement anything listed as completed. Focus on the items
+listed under 'What needs to be redone'."
+```
+
+### Step 5: Prevent Recurrence
+
+- Set up more frequent checkpoints (every 15-20 minutes instead of 30)
+- Lower the compaction threshold (e.g., 50% instead of 60%)
+- Use the memory file more aggressively -- update it after every completed subtask
+- Consider splitting the remaining work across multiple shorter sessions
+
+---
+
 ## OpenCode Configuration
 
 ### Recommended Settings
@@ -306,7 +377,7 @@ Watch for these signals that context is degrading:
 // opencode.json
 {
   "model": "anthropic/claude-sonnet-4",
-  
+
   "compaction": {
     "auto": true,
     "prune": true,
@@ -314,13 +385,13 @@ Watch for these signals that context is degrading:
     "threshold": 0.6,
     "reserved": 10000
   },
-  
+
   "context": {
     "includeHistory": true,
     "summarizeThreshold": 15000,
     "maxTurns": 50
   },
-  
+
   "memory": {
     "enabled": true,
     "file": "memory.md"
@@ -373,6 +444,16 @@ Track these metrics:
 
 ---
 
+## Cross-References
+
+- [01 - Ralph Loops](01-ralph-loops.md): Ralph Loops accumulate context quickly; pair with aggressive compaction.
+- [02 - Spec-Driven Development](02-spec-driven-development.md): Specs serve as external memory, reducing what the agent must hold in context.
+- [03 - Agent Teams](03-agent-teams.md): Each agent in a team has its own context; use the Memory Keeper role to coordinate shared state.
+- [05 - Session Teleportation](05-session-teleportation.md): Teleporting sessions preserves context state; compact before teleporting to minimize transfer size.
+- [METHODOLOGIES.md](../METHODOLOGIES.md): Overview of all methodologies.
+
+---
+
 ## Research Backing
 
 Sources:
@@ -382,4 +463,4 @@ Sources:
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

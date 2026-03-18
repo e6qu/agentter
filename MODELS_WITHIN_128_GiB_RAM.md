@@ -4,7 +4,7 @@
 
 **Target Hardware**: MacBook Pro M3/M4 Max 128GB, or equivalent workstations
 
-**Last Updated**: March 2, 2026
+**Last Updated**: March 18, 2026
 
 ---
 
@@ -17,7 +17,7 @@
 | **Qwen3-32B** | Q8_0 | 34 GB | 128K | 30-50 t/s | Coding, fast responses |
 | **DeepSeek-R1 Distill 32B** | Q8_0 | 34 GB | 128K | 25-40 t/s | Reasoning tasks |
 | **Mistral Small 3.2** | Q8_0 | 25 GB | 32K | 40-60 t/s | Speed, efficiency |
-| **Llama 3.3 8B** | Q8_0 | 8 GB | 128K | 80+ t/s | Low latency |
+| **Llama 3.1 8B** | Q8_0 | 8 GB | 128K | 80+ t/s | Low latency |
 
 ---
 
@@ -254,11 +254,48 @@ ollama list
 # Build with Metal support
 git clone https://github.com/ggerganov/llama.cpp
 cd llama.cpp
-LLAMA_METAL=1 make
+cmake -B build -DGGML_METAL=ON
+cmake --build build --config Release
 
 # Run model
-./main -m model.gguf -ngl 99 -c 32768
+./build/bin/llama-cli -m model.gguf -ngl 99 -c 32768
 ```
+
+### For Apple Silicon Native Performance
+
+**MLX** (https://github.com/ml-explore/mlx) — Apple's native ML framework
+- Purpose-built for Apple Silicon unified memory
+- Faster time-to-first-token for small-to-medium models (<22B params)
+- Zero-copy memory sharing between CPU and GPU
+- 4,000+ pre-converted models on [mlx-community](https://huggingface.co/mlx-community)
+
+```bash
+# Install
+pip install mlx-lm
+
+# Run a model
+mlx_lm.generate --model mlx-community/Qwen3-32B-4bit --prompt "hello"
+
+# Chat mode
+mlx_lm.chat --model mlx-community/Llama-4-Scout-17B-16E-Instruct-4bit
+
+# Convert your own model
+mlx_lm.convert --hf-path meta-llama/Llama-3.3-70B-Instruct --quantize --q-bits 4
+```
+
+#### GGUF vs MLX on Apple Silicon
+
+| Aspect | GGUF (llama.cpp) | MLX |
+|--------|-----------------|-----|
+| **Platform** | Cross-platform | macOS only |
+| **Small models (<22B)** | Good | Better (faster TTFT) |
+| **Large models (>22B)** | Better | Slower in practice |
+| **Long context** | Better | Can be 9s slower at 8K+ |
+| **Quantization options** | 15+ formats | 4-bit, 6-bit, 8-bit, bf16 |
+| **Ecosystem** | Ollama, LM Studio, llama.cpp | mlx-lm, LM Studio, llm-mlx |
+| **M5 Neural Accelerators** | Not supported | Up to 4x speedup |
+
+> **Recommendation**: Use MLX for quick-response coding assistants with small models (8B-32B). Use GGUF/llama.cpp for large models (70B+) and long-context workloads. LM Studio supports both formats and can help you benchmark.
 
 ---
 

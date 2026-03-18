@@ -2,7 +2,7 @@
 
 *Comprehensive guide to open-source LLMs with quantization sizes, licenses, and hosting providers*
 
-**Last Updated:** March 2, 2026
+**Last Updated:** March 18, 2026
 
 ---
 
@@ -29,6 +29,8 @@
 
 ### Quantization Formats
 
+#### GGUF Format (llama.cpp — Cross-platform)
+
 | Format | Description | Use Case |
 |--------|-------------|----------|
 | Q4_0 | Legacy 4-bit | ARM/AVX optimized |
@@ -44,6 +46,21 @@
 | BF16 | Brain float 16 | Full precision (recommended) |
 | AWQ | Activation-aware W4A16 | Inference optimized |
 | GPTQ | General-purpose 4-bit | GPU inference |
+
+#### MLX Format (Apple Silicon — macOS only)
+
+| Format | Description | Use Case |
+|--------|-------------|----------|
+| 4-bit | MLX 4-bit quantization | **Recommended default** for Apple Silicon |
+| 6-bit | MLX 6-bit quantization | Higher quality, moderate size |
+| 8-bit | MLX 8-bit quantization | Maximum quality |
+| bf16 | MLX brain float 16 | Full precision |
+
+> **MLX vs GGUF**: MLX is Apple's native ML framework, purpose-built for Apple Silicon's unified memory architecture. It often delivers faster time-to-first-token for small-to-medium models (<22B params) compared to GGUF/llama.cpp on Macs. For larger models (>22B), llama.cpp with GGUF tends to perform better in practice, especially for long-context workloads. GGUF is cross-platform; MLX is macOS-only.
+>
+> **MLX Community**: The [mlx-community](https://huggingface.co/mlx-community) organization on Hugging Face hosts 4,000+ pre-converted MLX models.
+>
+> **Tools**: Install via `pip install mlx-lm`. Run with `mlx_lm.generate --model mlx-community/<model> --prompt "hello"`. Also supported by [LM Studio](https://lmstudio.ai/), [Simon Willison's llm-mlx plugin](https://github.com/simonw/llm-mlx), and Apple's [MLX Swift](https://github.com/ml-explore/mlx-swift).
 
 ### Model Architecture
 
@@ -80,6 +97,10 @@
 - [unsloth/Llama-4-Scout-17B-16E-Instruct-GGUF](https://huggingface.co/unsloth/Llama-4-Scout-17B-16E-Instruct-GGUF)
 - [bartowski/Llama-4-Scout-GGUF](https://huggingface.co/bartowski/meta-llama_Llama-4-Scout-17B-16E-Instruct-GGUF)
 
+**MLX Sources:**
+- [mlx-community/Llama-4-Scout-17B-16E-Instruct-4bit](https://huggingface.co/mlx-community/Llama-4-Scout-17B-16E-Instruct-4bit)
+- [mlx-community/meta-llama-Llama-4-Scout-17B-16E-4bit](https://huggingface.co/mlx-community/meta-llama-Llama-4-Scout-17B-16E-4bit)
+
 **Hosted Providers:**
 - **Together AI**: $0.18/1M input
 - **Fireworks AI**: $0.15/1M input
@@ -102,6 +123,10 @@
 | Q5_K_M | ~285 GB | ~300 GB | Higher quality |
 | Q6_K | ~328 GB | ~345 GB | Very high quality |
 | BF16 (full) | ~800 GB | ~840 GB | Reference quality |
+
+**MLX Sources:**
+- [mlx-community/Llama-4-Maverick-17B-128E-Instruct-4bit](https://huggingface.co/mlx-community/Llama-4-Maverick-17B-128E-Instruct-4bit)
+- [mlx-community/Llama-4-Maverick-17B-16E-Instruct-4bit](https://huggingface.co/mlx-community/Llama-4-Maverick-17B-16E-Instruct-4bit)
 
 **Hosted Providers:**
 - **Together AI**: $0.27/1M input
@@ -134,12 +159,12 @@
 
 ---
 
-### Llama 3.3 8B
+### Llama 3.1 8B
 
-**HuggingFace:** [meta-llama/Llama-3.3-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.3-8B-Instruct)  
-**License:** Llama 3.3 Community License  
-**Architecture:** Dense  
-**Parameters:** 8B  
+**HuggingFace:** [meta-llama/Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)
+**License:** Llama 3.1 Community License
+**Architecture:** Dense
+**Parameters:** 8B
 **Context:** 128K tokens
 
 | Quantization | Size | VRAM Required | Notes |
@@ -180,6 +205,9 @@
 - [unsloth/DeepSeek-V3-GGUF](https://huggingface.co/unsloth/DeepSeek-V3-GGUF)
 - [bartowski/DeepSeek-V3.1-GGUF](https://huggingface.co/bartowski/deepseek-ai_DeepSeek-V3.1-GGUF)
 
+**MLX Sources:**
+- [mlx-community/DeepSeek-V3-4bit](https://huggingface.co/mlx-community/DeepSeek-V3-4bit)
+
 **Hosted Providers:**
 - **DeepSeek API**: $0.28/1M input (cache miss)
 - **Together AI**: $1.25/1M input
@@ -210,6 +238,10 @@
 - [bartowski/DeepSeek-R1-GGUF](https://huggingface.co/bartowski/DeepSeek-R1-GGUF) (Most comprehensive)
 - [unsloth/DeepSeek-R1-GGUF](https://huggingface.co/unsloth/DeepSeek-R1-GGUF)
 - [unsloth/DeepSeek-R1-0528-GGUF](https://huggingface.co/unsloth/DeepSeek-R1-0528-GGUF) (Updated version)
+
+**MLX Sources:**
+- [mlx-community/DeepSeek-R1-4bit](https://huggingface.co/mlx-community/DeepSeek-R1-4bit)
+- [mlx-community/DeepSeek-R1-0528-Qwen3-8B-8bit](https://huggingface.co/mlx-community/DeepSeek-R1-0528-Qwen3-8B-8bit) (Distilled, 8B)
 
 **Hosted Providers:**
 - **DeepSeek API**: $0.55/1M input (cache miss)
@@ -258,6 +290,9 @@
 **GGUF Sources:**
 - [Qwen/Qwen3-235B-A22B-GGUF](https://huggingface.co/Qwen/Qwen3-235B-A22B-GGUF)
 
+**MLX Sources:**
+- [mlx-community/Qwen3-235B-A22B-4bit](https://huggingface.co/mlx-community/Qwen3-235B-A22B-4bit)
+
 **Hosted Providers:**
 - **Together AI**: $0.90/1M input
 - **Fireworks AI**: Available
@@ -282,6 +317,10 @@
 **GGUF Sources:**
 - [bartowski/Qwen3-32B-GGUF](https://huggingface.co/bartowski/Qwen_Qwen3-32B-GGUF)
 - [Qwen/Qwen3-32B-GGUF](https://huggingface.co/Qwen/Qwen3-32B-GGUF)
+
+**MLX Sources:**
+- [mlx-community/Qwen3-32B-4bit](https://huggingface.co/mlx-community/Qwen3-32B-4bit)
+- [mlx-community/Qwen3-32B-8bit](https://huggingface.co/mlx-community/Qwen3-32B-8bit)
 
 **Hosted Providers:**
 - **Together AI**: $0.30/1M input
@@ -329,7 +368,7 @@
 **License:** Apache 2.0  
 **Architecture:** Dense  
 **Parameters:** 4B  
-**Context:** 128K tokens
+**Context:** 32K tokens
 
 | Quantization | Size | VRAM Required | Notes |
 |--------------|------|---------------|-------|
@@ -359,11 +398,13 @@
 
 ### Mistral Large 3
 
-**HuggingFace:** [mistralai/Mistral-Large-3.1-24B-Instruct-2503](https://huggingface.co/mistralai/Mistral-Large-3.1-24B-Instruct-2503)  
-**License:** Mistral Research License / Commercial License  
-**Architecture:** MoE  
-**Parameters:** 41B active / 675B total  
-**Context:** 256K tokens
+**HuggingFace:** [mistralai/Mistral-Large-Instruct-2411](https://huggingface.co/mistralai/Mistral-Large-Instruct-2411)
+**License:** Mistral Research License / Commercial License
+**Architecture:** Dense
+**Parameters:** 123B
+**Context:** 128K tokens
+
+> **Note:** Mistral-Large-3.1-24B-Instruct-2503 is actually **Mistral Small 3.1**, not Mistral Large 3.
 
 | Quantization | Size | VRAM Required | Notes |
 |--------------|------|---------------|-------|
@@ -397,6 +438,10 @@
 **GGUF Sources:**
 - [bartowski/Mistral-Small-3.2-GGUF](https://huggingface.co/bartowski/mistralai_Mistral-Small-3.2-24B-Instruct-2506-GGUF)
 - [unsloth/Mistral-Small-3.2-GGUF](https://huggingface.co/unsloth/Mistral-Small-3.2-24B-Instruct-2506-GGUF)
+
+**MLX Sources:**
+- [mlx-community/Mistral-Small-4-119B-2603-4bit](https://huggingface.co/mlx-community/Mistral-Small-4-119B-2603-4bit)
+- Browse [mlx-community Mistral models](https://huggingface.co/models?search=mlx-community+mistral)
 
 **Hosted Providers:**
 - **Mistral AI API**: $0.06/1M input
@@ -523,6 +568,10 @@
 **GGUF Sources:**
 - [google/gemma-3-27b-it-qat-q4_0-gguf](https://huggingface.co/google/gemma-3-27b-it-qat-q4_0-gguf) (Official QAT)
 - [Mungert/gemma-3-27b-it-GGUF](https://huggingface.co/Mungert/gemma-3-27b-it-GGUF)
+
+**MLX Sources:**
+- [mlx-community/gemma-3-27b-it-4bit](https://huggingface.co/mlx-community/gemma-3-27b-it-4bit)
+- Browse [mlx-community Gemma models](https://huggingface.co/models?search=mlx-community+gemma)
 
 **Hosted Providers:**
 - **AWS Bedrock**: Available

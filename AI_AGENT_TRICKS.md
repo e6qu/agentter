@@ -46,13 +46,13 @@ A recurring foundation across agents is a **tool-augmented loop**: gather contex
 
 > "it works through three phases: gather context, take action, and verify results."
 > 
-> Source: `https://code.claude.com/docs/en/how-claude-code-works`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/how-claude-code-works`
 
 The loop is described as powered by two components:
 
 > "The agentic loop is powered by two components: models that reason and tools that act."
 > 
-> Source: `https://code.claude.com/docs/en/how-claude-code-works`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/how-claude-code-works`
 
 **OpenAI Codex CLI** uses similar framing:
 
@@ -78,7 +78,7 @@ Claude Code documents a canonical sequence for "fix failing tests":
 
 > "Run the tests again to verify"
 > 
-> Source: `https://code.claude.com/docs/en/how-claude-code-works`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/how-claude-code-works`
 
 ---
 
@@ -262,13 +262,13 @@ Aider's solution is to omit line numbers and interpret hunks as search/replace o
 
 > "/compact [instructions] Compact conversation with optional focus instructions"
 > 
-> Source: `https://code.claude.com/docs/en/interactive-mode`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/interactive-mode`
 
 Compaction mechanics:
 
 > "compaction summarizes the conversation to free space."
 > 
-> Source: `https://code.claude.com/docs/en/hooks-guide`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/hooks-guide`
 
 **OpenCode** implements compaction via a dedicated system agent:
 
@@ -282,13 +282,13 @@ Compaction mechanics:
 
 > "Use a SessionStart hook... to re-inject critical context after every compaction."
 > 
-> Source: `https://code.claude.com/docs/en/hooks-guide`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/hooks-guide`
 
 Hook output becomes context:
 
 > "Any text your command writes to stdout is added to Claude's context."
 > 
-> Source: `https://code.claude.com/docs/en/hooks-guide`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/hooks-guide`
 
 ### 5.3 Persistent Project Manifests
 
@@ -300,13 +300,13 @@ Directory-based loading with precedence:
 
 > "CLAUDE.md... above... loaded in full at launch... child... load on demand"
 > 
-> Source: `https://code.claude.com/docs/en/memory`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/memory`
 
 Hybrid memory design:
 
 > "first 200 lines of MEMORY.md are loaded... Topic files... not loaded at startup."
 > 
-> Source: `https://code.claude.com/docs/en/memory`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/memory`
 
 **OpenAI Codex (AGENTS.md)**:
 
@@ -338,13 +338,13 @@ Auto-loading with multiple manifest names:
 
 > "Each MCP server adds tool definitions to your context, even when idle."
 > 
-> Source: `https://code.claude.com/docs/en/costs`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/costs`
 
 Deferred loading mechanism:
 
 > "automatically defers them and loads tools on-demand via tool search"
 > 
-> Source: `https://code.claude.com/docs/en/costs`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/costs`
 
 Configuration via environment variable:
 
@@ -360,13 +360,13 @@ This threshold-based progressive disclosure keeps prompt prefixes small.
 
 > "Claude Code automatically uses prompt caching to optimize performance and reduce costs."
 > 
-> Source: `https://code.claude.com/docs/en/model-config`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/model-config`
 
 Cost optimization description:
 
 > "optimizes costs through prompt caching... and auto-compaction"
 > 
-> Source: `https://code.claude.com/docs/en/costs`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/costs`
 
 **Anthropic platform** definition:
 
@@ -386,7 +386,7 @@ The technique involves keeping stable, cacheable prefixes (system prompt, tool s
 
 > "Subagents get their own fresh context... Their work doesn't bloat your context."
 > 
-> Source: `https://code.claude.com/docs/en/how-claude-code-works`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/how-claude-code-works`
 
 **OpenCode** treats subagents as invokable components:
 
@@ -440,7 +440,7 @@ Trae Agent achieved 75.20% Pass@1 on SWE-bench Verified as of the paper's public
 
 > "By default, subagents inherit all tools... including MCP tools."
 > 
-> Source: `https://code.claude.com/docs/en/sub-agents`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/sub-agents`
 
 ### 7.2 Approval Policies
 
@@ -466,7 +466,7 @@ Default sandbox posture:
 
 > "Effort levels control Opus 4.6's adaptive reasoning, which dynamically allocates thinking based on task complexity."
 > 
-> Source: `https://code.claude.com/docs/en/model-config`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/model-config`
 
 Three levels available: **low**, **medium**, **high** (default).
 
@@ -481,7 +481,7 @@ Configuration methods:
 
 > "Special mode that uses `opus` during plan mode, then switches to `sonnet` for execution"
 > 
-> Source: `https://code.claude.com/docs/en/model-config`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/model-config`
 
 This implements a "strong model for planning, fast model for execution" pattern.
 
@@ -491,13 +491,13 @@ This implements a "strong model for planning, fast model for execution" pattern.
 
 > "Opus 4.6 and Sonnet 4.6 support a 1 million token context window for long sessions with large codebases."
 > 
-> Source: `https://code.claude.com/docs/en/model-config`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/model-config`
 
 Pricing threshold:
 
 > "Your session uses standard rates until it exceeds 200K tokens of context. Beyond 200K tokens, requests are charged at long-context pricing"
 > 
-> Source: `https://code.claude.com/docs/en/model-config`
+> Source: `https://docs.anthropic.com/en/docs/claude-code/en/model-config`
 
 Usage:
 ```bash
@@ -546,13 +546,13 @@ Primary sources referenced in this document:
 
 | Agent | URL | Topic |
 |-------|-----|-------|
-| Claude Code | `https://code.claude.com/docs/en/how-claude-code-works` | Agentic loop |
+| Claude Code | `https://docs.anthropic.com/en/docs/claude-code/en/how-claude-code-works` | Agentic loop |
 | Claude Code | `https://docs.anthropic.com/en/docs/claude-code/faq` | No embeddings |
-| Claude Code | `https://code.claude.com/docs/en/memory` | CLAUDE.md system |
-| Claude Code | `https://code.claude.com/docs/en/hooks-guide` | Hooks, compaction |
-| Claude Code | `https://code.claude.com/docs/en/costs` | Cost optimization |
-| Claude Code | `https://code.claude.com/docs/en/model-config` | Models, caching |
-| Claude Code | `https://code.claude.com/docs/en/sub-agents` | Subagents |
+| Claude Code | `https://docs.anthropic.com/en/docs/claude-code/en/memory` | CLAUDE.md system |
+| Claude Code | `https://docs.anthropic.com/en/docs/claude-code/en/hooks-guide` | Hooks, compaction |
+| Claude Code | `https://docs.anthropic.com/en/docs/claude-code/en/costs` | Cost optimization |
+| Claude Code | `https://docs.anthropic.com/en/docs/claude-code/en/model-config` | Models, caching |
+| Claude Code | `https://docs.anthropic.com/en/docs/claude-code/en/sub-agents` | Subagents |
 | Cursor | `https://cursor.com/blog/secure-codebase-indexing` | Merkle trees, SimHash |
 | Cursor | `https://cursor.com/blog/improving-agent-with-semantic-search` | Embeddings |
 | Aider | `https://aider.chat/2023/10/22/repomap.html` | Repo map |
@@ -603,4 +603,4 @@ This document uses terminology consistently with the project's [TERMINOLOGY.md](
 
 ---
 
-*Last Updated: March 2, 2026*
+*Last Updated: March 18, 2026*

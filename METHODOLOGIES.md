@@ -4,6 +4,8 @@
 
 This document summarizes methodologies for organizing work to be done autonomously over long sessions that cross context boundaries, based on research from Reddit, Hacker News, Substack, Medium, and official documentation.
 
+For detailed implementation guides, see the [methodologies/](methodologies/) directory and its [README](methodologies/README.md).
+
 ---
 
 ## Table of Contents
@@ -23,9 +25,9 @@ The landscape of AI agent methodologies has evolved significantly from "vibe cod
 
 | Era | Approach | Characteristics |
 |-----|----------|-----------------|
-| 2024 | Vibe Coding | Prompt → Accept output → Manual fix → Repeat |
+| 2024 | Vibe Coding | Prompt -> Accept output -> Manual fix -> Repeat |
 | 2025 | Agentic Loops | 5-8 step sequences before context drift |
-| 2026 | Sustained Autonomy | 20-50+ step sequences, 30+ hour sessions |
+| 2026 | Sustained Autonomy | 20-50+ step sequences, multi-hour sessions |
 
 Source: [Reddit - Past Vibe Coding into Agentic Engineering](https://www.reddit.com/r/accelerate/comments/1r980su/i_think_weve_quietly_moved_past_vibe_coding_into/)
 
@@ -43,19 +45,22 @@ The enabling factors for long-running autonomous sessions:
 
 ### 1. Ralph Loops (Persistent Execution)
 
-Named after the Ralph Wiggum plugin from Anthropic, this methodology uses a simple while loop that keeps feeding prompts back to the agent until completion.
+Named after the Ralph Wiggum plugin from Anthropic -- the Simpsons character whose oblivious persistence inspired a pattern where agents keep working past the point they would normally give up.
+
+> **Detailed guide**: [methodologies/01-ralph-loops.md](methodologies/01-ralph-loops.md)
 
 **Core Pattern**:
 ```
-Agent works on task → Attempts to exit → Hook catches exit → Reprompts with context → Continues
+Agent works on task -> Attempts to exit -> Hook catches exit -> Reprompts with context -> Continues
 ```
 
 **Key Components**:
 - Persistent prompt reminding the agent of the goal
 - Hook system intercepting completion attempts
 - Full context visibility across iterations
+- Max iteration safety valve to prevent infinite loops
 
-Source: [Anthropic Ralph Wiggum Plugin](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum)
+Source: [Anthropic Ralph Wiggum Plugin](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum) (Note: this link may be dead or relocated; the plugin may have been renamed or moved since it was first referenced in community discussions.)
 
 **Use with OpenCode**:
 ```bash
@@ -66,6 +71,8 @@ opencode run --continue "Implement feature X following SPEC.md"
 ### 2. Spec-Driven Development (SDD)
 
 Begin with detailed specifications before writing code. The workflow involves:
+
+> **Detailed guide**: [methodologies/02-spec-driven-development.md](methodologies/02-spec-driven-development.md)
 
 1. **Brainstorm spec with AI**: Iteratively ask questions until requirements are clear
 2. **Generate project plan**: Break implementation into logical, bite-sized tasks
@@ -87,6 +94,8 @@ opencode
 ### 3. Agent Teams / Multi-Agent Orchestration
 
 Multiple specialized agents working in parallel on different aspects of a task.
+
+> **Detailed guide**: [methodologies/03-agent-teams.md](methodologies/03-agent-teams.md)
 
 **Roles in Agent Teams**:
 | Role | Responsibility | Model |
@@ -116,6 +125,8 @@ opencode attach http://localhost:4096 --session agent-2
 ### 4. Context Engineering
 
 Strategically curating what information goes into the context window.
+
+> **Detailed guide**: [methodologies/04-context-management.md](methodologies/04-context-management.md)
 
 **Principles**:
 - Context = Working memory (expensive, limited)
@@ -147,6 +158,8 @@ Source: [Medium - AI Agents Context Management](https://bytebridge.medium.com/ai
 
 Moving work between devices and interfaces without losing context.
 
+> **Detailed guide**: [methodologies/05-session-teleportation.md](methodologies/05-session-teleportation.md)
+
 **Pattern**:
 1. Start work in terminal
 2. Teleport to web interface for review
@@ -176,7 +189,7 @@ Running agents asynchronously while continuing other work.
 
 **Pattern**:
 ```
-Start task → Background with Ctrl+B → Continue main work → Receive notification on completion
+Start task -> Background with Ctrl+B -> Continue main work -> Receive notification on completion
 ```
 
 **Benefits**:
@@ -215,7 +228,7 @@ Allocate context like a finite resource:
 
 ```
 System prompts: ~500 tokens
-Tool descriptions: ~1000 tokens  
+Tool descriptions: ~1000 tokens
 Active codebase: ~2000 tokens
 Conversation history: Variable
 Working buffer: ~2000 tokens
@@ -231,7 +244,7 @@ Load information in stages:
 2. **Triggered**: Full skill content loaded
 3. **As needed**: Additional resources retrieved
 
-Source: [Claude Code Skills Documentation](https://code.claude.com/docs/en/skills)
+Source: [Claude Code Skills Documentation](https://docs.anthropic.com/en/docs/claude-code/en/skills)
 
 ---
 
@@ -263,7 +276,7 @@ Multiple agents working on independent subtasks simultaneously.
 Output from one agent feeds into the next.
 
 ```
-Research Agent → Analysis Agent → Implementation Agent → Review Agent
+Research Agent -> Analysis Agent -> Implementation Agent -> Review Agent
 ```
 
 ### 4. Competition Pattern
@@ -300,7 +313,7 @@ The length of tasks AI can handle has been doubling approximately every 7 months
 | 2027 (proj) | 4 hours | Refactor a module |
 | 2030 (proj) | Multi-day | Build a system |
 
-Source: [METR Research](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+Source: [METR Research -- Autonomy Evaluation](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/)
 
 ### Effective Harnesses for Long-Running Agents
 
@@ -422,6 +435,22 @@ opencode --continue
 
 ---
 
+## Detailed Methodology Guides
+
+For in-depth implementation details, see the individual guides:
+
+| # | Guide | Description |
+|---|-------|-------------|
+| 01 | [Ralph Loops](methodologies/01-ralph-loops.md) | Persistent execution with hooks, safety valves, and friction detection |
+| 02 | [Spec-Driven Development](methodologies/02-spec-driven-development.md) | Specification-first workflow with templates and verification |
+| 03 | [Agent Teams](methodologies/03-agent-teams.md) | Multi-agent orchestration, team sizing, and merge conflict resolution |
+| 04 | [Context Management](methodologies/04-context-management.md) | Context budgeting, rot recovery, and session patterns |
+| 05 | [Session Teleportation](methodologies/05-session-teleportation.md) | Cross-device sessions, sharing, and security |
+
+See also: [methodologies/README.md](methodologies/README.md) for a quick-start guide and decision tree.
+
+---
+
 ## Sources and References
 
 ### Primary Sources
@@ -437,10 +466,10 @@ opencode --continue
 
 ### Research Papers
 
-- METR Task Horizon Research (March 2025)
+- [METR - Measuring AI Ability to Complete Long Tasks](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/) (March 2025)
 - Context Rot Research - Chroma
 - LLMs Get Lost In Multi-Turn - arXiv
 
 ---
 
-*Last Updated: March 1, 2026*
+*Last Updated: March 18, 2026*

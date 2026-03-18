@@ -44,7 +44,7 @@ These contributors have publicly confirmed their identities or are widely recogn
 ---
 
 ### Paul Gauthier
-- **HN Handle:** paulgb (likely)
+- **HN Handle:** paul-gauthier (note: paulgb is Paul Butler, a different person)
 - **Real Identity:** Paul Gauthier, creator of Aider
 - **Expertise:** AI-assisted coding, open source development
 - **Notable Projects:** Aider (open-source AI pair programming)
@@ -223,7 +223,7 @@ Common themes from balanced, experience-based contributors:
 
 ### Aider Community
 
-**Key contributors:** paulgb (creator), pcj-github, various open source advocates
+**Key contributors:** paul-gauthier (creator), pcj-github, various open source advocates
 
 **Common patterns:**
 - Cost-conscious comparisons
