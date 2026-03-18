@@ -438,6 +438,21 @@
 
 ---
 
+### Recursive Language Models
+- **Authors**: Alex Zhang, Tim Kraska, Omar Khattab (MIT)
+- **Date**: December 2025
+- **Paper**: [arXiv:2512.24601](https://arxiv.org/abs/2512.24601)
+- **Code**: [github.com/alexzhang13/rlm](https://github.com/alexzhang13/rlm)
+- **Detailed Summary**: [papers/recursive-language-models.md](papers/recursive-language-models.md)
+
+**Summary**: Introduces an inference paradigm where LLMs treat prompts as programmable objects in a Python REPL, writing code to decompose inputs and recursively calling themselves on smaller snippets. This is a scaffold/harness pattern, not a new architecture -- it works with any existing LLM. RLM enables processing 100x beyond native context windows with no degradation at 10M+ tokens. RLM-GPT-5-mini outperforms vanilla GPT-5 by 2x on the OOLONG long-context benchmark, and RLM-Qwen3-8B beats its base model by 28.3%. Related to Universal Transformer (Dehghani 2019), PonderNet (DeepMind 2021), and Mixture-of-Recursions (NeurIPS 2025).
+
+**Key Insight**: Moving recursion outside the model into a programmable code scaffold is more flexible and powerful than baking it into the architecture, and enables arbitrarily long input processing with no architectural changes.
+
+**Why It Matters for Agents**: RLM formalizes what good coding agents already do informally -- recursively decomposing large codebases into manageable pieces. Combined with small-model amplification (Qwen3-8B +28.3%), it enables powerful local agent deployments and codebase-scale understanding far beyond any single context window.
+
+---
+
 ## Agents & Autonomous Systems
 
 ### Voyager: An Open-Ended Embodied Agent with Large Language Models
