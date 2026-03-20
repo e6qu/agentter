@@ -23,6 +23,7 @@ This document catalogs prominent contributors to AI/LLM discussions on Hacker Ne
 3. [Notable Comment Patterns](#notable-comment-patterns)
 4. [Tool-Specific Communities](#tool-specific-communities)
 5. [Quality Indicators](#quality-indicators)
+6. [Programming Language Creators & Maintainers](#programming-language-creators--maintainers)
 
 ---
 
@@ -158,6 +159,102 @@ These are established HN contributors with consistent expertise signals:
 - **Notable Threads:** SEO, content discovery, search engines
 
 ---
+
+## Programming Language Creators & Maintainers
+
+These HN accounts are closely associated with influential programming languages that frequently appear on the front page. They often participate in technical threads, AMA-style discussions, or release announcements.
+
+### Richard Feldman
+- **HN Handle:** [rtfeldman](https://news.ycombinator.com/user?id=rtfeldman)
+- **Known for:** Creator of the Roc language, prominent Elm educator (author of *Elm in Action*), former host of the Elm Town podcast
+- **Typical topics:** Type systems, compiler ergonomics, Roc/Elm roadmaps, BEAM/functional programming trade-offs
+- **Signature contributions:** Announced Roc's compiler rewrite from Rust to Zig (Feb 2025) and actively answers deep technical questions in the associated threads; shares practical lessons from building front-end and systems code in pure FP languages.
+
+### Andrew Kelley
+- **HN Handle:** [andrewrk](https://news.ycombinator.com/user?id=andrewrk)
+- **Known for:** Creator of the Zig programming language, author of the Zig self-hosted compiler
+- **Typical topics:** Systems programming, language ergonomics, build tooling (`zig build`), cross-compilation
+- **Signature contributions:** Frequently posts Zig release notes and patiently answers build/ABI questions; engages with LLVM/back-end discussions and performance deep-dives.
+
+### Graydon Hoare
+- **HN Handle:** [graydon](https://news.ycombinator.com/user?id=graydon)
+- **Known for:** Original creator of Rust at Mozilla
+- **Typical topics:** Programming language history, compiler implementation details, warnings about complexity creep
+- **Signature contributions:** Appears in Rust anniversary threads to provide historical context; comments thoughtfully about language design trade-offs beyond Rust (e.g., Swift, Kotlin, Roc).
+
+### Chris Lattner
+- **HN Handle:** [clattner_llvm](https://news.ycombinator.com/user?id=clattner_llvm)
+- **Known for:** Creator of LLVM and Swift, co-founder of Modular/Mojo
+- **Typical topics:** Compiler infrastructure, GPU/ML execution, Swift/Mojo roadmap
+- **Signature contributions:** Drops detailed replies about LLVM internals, memory models, and “how Mojo bridges Python ergonomics with systems-level speed.”
+
+### Paul Graham
+- **HN Handle:** [pg](https://news.ycombinator.com/user?id=pg)
+- **Known for:** Lisp hacker, Viaweb co-founder, Y Combinator co-founder, author of classic Lisp/Arc essays
+- **Typical topics:** Startups, programming language philosophy, HN meta
+- **Signature contributions:** Occasionally appears in Lisp/Arc or HN policy threads; his archived essays are frequently cited when Lisp/Scheme topics trend.
+
+### Peter Norvig
+- **HN Handle:** [norvig](https://news.ycombinator.com/user?id=norvig)
+- **Known for:** Co-author of *Artificial Intelligence: A Modern Approach*, Director of Research at Google, Common Lisp advocate
+- **Typical topics:** AI research history, Lisp culture, search algorithms
+- **Signature contributions:** Adds clarifications to Lisp/Scheme discussions, offers historical anecdotes from Google AI projects.
+
+### Evan Czaplicki
+- **HN Handle:** [evancz](https://news.ycombinator.com/user?id=evancz)
+- **Known for:** Creator of Elm
+- **Typical topics:** Functional front-end architecture, Elm releases, language ergonomics
+- **Signature contributions:** Shows up in Elm release threads to explain design decisions (e.g., no type classes), and occasionally comments on Roc topics because of shared FP heritage.
+
+### Brian Kernighan (honorary)
+- **HN Handle:** [bwk](https://news.ycombinator.com/user?id=bwk) (posts are rare but legendary)
+- **Known for:** Co-creator of Unix tools (awk), co-author of *The C Programming Language*
+- **Typical topics:** Historical context around C/Unix, pragmatic programming advice
+- **Signature contributions:** When he comments, the thread typically gets linked beyond HN; considered part of the “classic languages” canon (C, awk, Unix).
+
+### Jonathan Blow
+- **HN Handle:** [jonathanblow](https://news.ycombinator.com/user?id=jonathanblow)
+- **Known for:** Creator of the Jai programming language, game designer (Braid, The Witness)
+- **Typical topics:** Systems programming without footguns, game engine architecture, critiques of mainstream toolchains
+- **Signature contributions:** Shares progress updates about Jai, dives into compiler/codegen trade-offs, and occasionally responds to HN skepticism about “one-person language” efforts with practical insights from building an entire game stack.
+
+### Ginger Bill
+- **HN Handle:** [gingerBill](https://news.ycombinator.com/user?id=gingerBill) (also appears as gbill)
+- **Known for:** Creator of the Odin programming language; systems programmer with a focus on data-oriented design
+- **Typical topics:** Odin release notes, compiler implementation details, C interoperability, “understanding hardware” philosophy
+- **Signature contributions:** Posts Odin updates, answers questions about data-oriented design, and engages in discussions comparing Odin to C/C++/Zig.
+
+### Rich Hickey
+- **HN Handle:** [richhickey](https://news.ycombinator.com/user?id=richhickey)
+- **Known for:** Creator of Clojure and Datomic
+- **Typical topics:** Functional programming, immutability, simplicity vs. easy, philosophy of software design
+- **Signature contributions:** Rare but influential comments clarifying Clojure design decisions or linking to classic talks (“Simple Made Easy”).
+
+### Primeagen
+- **HN Handle:** [ThePrimeagen](https://news.ycombinator.com/user?id=ThePrimeagen) (occasionally `primeagen`)
+- **Known for:** Popular streamer/educator, former Netflix engineer, Rust evangelist
+- **Typical topics:** Vim/Neovim workflows, Rust/golang comparisons, developer productivity
+- **Signature contributions:** Provides anecdotal production stories, shares tooling scripts, and stirs lively debates on Rust vs. Go ergonomics.
+
+### Theo Browne (t3.gg)
+- **HN Handle:** [t3dotgg](https://news.ycombinator.com/user?id=t3dotgg)
+- **Known for:** Creator of the T3 stack (Next.js + tRPC + TypeScript), CEO of create.t3.gg
+- **Typical topics:** TypeScript best practices, build toolchains, DX, hot takes on framework wars
+- **Signature contributions:** Drops long replies on DX trade-offs, strongly opinionated about “full-stack typesafety,” and engages in Next.js/React meta threads.
+
+### Tsoding
+- **HN Handle:** [tsoding](https://news.ycombinator.com/user?id=tsoding)
+- **Known for:** Systems programming streamer, builds Lisp interpreters/compilers on stream
+- **Typical topics:** Live coding techniques, compiler experiments, Fennel/Lisp/Pico-8-esque projects
+- **Signature contributions:** Shares repos for mini compilers/interpreters, posts “I implemented X in a weekend” write-ups that often trend on HN Show posts.
+
+### Go Team Members
+- **Notable handles:** [rsc](https://news.ycombinator.com/user?id=rsc) (Russ Cox), [rob_pike](https://news.ycombinator.com/user?id=rob_pike) (posts are rare but canonical), [davecheney](https://news.ycombinator.com/user?id=davecheney)
+- **Known for:** Creators/maintainers of the Go programming language
+- **Typical topics:** Go release threads, module system clarifications, compiler/runtime internals, language design trade-offs
+- **Signature contributions:** Russ Cox often explains Go versioning decisions; Rob Pike occasionally comments on concurrency or history; Dave Cheney offers pragmatic advice on Go best practices and performance tuning.
+
+> **Tip:** When these accounts appear in a thread, expect deep dives, historical context, or authoritative clarifications. Monitoring their comment history via HN user pages is a good way to stay ahead of language roadmaps or release announcements.
 
 ## Notable Comment Patterns
 
@@ -408,3 +505,140 @@ This analysis is based on:
 *Compiled March 2026. Last updated with threads through March 2026.*
 
 *For broader sentiment analysis, see Hacker_News_opinions.md*
+### Guido van Rossum
+- **HN Handle:** [gvanrossum](https://news.ycombinator.com/user?id=gvanrossum)
+- **Known for:** Creator of Python, currently at Microsoft, longstanding BDFL
+- **Typical topics:** Python governance, typing, runtime performance, language design trade-offs
+- **Signature contributions:** Occasionally drops thoughtful comments in Python release threads or debates about typing/performance; referenced any time “What would Guido do?” surfaces.
+
+### Yukihiro “Matz” Matsumoto
+- **HN Handle:** [matz](https://news.ycombinator.com/user?id=matz)
+- **Known for:** Creator of Ruby
+- **Typical topics:** Ruby design philosophy (“Matz is nice”), developer happiness, Ruby 3 goals
+- **Signature contributions:** Rare but personal replies clarifying Ruby decisions or encouraging the community when Rails or Ruby threads flare up.
+
+### Bjarne Stroustrup
+- **HN Handle:** [bstroustrup](https://news.ycombinator.com/user?id=bstroustrup)
+- **Known for:** Creator of C++
+- **Typical topics:** Safety profiles, complexity control, modern C++ directions
+- **Signature contributions:** Posts interviews/essays clarifying C++ roadmap; occasionally answers misconceptions directly.
+
+### Rasmus Lerdorf
+- **HN Handle:** [rasmus](https://news.ycombinator.com/user?id=rasmus)
+- **Known for:** Creator of PHP
+- **Typical topics:** Practical scripting, security, “PHP is fine” clarifications
+- **Signature contributions:** Appears in PHP retrospectives, shares anecdotes from early web development.
+
+### Larry Wall
+- **HN Handle:** [lwall](https://news.ycombinator.com/user?id=lwall)
+- **Known for:** Creator of Perl, Raku (Perl 6) visionary
+- **Typical topics:** Language expressiveness, TIMTOWTDI philosophy, Raku updates
+- **Signature contributions:** Humorous, philosophical replies; occasionally links to Raku developments or classic Perl tales.
+
+### Jonathan Worthington
+- **HN Handle:** [jnthn](https://news.ycombinator.com/user?id=jnthn)
+- **Known for:** Raku (Perl 6) architect
+- **Typical topics:** Raku compiler/runtime work, Rakudo releases
+- **Signature contributions:** Posts detailed release notes and design rationales for Raku.
+
+### Dan Abramov
+- **HN Handle:** [gaearon](https://news.ycombinator.com/user?id=gaearon)
+- **Known for:** Co-creator of React Hooks, Create React App
+- **Typical topics:** React design decisions, JavaScript ergonomics, developer experience
+- **Signature contributions:** Shows up in React release threads to clarify hooks/suspense decisions; engages deeply when misconceptions spread.
+
+### Jordan Walke
+- **HN Handle:** [jordwalke](https://news.ycombinator.com/user?id=jordwalke)
+- **Known for:** Original creator of React and ReasonML
+- **Typical topics:** UI frameworks, typed JS (Reason/Rescript), React history
+- **Signature contributions:** Occasionally posts retrospectives or clarifies React origin stories; shares language experiments (Reason, Skip).
+
+### Wes McKinney
+- **HN Handle:** [wesm](https://news.ycombinator.com/user?id=wesm)
+- **Known for:** Creator of pandas, Apache Arrow advocate
+- **Typical topics:** Data engineering, Arrow ecosystem, Python/Rust interop
+- **Signature contributions:** Provides detailed explanations about Arrow/pandas roadmaps; debunks misconceptions about data tooling performance.
+
+### Travis Oliphant
+- **HN Handle:** [teoliphant](https://news.ycombinator.com/user?id=teoliphant)
+- **Known for:** Founder of Anaconda, NumPy/SciPy lead
+- **Typical topics:** Scientific Python history, packaging, sustainable open source funding
+- **Signature contributions:** Adds historical anecdotes about NumPy/SciPy creation; advocates for funding scientific open source.
+
+### Peter Wang
+- **HN Handle:** [pwang](https://news.ycombinator.com/user?id=pwang)
+- **Known for:** Co-founder of Anaconda, creator of PyScript/Numba initiatives
+- **Typical topics:** Python-in-browser, interactive computing, PyData community
+- **Signature contributions:** Shares PyScript/Anaconda announcements and PyData conference insights.
+
+### D. Richard Hipp (SQLite)
+- **HN Handle:** [drh](https://news.ycombinator.com/user?id=drh)
+- **Known for:** Creator and BDFL of SQLite
+- **Typical topics:** Embedded databases, durability/locking, release announcements
+- **Signature contributions:** Provides authoritative replies on SQLite design decisions, posts meticulous changelog notes, and shares real-world anecdotes (e.g., SQLite in spacecraft, iPhones).
+
+### Josh Berkus (PostgreSQL)
+- **HN Handle:** [jberkus](https://news.ycombinator.com/user?id=jberkus)
+- **Known for:** Former PostgreSQL core team member, Kubernetes SIG Apps, distributed systems advocate
+- **Typical topics:** PostgreSQL releases, cloud-native databases, stateful workloads on Kubernetes
+- **Signature contributions:** Adds historical context to PostgreSQL development and offers pragmatic advice on running Postgres in containers/cloud.
+
+### Peter Mattis & Spencer Kimball (CockroachDB)
+- **HN Handles:** [petermattis](https://news.ycombinator.com/user?id=petermattis), [spencerk](https://news.ycombinator.com/user?id=spencerk)
+- **Known for:** Co-founders of Cockroach Labs, ex-Google engineers
+- **Typical topics:** Distributed SQL, consensus (Raft), survivable infrastructure
+- **Signature contributions:** Dive into CRDB architecture discussions, explain consistency trade-offs, and contrast with Google Spanner.
+
+### Michael Stonebraker (Postgres/Ingres)
+- **HN Handle:** Posts are rare; referenced via interviews and talks (e.g., [mstnbrkr](https://news.ycombinator.com/user?id=mstnbrkr) when active)
+- **Known for:** Creator of Ingres, co-creator of PostgreSQL, winner of Turing Award
+- **Typical topics:** Database history, new architectures (e.g., VoltDB, SciDB)
+- **Signature contributions:** When quoted or when he comments, he offers “state of databases” perspectives and critiques of industry trends.
+
+### Monty Widenius (MySQL/MariaDB)
+- **HN Handle:** [monty](https://news.ycombinator.com/user?id=monty) (posts infrequent)
+- **Known for:** Co-founder of MySQL AB, creator of MariaDB
+- **Typical topics:** Open-source database licensing, storage engines, fork governance
+- **Signature contributions:** Appears in threads about MySQL/MariaDB divergence to clarify decisions and emphasize open source freedoms.
+
+### Leslie Lamport (Paxos)
+- **HN Handle:** [lamport](https://news.ycombinator.com/user?id=lamport) (occasionally active; more often referenced)
+- **Known for:** Inventor of Paxos, pioneer of formal verification (TLA+)
+- **Typical topics:** Consensus algorithms, safety proofs, distributed systems wisdom
+- **Signature contributions:** When he comments or is cited, it’s usually to correct misunderstandings about Paxos or to advocate for rigorous thinking via TLA+.
+
+### Diego Ongaro & John Ousterhout (Raft)
+- **HN Handles:** [ongardie](https://news.ycombinator.com/user?id=ongardie), [ousterhout](https://news.ycombinator.com/user?id=ousterhout)
+- **Known for:** Authors of the Raft consensus algorithm (Stanford), RAMCloud
+- **Typical topics:** Raft implementation details, consensus pedagogy, log replication
+- **Signature contributions:** Ongaro occasionally answers Raft design questions; Ousterhout joins broader distributed systems or storage discussions, adding historical lessons.
+
+### Daniel Stenberg (cURL/libcurl)
+- **HN Handle:** [bagder](https://news.ycombinator.com/user?id=bagder)
+- **Known for:** Creator and lead maintainer of cURL and libcurl
+- **Typical topics:** HTTP/TLS edge cases, networking specs, open source sustainability
+- **Signature contributions:** Posts detailed release notes, clarifies transport-layer behaviors, and shares lessons from decades of maintaining one of the most widely deployed CLI + library tools.
+
+### Mark Shuttleworth (Ubuntu/Canonical)
+- **HN Handle:** [markshuttleworth](https://news.ycombinator.com/user?id=markshuttleworth) (rare posts, but referenced frequently)
+- **Known for:** Founder of Canonical, driving Ubuntu adoption on servers/cloud
+- **Typical topics:** Ubuntu release/strategy threads, snaps vs. deb debates, cloud infrastructure
+- **Signature contributions:** When he appears, he provides Canonical’s perspective on contentious packaging or support decisions; also called out as one of the few founders to have personally funded a major distro.
+
+### Matthew Miller & Fedora Council
+- **HN Handles:** [mattdm](https://news.ycombinator.com/user?id=mattdm) and other Fedora contributors
+- **Known for:** Fedora Project leadership, Red Hat community distro
+- **Typical topics:** Fedora release features (Silverblue, Kinoite), Wayland/systemd transitions, rpm-ostree
+- **Signature contributions:** Provide transparent explanations for Fedora’s forward-looking changes, bridging community feedback and Red Hat agendas.
+
+### Daniel Robbins (Gentoo)
+- **HN Handle:** [drobbins](https://news.ycombinator.com/user?id=drobbins) (posts occasional)
+- **Known for:** Founder of Gentoo Linux, later Funtoo
+- **Typical topics:** Source-based distributions, Portage evolution, performance tuning
+- **Signature contributions:** Offers historical context about Gentoo’s philosophy and why source-based distros still matter.
+
+### Arch Linux Maintainers
+- **HN Handles:** Examples include [allanmcrae](https://news.ycombinator.com/user?id=allanmcrae), [falconindy](https://news.ycombinator.com/user?id=falconindy)
+- **Known for:** Rolling-release Arch Linux, pacman package manager
+- **Typical topics:** Packaging minimalism, systemd integration, reproducible builds
+- **Signature contributions:** Engage in threads about systemd/rolling-release pros/cons, share pacman tooling insights, and occasionally drop “Arch isn’t for beginners” reminders.

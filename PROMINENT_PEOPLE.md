@@ -1523,6 +1523,96 @@ Hotz represents the hacker-engineer archetype in AI. While others build corporat
 ### Theo Browne (t3dotgg)
 - **Role:** Creator, CEO of Ping.gg
 - **Known for:** t3 stack, AI coding content
+
+### Chris Hardin (LocalStack)
+- **Role:** Founder & CEO, LocalStack
+- **Known for:** Building the LocalStack AWS cloud emulator for local development
+- **Project:** [github.com/localstack/localstack](https://github.com/localstack/localstack)
+- **Why it matters:** LocalStack is a go-to dev tool for testing AWS services locally; frequently discussed on HN for serverless/devops workflows.
+
+### Anand Babu (AB) Periasamy
+- **Role:** CEO & Co-founder, MinIO
+- **Known for:** MinIO high-performance S3-compatible object storage
+- **Project:** [github.com/minio/minio](https://github.com/minio/minio)
+- **Why it matters:** MinIO is widely adopted as an S3-compatible storage backend; AB regularly discusses data infrastructure trends.
+
+### Kelsey Hightower
+- **Role:** Kubernetes evangelist, former Google Staff Developer Advocate
+- **Known for:** “Kubernetes the Hard Way,” demystifying cloud-native complexity
+- **Why it matters:** Provides authoritative Kubernetes insights and clarifies best practices in HN threads.
+
+### Joe Beda, Brendan Burns, Craig McLuckie
+- **Roles:** Kubernetes co-creators (now at VMware, Microsoft, Google)
+- **Known for:** Designing Kubernetes at Google; steering cloud-native standards
+- **Why it matters:** Offer historical context on K8s design decisions whenever they engage on HN.
+
+### D. Richard Hipp
+- **Role:** Creator & BDFL of SQLite (Hwaci)
+- **Known for:** Ubiquitous embedded database shipped in iOS/Android/browsers
+- **Why it matters:** SQLite powers billions of devices; Hipp’s posts and release notes shape how embedded storage is understood across the industry.
+
+### Josh Berkus
+- **Role:** PostgreSQL core team alumnus; CNCF Ambassador
+- **Known for:** PostgreSQL release management, Kubernetes SIG Apps
+- **Why it matters:** Bridges database and cloud-native communities; frequent speaker on running stateful workloads on Kubernetes.
+
+### Spencer Kimball & Peter Mattis
+- **Roles:** Co-founders, Cockroach Labs (CockroachDB)
+- **Known for:** Distributed SQL database inspired by Google Spanner
+- **Why it matters:** Their work influences modern “cloud-resilient” SQL systems; active in HN discussions about consistency/availability trade-offs.
+
+### Michael Stonebraker
+- **Role:** Turing Award-winning database pioneer (Ingres, PostgreSQL, VoltDB)
+- **Known for:** Decades of DB research and commercial products
+- **Why it matters:** Continues to shape database research agendas and frequently comments on “what’s next” for data systems.
+
+### Monty Widenius
+- **Role:** Co-founder of MySQL AB; creator of MariaDB
+- **Known for:** Defending open-source database licensing, championing forks when corporate stewardship falters
+- **Why it matters:** MariaDB remains a drop-in MySQL replacement; Widenius’ perspectives on licensing/governance inform debates about open source business models.
+
+### Leslie Lamport
+- **Role:** Turing Award-winning computer scientist, Microsoft Research
+- **Known for:** Paxos consensus algorithm, TLA+ formal specification language
+- **Why it matters:** Lamport’s work underpins modern distributed systems; he continues to promote rigorous reasoning about concurrency and correctness.
+
+### Diego Ongaro & John Ousterhout
+- **Roles:** Co-authors of the Raft consensus algorithm, Stanford RAMCloud project
+- **Known for:** Making consensus easier to teach/implement (Raft), pioneering low-latency main-memory storage
+- **Why it matters:** Raft powers countless distributed databases (etcd, Consul, CockroachDB, TiKV); Ongaro and Ousterhout’s insights influence every “new distributed system” thread on HN.
+
+### Mark Shuttleworth
+- **Role:** Founder, Canonical (Ubuntu)
+- **Known for:** Popularizing Ubuntu across desktop/server/cloud, introducing snaps, leading Shuttleworth Foundation
+- **Why it matters:** Canonical’s decisions (snaps, LTS cadence, cloud images) often set the tone for enterprise Linux conversations on HN.
+
+### Fedora Project Leadership (Matthew Miller, Fedora Council)
+- **Roles:** Community leaders steering Fedora’s rapid innovation track
+- **Known for:** Introducing technologies like Wayland, PipeWire, rpm-ostree years before other distros
+- **Why it matters:** Fedora’s experiments frequently influence upstream GNOME/systemd decisions; project leadership engages directly with HN feedback.
+
+### Daniel Robbins
+- **Role:** Founder of Gentoo Linux, later Funtoo
+- **Known for:** Portage package manager, source-based philosophy
+- **Why it matters:** Gentoo/Funtoo contributions continue to shape package management ideas (USE flags, build customization) discussed on HN.
+
+### Arch Linux Maintainers
+- **Roles:** Arch Linux devteam (e.g., Allan McRae, Dave Reisner)
+- **Known for:** Rolling-release philosophy, minimalism, pacman tooling
+- **Why it matters:** Arch remains a reference point in discussions about reproducible builds, user autonomy, and “Arch derivatives” like Manjaro/Endeavour.
+
+### Chaos Computer Club (CCC)
+- **Notable figures:** Constanze Kurz (spokesperson), Linus Neumann, Andy Müller-Maguhn, Frank Rieger
+- **Known for:** Longest-running European hacker organization advocating digital rights, security research, and privacy
+- **Why it matters:** CCC members frequently appear in HN threads about surveillance, encryption policy, and responsible disclosure; their annual Chaos Communication Congress drives many high-profile security stories.
+
+### Tor Project Contributors
+- **Notable figures:** Roger Dingledine, Nick Mathewson, Andrew Lewman, Isabela Bagueros
+- **Known for:** Building and maintaining the Tor anonymity network (Tor Browser, Onion services)
+- **Why it matters:** Tor’s developers are central to HN discussions on privacy tech, censorship resistance, and funding open-source anonymity infrastructure.
+
+### Armin Hammer (LocalStack CTO) – optional? (if not known, omit; I'll skip to well-known ones)
+
 - **Platform:** YouTube, Twitter/X
 
 ---
