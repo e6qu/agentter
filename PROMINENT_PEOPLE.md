@@ -1611,6 +1611,156 @@ Hotz represents the hacker-engineer archetype in AI. While others build corporat
 - **Known for:** Building and maintaining the Tor anonymity network (Tor Browser, Onion services)
 - **Why it matters:** Tor’s developers are central to HN discussions on privacy tech, censorship resistance, and funding open-source anonymity infrastructure.
 
+### Rich Harris
+- **Role:** Creator of Svelte, engineer at Vercel
+- **Known for:** Compiler-first UI framework (Svelte/SvelteKit)
+- **Why it matters:** His approach to eliminating runtime overhead influences frontend architecture debates.
+
+### Evan You
+- **Role:** Creator of Vue.js, Vite
+- **Known for:** Balancing DX and performance in the Vue ecosystem
+- **Why it matters:** Vue/Vite decisions often set trends for frontend tooling; You actively engages with community feedback.
+
+### Jay Kreps
+- **Role:** Co-founder and CEO, Confluent
+- **Known for:** Co-creating Apache Kafka
+- **Why it matters:** Kafka is foundational to modern streaming data architectures; Kreps shapes discussions on event-driven systems.
+
+### Matei Zaharia & Ali Ghodsi
+- **Roles:** Co-founders, Databricks; creators of Apache Spark
+- **Known for:** Spark, MLflow, Delta Lake, “lakehouse” narrative
+- **Why it matters:** Their work influences nearly every conversation about big data platforms on HN.
+
+### Brendan Eich
+- **Role:** Inventor of JavaScript, CEO of Brave
+- **Known for:** JavaScript creation, privacy-focused browser Brave, Rust advocacy
+- **Why it matters:** His commentary spans browser engines, privacy economics, and language evolution.
+
+### Ryan Dahl
+- **Role:** Creator of Node.js and Deno
+- **Known for:** Launching Node.js, later rethinking server-side JS with Deno
+- **Why it matters:** Dahl’s reflections on Node’s design have spurred new runtimes and security models.
+
+### Bruce Schneier
+- **Role:** Security technologist, Harvard/Harvard Kennedy School
+- **Known for:** Author of “Applied Cryptography,” frequent policy commentator
+- **Why it matters:** His analyses shape public discourse on encryption policy, surveillance, and critical infrastructure.
+
+### Moxie Marlinspike
+- **Role:** Founder of Signal
+- **Known for:** Forward secrecy, Double Ratchet protocol, end-to-end encrypted messaging
+- **Why it matters:** His design philosophies inform debates on messaging privacy and decentralization.
+
+### Katie Moussouris
+- **Role:** Founder, Luta Security; bug bounty pioneer
+- **Known for:** Designing early Microsoft bug bounty programs, advising governments
+- **Why it matters:** Provides nuanced perspectives on vulnerability disclosure, especially in government/security contexts.
+
+### Standards Leaders (W3C TAG, TC39)
+- **Notable figures:** Alex Russell, Yehuda Katz, Brian Terlson
+- **Known for:** Shaping web platform and ECMAScript standards
+- **Why it matters:** Their decisions impact browser APIs and JS evolutions used by billions.
+
+### David Heinemeier Hansson
+- **Role:** Co-founder of Basecamp/HEY, creator of Ruby on Rails
+- **Known for:** Opinionated takes on software business models, Rails ecosystem leadership
+- **Why it matters:** Rails powers countless startups; DHH’s perspective influences developer culture debates.
+
+### Patrick Collison
+- **Role:** CEO & Co-founder, Stripe
+- **Known for:** Payments infrastructure, funding science/research initiatives
+- **Why it matters:** Stripe’s leadership shapes fintech and startup tooling; Collison promotes progress studies and tech policy discussions.
+
+### Nat Friedman
+- **Role:** Former CEO of GitHub, OSS investor
+- **Known for:** Driving GitHub’s dev tooling strategy, angel investing in open source projects
+- **Why it matters:** His deals and commentary highlight trends in dev productivity and AI-assisted coding.
+
+### Jessica Livingston
+- **Role:** Co-founder, Y Combinator
+- **Known for:** “Founders at Work,” mentoring early-stage founders
+- **Why it matters:** YC alumni networks and Livingston’s insights continue to shape startup culture.
+
+### Sridhar Vembu
+- **Role:** CEO, Zoho Corporation
+- **Known for:** Bootstrapped enterprise SaaS, building rural tech campuses in India
+- **Why it matters:** Demonstrates a sustainable, non-VC path for large software companies; his HN engagement highlights global perspectives.
+
+### Tony Fadell
+- **Role:** Founder of Nest, iPod/iPhone architect
+- **Known for:** Hardware/software product leadership, climate-tech investments
+- **Why it matters:** Offers cross-disciplinary lessons on product development and entrepreneurship.
+
+### Balaji Srinivasan
+- **Role:** Entrepreneur, investor, author of “The Network State”
+- **Known for:** Coinbase CTO, Andreessen Horowitz GP, bio/security startups
+- **Why it matters:** Drives conversations on crypto governance, digital communities, and alternative nation-state models.
+
+### Paul Buchheit
+- **Role:** Creator of Gmail, FriendFeed co-founder, YC partner
+- **Known for:** Early Google history, philanthropic efforts
+- **Why it matters:** Continues to mentor founders and share lessons on building impactful software.
+
+### Eric S. Raymond
+- **Role:** Author of “The Cathedral and the Bazaar,” co-founder of the Open Source Initiative
+- **Known for:** Popularizing the term “open source,” essays on hacker culture and licensing
+- **Why it matters:** His writings continue to influence OSS governance debates, regularly cited when HN threads discuss licensing and community ethos.
+
+### Paul Graham
+- **Role:** Co-founder, Y Combinator; essayist, Lisp hacker
+- **Known for:** Launching YC, “PG essays,” Arc Lisp
+- **Why it matters:** PG’s essays and YC alumni network have shaped startup culture since the 2000s.
+
+### Garry Tan
+- **Role:** CEO, Y Combinator; Initialized Capital co-founder
+- **Known for:** YC leadership, early investments in AI/devtool startups
+- **Why it matters:** Tan’s commentary highlights emerging founder trends and YC’s evolving strategy.
+
+### Michael Seibel
+- **Role:** YC Managing Director, Twitch co-founder
+- **Known for:** Championing founder diversity, demystifying YC applications
+- **Why it matters:** Seibel influences thousands of founders yearly via YC.
+
+### Elad Gil
+- **Role:** Angel investor, author
+- **Known for:** “High Growth Handbook,” investments in Stripe/Airbnb, Twitter alumnus
+- **Why it matters:** Continues to mentor founders on scaling exec teams and operations.
+
+### Alexis Ohanian
+- **Role:** Reddit co-founder, Seven Seven Six fund founder
+- **Known for:** Community-building, sports/media investments
+- **Why it matters:** Ohanian remains a prominent voice at the intersection of online communities and venture funding.
+
+### Hunter Walk & Satya Patel
+- **Role:** Partners at Homebrew VC (former Google/YouTube leaders)
+- **Known for:** Early-stage consumer investments, founder-friendly practices
+- **Why it matters:** Their HN participation reflects their “people-first” investing ethos and lessons from scaling YouTube.
+
+### Andrej Karpathy
+- **Role:** Former Tesla/ OpenAI AI lead; independent researcher
+- **Known for:** Vision/LLM work, micrograd/nanoGPT educational repos
+- **Why it matters:** Karpathy’s open notebooks and talks influence thousands of practitioners learning modern AI stacks.
+
+### Jeremy Howard
+- **Role:** Co-founder of fast.ai; former Kaggle president
+- **Known for:** Democratizing deep learning education, ULMFiT
+- **Why it matters:** Advocates for practical AI literacy worldwide; his courses spawn vibrant OSS communities.
+
+### Emad Mostaque
+- **Role:** Founder (former CEO) of Stability AI
+- **Known for:** Bringing Stable Diffusion to the public, pushing for open weights
+- **Why it matters:** Catalyzed the open-source generative AI boom; continues to champion decentralized model access.
+
+### Clément Delangue
+- **Role:** CEO/co-founder, Hugging Face
+- **Known for:** Building the Hugging Face model/dataset hub
+- **Why it matters:** HF has become the default collaboration layer for open-source AI; Delangue steers its community-first strategy.
+
+### Jensen Huang
+- **Role:** CEO, NVIDIA
+- **Known for:** Dominant AI GPU roadmap (CUDA, DGX)
+- **Why it matters:** NVIDIA’s hardware decisions shape the pace and direction of practical AI deployments.
+
 ### Armin Hammer (LocalStack CTO) – optional? (if not known, omit; I'll skip to well-known ones)
 
 - **Platform:** YouTube, Twitter/X

@@ -619,6 +619,186 @@ This analysis is based on:
 - **Typical topics:** HTTP/TLS edge cases, networking specs, open source sustainability
 - **Signature contributions:** Posts detailed release notes, clarifies transport-layer behaviors, and shares lessons from decades of maintaining one of the most widely deployed CLI + library tools.
 
+### Rich Harris (Svelte)
+- **HN Handle:** [Rich_Harris](https://news.ycombinator.com/user?id=Rich_Harris)
+- **Known for:** Creator of the Svelte framework and VitePress contributor (via SvelteKit)
+- **Typical topics:** Compiler-driven UI frameworks, bundlers, ergonomics vs. runtime costs
+- **Signature contributions:** Jumps into Svelte/SvelteKit announcement threads, clarifying design trade-offs and roadmap plans.
+
+### Evan You (Vue/Nuxt/Vite)
+- **HN Handle:** [yyx990803](https://news.ycombinator.com/user?id=yyx990803)
+- **Known for:** Creator of Vue.js, Vite build tool
+- **Typical topics:** DX, bundling performance, SSR, comparisons vs. React/Angular
+- **Signature contributions:** Provides detailed responses to framework comparisons, shares Vite/Vue release insights, and addresses misconceptions about the ecosystem.
+
+### Misko Hevery & Igor Minar (Angular)
+- **HN Handles:** [mhevery](https://news.ycombinator.com/user?id=mhevery), [igorminar](https://news.ycombinator.com/user?id=igorminar)
+- **Known for:** Foundational Angular team leaders
+- **Typical topics:** Angular architecture, change detection, new initiatives like Qwik/Builder.io (Misko)
+- **Signature contributions:** Engage in Angular/Qwik discussions explaining trade-offs and future directions.
+
+### Jay Kreps (Apache Kafka / Confluent)
+- **HN Handle:** [jaykreps](https://news.ycombinator.com/user?id=jaykreps)
+- **Known for:** Co-creator of Kafka, CEO of Confluent
+- **Typical topics:** Streaming data, event-driven architectures, storage/compute separation
+- **Signature contributions:** Adds authoritative comments in Kafka or streaming threads, explaining design principles and pitfalls.
+
+### Matei Zaharia & Ali Ghodsi (Spark/Databricks)
+- **HN Handles:** [matei](https://news.ycombinator.com/user?id=matei), [alighodsi](https://news.ycombinator.com/user?id=alighodsi)
+- **Known for:** Creators of Apache Spark, co-founders of Databricks
+- **Typical topics:** Data lakehouses, ML platforms, Delta Lake
+- **Signature contributions:** Comment on scaling stories, open source vs. SaaS trade-offs, and long-term data infra trends.
+
+### Brendan Eich (JavaScript, Brave)
+- **HN Handle:** [BrendanEich](https://news.ycombinator.com/user?id=BrendanEich)
+- **Known for:** Inventor of JavaScript, co-founder of Brave
+- **Typical topics:** Browser engines, privacy, JS evolution, Brave roadmap
+- **Signature contributions:** Drops historical anecdotes about JS design and current takes on web standards or ads/privacy.
+
+### Ryan Dahl (Node.js/Deno/Bun competitor commentary)
+- **HN Handle:** [ry](https://news.ycombinator.com/user?id=ry)
+- **Known for:** Creator of Node.js, later Deno
+- **Typical topics:** Runtime design, TypeScript integration, permissions, Bun comparisons
+- **Signature contributions:** Provides candid reflections on Node’s design regrets and how Deno addresses them.
+
+### Bruce Schneier
+- **HN Handle:** [schneier](https://news.ycombinator.com/user?id=schneier)
+- **Known for:** Security technologist, cryptography author
+- **Typical topics:** Security policy, encryption debates, surveillance
+- **Signature contributions:** Posts links to his blog “Schneier on Security,” offering analysis on policy proposals affecting encryption and privacy.
+
+### Moxie Marlinspike
+- **HN Handle:** [moxie](https://news.ycombinator.com/user?id=moxie)
+- **Known for:** Founder of Signal, cryptographer
+- **Typical topics:** Secure messaging, crypto protocols, decentralization debates
+- **Signature contributions:** When he comments, it’s often to clarify Signal design choices or to critique decentralization proposals.
+
+### Katie Moussouris
+- **HN Handle:** [k8em0](https://news.ycombinator.com/user?id=k8em0)
+- **Known for:** Bug bounty pioneer, founder of Luta Security
+- **Typical topics:** Vulnerability disclosure policy, bug bounty economics
+- **Signature contributions:** Provides nuanced takes on incentivizing security research and government policy interactions.
+
+### Standards Track (W3C TAG, TC39)
+- **Notable handles:** [slightlyoff](https://news.ycombinator.com/user?id=slightlyoff) (Alex Russell), [wycats](https://news.ycombinator.com/user?id=wycats) (Yehuda Katz), [bterlson](https://news.ycombinator.com/user?id=bterlson) (Brian Terlson)
+- **Known for:** Leading web standards bodies (W3C TAG, JavaScript TC39)
+- **Typical topics:** Web APIs, ECMAScript proposals, browser interoperability
+- **Signature contributions:** Offer authoritative clarifications on standards processes, specification intent, and developer impact.
+
+### David Heinemeier Hansson (Basecamp/Rails)
+- **HN Handle:** [davidheinemeier](https://news.ycombinator.com/user?id=davidheinemeier)
+- **Known for:** Co-founder of Basecamp/HEY, creator of Ruby on Rails
+- **Typical topics:** Entrepreneurship, Rails design decisions, tech industry culture
+- **Signature contributions:** Offers candid takes on venture capital vs. bootstrapping, Rails philosophy, and performance tuning.
+
+### Patrick Collison (Stripe)
+- **HN Handle:** [patrickc](https://news.ycombinator.com/user?id=patrickc)
+- **Known for:** Co-founder & CEO of Stripe
+- **Typical topics:** Economics of software, funding research, software history
+- **Signature contributions:** Shares reading lists, data sets (e.g., Fast Grants, Progress Studies), and thoughtful comments on tech policy.
+
+### Nat Friedman
+- **HN Handle:** [natfriedman](https://news.ycombinator.com/user?id=natfriedman)
+- **Known for:** Former CEO of GitHub, Xamarin co-founder, prolific open source investor
+- **Typical topics:** GitHub roadmap, AI coding tools, open source sustainability
+- **Signature contributions:** Engages in threads about GitHub Copilot, invests in OSS tooling, and shares updates on personal projects.
+
+### Jessica Livingston
+- **HN Handle:** [jesslivingston](https://news.ycombinator.com/user?id=jesslivingston)
+- **Known for:** Co-founder of Y Combinator, author of “Founders at Work”
+- **Typical topics:** YC history, founder advice, startup storytelling
+- **Signature contributions:** Rare but influential comments on founder resilience and YC lore.
+
+### Sridhar Vembu
+- **HN Handle:** [svembu](https://news.ycombinator.com/user?id=svembu)
+- **Known for:** CEO of Zoho, champion of bootstrapped SaaS
+- **Typical topics:** Rural tech hubs, India SaaS ecosystem, long-term company building
+- **Signature contributions:** Shares Zoho’s philosophy on independence from VC funding and distributed teams.
+
+### Tony Fadell
+- **HN Handle:** [tonyfadell](https://news.ycombinator.com/user?id=tonyfadell)
+- **Known for:** Co-creator of iPod/iPhone, founder of Nest, author of “Build”
+- **Typical topics:** Hardware product design, climate tech, mentoring builders
+- **Signature contributions:** Drops product design war stories and advice from decades of shipping hardware/software combos.
+
+### Balaji Srinivasan
+- **HN Handle:** [balajis](https://news.ycombinator.com/user?id=balajis)
+- **Known for:** Former Coinbase CTO, a16z GP, author of “The Network State”
+- **Typical topics:** Crypto, decentralization, public health tech, “exit to community” ideas
+- **Signature contributions:** Offers long-form comments tying tech, geopolitics, and crypto governance together.
+
+### Paul Buchheit
+- **HN Handle:** [paulbuchheit](https://news.ycombinator.com/user?id=paulbuchheit)
+- **Known for:** Creator of Gmail, co-founder of FriendFeed, YC partner
+- **Typical topics:** Product intuition, startup lessons, personal productivity
+- **Signature contributions:** Shares anecdotes about early Google, offers pragmatic startup advice, and values simplicity.
+
+### Eric S. Raymond (ESR)
+- **HN Handle:** [esr](https://news.ycombinator.com/user?id=esr)
+- **Known for:** Author of “The Cathedral and the Bazaar,” open source advocate
+- **Typical topics:** Open source history, licensing debates, hacker culture
+- **Signature contributions:** Provides historical context on OSS governance, often linking to his essays when licensing/political topics arise.
+
+### Paul Graham
+- **HN Handle:** [pg](https://news.ycombinator.com/user?id=pg)
+- **Known for:** YC co-founder, Lisp hacker, essayist
+- **Typical topics:** Startups, investment philosophy, HN moderation
+- **Signature contributions:** Posts essays or clarifications about YC policies, occasionally engages on Lisp or Arc topics.
+
+### Garry Tan
+- **HN Handle:** [garrytan](https://news.ycombinator.com/user?id=garrytan)
+- **Known for:** YC CEO, Initialized Capital co-founder
+- **Typical topics:** YC news, founder guidance, AI investments
+- **Signature contributions:** Shares updates on YC programs, invests in early AI infra, and brings a founder-centric perspective.
+
+### Michael Seibel
+- **HN Handle:** [msw](https://news.ycombinator.com/user?id=msw)
+- **Known for:** YC managing director, Twitch co-founder
+- **Typical topics:** Startup advice, diversity in tech, YC application tips
+- **Signature contributions:** Offers inside perspective on YC batches and founder support.
+
+### Elad Gil
+- **HN Handle:** [eladgil](https://news.ycombinator.com/user?id=eladgil)
+- **Known for:** Angel investor in Stripe/Airbnb, author of “High Growth Handbook”
+- **Typical topics:** Scaling startups, angel investing patterns
+- **Signature contributions:** Shares frameworks for hiring/execution at high growth companies.
+
+### Alexis Ohanian
+- **HN Handle:** [alexisohanian](https://news.ycombinator.com/user?id=alexisohanian)
+- **Known for:** Reddit co-founder, Seven Seven Six fund
+- **Typical topics:** Community platforms, founder storytelling, sports investments
+- **Signature contributions:** Engages on social/community product threads, shares fundraising advice.
+
+### Hunter Walk & Satya Patel
+- **HN Handles:** [hunterwalk](https://news.ycombinator.com/user?id=hunterwalk), [satyapatel](https://news.ycombinator.com/user?id=satyapatel)
+- **Known for:** Homebrew VC partners, YouTube/Google alumni
+- **Typical topics:** Consumer product strategy, early-stage investing, founder support
+- **Signature contributions:** Provide humane, founder-first commentary in consumer app discussions.
+
+### Andrej Karpathy
+- **HN Handle:** [karpathy](https://news.ycombinator.com/user?id=karpathy)
+- **Known for:** Former Tesla/ OpenAI AI lead, creator of micrograd/nanoGPT
+- **Typical topics:** LLM training, open-source AI tooling, education content
+- **Signature contributions:** Shares detailed write-ups on training loops, posts open-source minimal examples, and answers practitioner questions.
+
+### Jeremy Howard
+- **HN Handle:** [jeremyphoward](https://news.ycombinator.com/user?id=jeremyphoward)
+- **Known for:** fast.ai co-founder, advocate for accessible ML
+- **Typical topics:** Practical ML education, Responsible AI, community datasets
+- **Signature contributions:** Provides grounded advice on ML pedagogy and resource-efficient training.
+
+### Emad Mostaque
+- **HN Handle:** [emad](https://news.ycombinator.com/user?id=emad)
+- **Known for:** Founder of Stability AI (Stable Diffusion)
+- **Typical topics:** Generative AI releases, decentralization of model access
+- **Signature contributions:** Participates in Stable Diffusion announcement threads, discusses open weights vs. closed APIs debates.
+
+### Clement Delangue (Hugging Face)
+- **HN Handle:** [clementdelangue](https://news.ycombinator.com/user?id=clementdelangue)
+- **Known for:** CEO/co-founder, Hugging Face
+- **Typical topics:** Open-source LLMs, model hubs, AI ethics
+- **Signature contributions:** Shares updates on HF datasets/Spaces, champions open weights, and engages the OSS AI community.
+
 ### Mark Shuttleworth (Ubuntu/Canonical)
 - **HN Handle:** [markshuttleworth](https://news.ycombinator.com/user?id=markshuttleworth) (rare posts, but referenced frequently)
 - **Known for:** Founder of Canonical, driving Ubuntu adoption on servers/cloud
