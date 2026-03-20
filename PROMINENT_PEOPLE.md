@@ -1761,6 +1761,51 @@ Hotz represents the hacker-engineer archetype in AI. While others build corporat
 - **Known for:** Dominant AI GPU roadmap (CUDA, DGX)
 - **Why it matters:** NVIDIA’s hardware decisions shape the pace and direction of practical AI deployments.
 
+### Arthur Mensch
+- **Role:** CEO & Co-founder, Mistral AI (France)
+- **Known for:** Championing high-quality open-weight LLMs (Mixtral, Mistral Instruct)
+- **Why it matters:** Raises Europe’s profile in foundation models; advocates for open models in EU AI policy debates.
+
+### Guillaume Lample & Timothée Lacroix
+- **Role:** Co-founders/CTOs, Mistral AI; former Meta FAIR researchers
+- **Known for:** Technical leadership behind Mistral’s efficient LLM architectures
+- **Why they matter:** Push innovation on sparse mixture-of-experts, bilingual training, and EU-centric AI infrastructure.
+
+### Bram Moolenaar (in memoriam)
+- **Role:** Creator of Vim
+- **Known for:** Charityware model (ICCF Uganda), Vimscript innovations
+- **Why it matters:** Vim remains foundational to developer tooling; Bram’s influence persists via modal editing and plugin ecosystems.
+
+### Neovim Core Team
+- **Role:** Maintainers modernizing Vim (Justin Keyes, etc.)
+- **Known for:** Async architecture, Lua config, Tree-sitter integration
+- **Why it matters:** Neovim powers a renaissance in editor customization, bridging old Vimscript and modern plugin ecosystems.
+
+### Tim Pope
+- **Role:** Influential Vim plugin author
+- **Known for:** Projects like vim-fugitive, rails.vim
+- **Why it matters:** Tim’s plugins are de facto standards, shaping how developers extend Vim/Neovim.
+
+### Doom Emacs / Spacemacs Maintainers
+- **Role:** Henrik Lissner (Doom), Sylvain Benner (Spacemacs)
+- **Known for:** Modern Emacs distributions with curated defaults
+- **Why it matters:** Lower the barrier to Emacs adoption, enabling Evil-mode flows and improved UX.
+
+### VS Code / Electron Builders
+- **Role:** B. Pasero, João Moreno, Zc Benz, etc.
+- **Known for:** Building VS Code and Electron platform
+- **Why it matters:** VS Code dominates editor market share; Electron remains the backbone for many desktop apps.
+
+### Zed Editor Team
+- **Role:** Nathan Sobo, Max Brunsfeld (ex-Atom)
+- **Known for:** Zed collaborative editor
+- **Why it matters:** Pushes the envelope on CRDT collaboration, GPU UIs, and Rust-native performance.
+
+### FreeBSD / OpenBSD / Illumos Maintainers
+- **Role:** Warner Losh, Theo de Raadt, Bryan Cantrill (Illumos), et al.
+- **Known for:** Stewarding BSD and Unix derivatives with strong security/performance reputations
+- **Why it matters:** BSD derivatives power networking gear, appliances, and cloud platforms; their maintainers are influential in OS design discussions.
+
 ### Armin Hammer (LocalStack CTO) – optional? (if not known, omit; I'll skip to well-known ones)
 
 - **Platform:** YouTube, Twitter/X

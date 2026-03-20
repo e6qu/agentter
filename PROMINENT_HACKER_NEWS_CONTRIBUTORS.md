@@ -799,6 +799,66 @@ This analysis is based on:
 - **Typical topics:** Open-source LLMs, model hubs, AI ethics
 - **Signature contributions:** Shares updates on HF datasets/Spaces, champions open weights, and engages the OSS AI community.
 
+### Arthur Mensch (Mistral AI)
+- **HN Handle:** [arthurmensch](https://news.ycombinator.com/user?id=arthurmensch)
+- **Known for:** CEO/co-founder of Mistral AI (France)
+- **Typical topics:** Open-weight LLM releases (Mixtral, Mistral Instruct), EU AI policy
+- **Signature contributions:** Posts release threads with technical details, emphasizes European AI sovereignty, and answers questions about Mistral’s models.
+
+### Guillaume Lample & Timothée Lacroix (Mistral AI)
+- **HN Handles:** [glample](https://news.ycombinator.com/user?id=glample), [tlacroix](https://news.ycombinator.com/user?id=tlac)
+- **Known for:** Co-founders of Mistral AI, former Meta FAIR researchers
+- **Typical topics:** Model architecture tweaks, efficient LLM inference, bilingual training datasets
+- **Signature contributions:** Engage directly in Mixtral/Mistral release discussions, sharing benchmarks and roadmap insights from a European AI standpoint.
+
+### Bram Moolenaar (Vim)
+- **HN Handle:** [BramMoolenaar](https://news.ycombinator.com/user?id=BramMoolenaar) (archived; referenced often)
+- **Known for:** Creator of Vim
+- **Typical topics:** Vimscript, modal editing philosophy, charityware
+- **Signature contributions:** When referenced, his comments and documentation clarify Vim’s design or licensing; community still cites his charityware philosophy.
+
+### Neovim Core Team (e.g., Justin Keyes)
+- **HN Handles:** [bfredl](https://news.ycombinator.com/user?id=bfredl), [justinmk](https://news.ycombinator.com/user?id=justinmk)
+- **Known for:** Forking Vim into Neovim with modern async/LSP features
+- **Typical topics:** Remote plugins, Lua config, Tree-sitter integration
+- **Signature contributions:** Provide technical deep dives on Neovim’s architecture, bridging legacy Vimscript and new Lua ecosystems.
+
+### Tim Pope
+- **HN Handle:** [tpope](https://news.ycombinator.com/user?id=tpope)
+- **Known for:** Prolific Vim plugin author (vim-fugitive, rails.vim)
+- **Typical topics:** Vimscript best practices, plugin design
+- **Signature contributions:** Engages in threads when people cite his plugins; offers concise advice on Vimscript patterns.
+
+### Doom Emacs / Spacemacs Maintainers
+- **HN Handles:** [hlissner](https://news.ycombinator.com/user?id=hlissner) (Doom), [syl20bnr](https://news.ycombinator.com/user?id=syl20bnr) (Spacemacs)
+- **Known for:** Modernizing Emacs configuration distributions
+- **Typical topics:** Lisp UX, config ergonomics, Evil-mode (Vim bindings in Emacs)
+- **Signature contributions:** Engage with users transitioning between Vim/Emacs, explaining trade-offs.
+
+### VS Code / Electron Contributors
+- **Notable handles:** [bpasero](https://news.ycombinator.com/user?id=bpasero), [joaomoreno](https://news.ycombinator.com/user?id=joaomoreno) (Microsoft VS Code), [zcbenz](https://news.ycombinator.com/user?id=zcbenz) (Electron)
+- **Known for:** Maintaining VS Code, Electron framework
+- **Typical topics:** Editor internals, extension APIs, cross-platform UI frameworks
+- **Signature contributions:** Clarify performance decisions, share extension architecture insights, respond to Electron critiques.
+
+### Zed Editor Team
+- **HN Handles:** [nathan_sobo](https://news.ycombinator.com/user?id=nathan_sobo), [maxbrunsfeld](https://news.ycombinator.com/user?id=maxbrunsfeld) (ex-Atom core)
+- **Known for:** Building Zed (Rust-based collaborative editor)
+- **Typical topics:** CRDT collaboration, GPU rendering, Rust/C++ engine design
+- **Signature contributions:** Publish detailed posts on Zed’s architecture and respond to Atom vs. Zed comparisons.
+
+### Hashimoto (HashiCorp)
+- **HN Handle:** [mitchellh](https://news.ycombinator.com/user?id=mitchellh)
+- **Known for:** Founder of HashiCorp; creator of Terraform, Vagrant, Packer
+- **Typical topics:** IaC, plugin ecosystems, Ghostty terminal
+- **Signature contributions:** Already listed earlier; consider cross-linking to the infrastructure section.
+
+### FreeBSD / OpenBSD / Illumos Leaders
+- **HN Handles:** [imp](https://news.ycombinator.com/user?id=imp) (Warner Losh, FreeBSD), [kettenis](https://news.ycombinator.com/user?id=kettenis) (OpenBSD), [ahl](https://news.ycombinator.com/user?id=ahl) (Illumos)
+- **Known for:** Maintaining major BSD/Illumos distros
+- **Typical topics:** Kernel developments, security hardening, licensing
+- **Signature contributions:** Offer historical perspectives on BSD architecture and respond to Linux vs. BSD debates.
+
 ### Mark Shuttleworth (Ubuntu/Canonical)
 - **HN Handle:** [markshuttleworth](https://news.ycombinator.com/user?id=markshuttleworth) (rare posts, but referenced frequently)
 - **Known for:** Founder of Canonical, driving Ubuntu adoption on servers/cloud
