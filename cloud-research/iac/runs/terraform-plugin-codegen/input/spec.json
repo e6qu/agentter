@@ -1,0 +1,16 @@
+{
+  "provider": { "name": "example" },
+  "resources": [
+    {
+      "name": "widget",
+      "schema": {
+        "attributes": [
+          { "name": "id",   "string": { "computed_optional_required": "computed" } },
+          { "name": "name", "string": { "computed_optional_required": "required", "description": "Widget name." } },
+          { "name": "color","string": { "computed_optional_required": "optional" } }
+        ]
+      }
+    }
+  ],
+  "version": "0.1"
+}

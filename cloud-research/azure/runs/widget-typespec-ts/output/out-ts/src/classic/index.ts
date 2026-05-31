@@ -1,0 +1,3 @@
+// Licensed under the MIT License.
+
+export type { WidgetsOperations } from "./widgets/index.js";

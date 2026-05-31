@@ -1,0 +1,36 @@
+{
+  "name": "greeting-construct",
+  "version": "1.0.0",
+  "description": "Minimal jsii library: author in TS, transpile to many languages.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "demo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://example.com/demo.git"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "stability": "stable",
+  "jsii": {
+    "outdir": "dist",
+    "targets": {
+      "python": {
+        "distName": "greeting-construct",
+        "module": "greeting_construct"
+      },
+      "java": {
+        "package": "com.demo.greeting",
+        "maven": {
+          "groupId": "com.demo",
+          "artifactId": "greeting"
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "jsii": "^5.9.43",
+    "jsii-pacmak": "^1.132.0"
+  }
+}

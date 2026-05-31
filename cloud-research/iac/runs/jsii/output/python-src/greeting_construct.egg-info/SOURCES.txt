@@ -1,0 +1,14 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+setup.py
+src/greeting_construct/__init__.py
+src/greeting_construct/py.typed
+src/greeting_construct.egg-info/PKG-INFO
+src/greeting_construct.egg-info/SOURCES.txt
+src/greeting_construct.egg-info/dependency_links.txt
+src/greeting_construct.egg-info/requires.txt
+src/greeting_construct.egg-info/top_level.txt
+src/greeting_construct/_jsii/__init__.py
+src/greeting_construct/_jsii/greeting-construct@1.0.0.jsii.tgz

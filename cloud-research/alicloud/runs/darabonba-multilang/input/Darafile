@@ -1,0 +1,14 @@
+{
+  "scope": "demo",
+  "name": "Greeter",
+  "version": "0.1.0",
+  "main": "./main.dara",
+  "releases": {
+    "go": "github.com/demo/greeter/client:v0.1.0",
+    "python": "demo_greeter:0.1.0"
+  },
+  "java": { "package": "com.demo.greeter" },
+  "python": { "package": "demo_greeter", "clientName": "client" },
+  "go": { "clientName": "Client" },
+  "csharp": { "namespace": "Demo.Greeter" }
+}

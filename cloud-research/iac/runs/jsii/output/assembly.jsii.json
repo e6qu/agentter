@@ -1,0 +1,151 @@
+{
+  "author": {
+    "name": "demo",
+    "roles": [
+      "author"
+    ]
+  },
+  "description": "Minimal jsii library: author in TS, transpile to many languages.",
+  "docs": {
+    "stability": "stable"
+  },
+  "homepage": "https://example.com/demo.git",
+  "jsiiVersion": "5.9.43 (build 00271a8)",
+  "license": "Apache-2.0",
+  "metadata": {
+    "jsii": {
+      "pacmak": {
+        "hasDefaultInterfaces": true
+      }
+    }
+  },
+  "name": "greeting-construct",
+  "repository": {
+    "type": "git",
+    "url": "https://example.com/demo.git"
+  },
+  "schema": "jsii/0.10.0",
+  "targets": {
+    "java": {
+      "maven": {
+        "artifactId": "greeting",
+        "groupId": "com.demo"
+      },
+      "package": "com.demo.greeting"
+    },
+    "js": {
+      "npm": "greeting-construct"
+    },
+    "python": {
+      "distName": "greeting-construct",
+      "module": "greeting_construct"
+    }
+  },
+  "types": {
+    "greeting-construct.Greeter": {
+      "assembly": "greeting-construct",
+      "docs": {
+        "remarks": "jsii exposes this class to Python, Java, .NET, Go.",
+        "stability": "stable",
+        "summary": "Builds greetings."
+      },
+      "fqn": "greeting-construct.Greeter",
+      "initializer": {
+        "docs": {
+          "stability": "stable"
+        },
+        "locationInModule": {
+          "filename": "lib/index.ts",
+          "line": 13
+        },
+        "parameters": [
+          {
+            "name": "props",
+            "type": {
+              "fqn": "greeting-construct.GreeterProps"
+            }
+          }
+        ]
+      },
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 10
+      },
+      "methods": [
+        {
+          "docs": {
+            "stability": "stable",
+            "summary": "Return the greeting string."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 18
+          },
+          "name": "greet",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "Greeter",
+      "symbolId": "lib/index:Greeter"
+    },
+    "greeting-construct.GreeterProps": {
+      "assembly": "greeting-construct",
+      "datatype": true,
+      "docs": {
+        "stability": "stable",
+        "summary": "A greeting, expressed once in TypeScript and exposed to every jsii target."
+      },
+      "fqn": "greeting-construct.GreeterProps",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 2
+      },
+      "name": "GreeterProps",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "stability": "stable",
+            "summary": "Who to greet."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 4
+          },
+          "name": "name",
+          "type": {
+            "primitive": "string"
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "default": "1",
+            "stability": "stable",
+            "summary": "Optional number of exclamation marks."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 6
+          },
+          "name": "enthusiasm",
+          "optional": true,
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ],
+      "symbolId": "lib/index:GreeterProps"
+    }
+  },
+  "version": "1.0.0",
+  "fingerprint": "wkYl3HgHyrCjP+bgp0SB2cmkAQyeoOyADkl4xeV9SuQ="
+}

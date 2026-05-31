@@ -1,0 +1,8 @@
+emit:
+  - "@azure-tools/typespec-ts"
+options:
+  "@azure-tools/typespec-ts":
+    emitter-output-dir: "{output-dir}/out-ts"
+    packageDetails:
+      name: "@azure/widget-service"
+    isModularLibrary: true

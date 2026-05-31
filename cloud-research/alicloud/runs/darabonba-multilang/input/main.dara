@@ -1,0 +1,19 @@
+/**
+ * Minimal Darabonba module: one DSL source, generated into many languages.
+ */
+
+// A data shape (compiles to a class/struct + (de)serialization per language).
+model Greeting {
+  message: string,
+  count: int32,
+}
+
+// Imperative logic written directly in the DSL — this is Alibaba's
+// "customization = code in the spec" mechanism in miniature.
+static function build(name: string): Greeting {
+  var g = new Greeting{
+    message = name,
+    count = 1,
+  };
+  return g;
+}

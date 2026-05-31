@@ -1,0 +1,26 @@
+{
+  "name": "greeting",
+  "version": "1.0.0",
+  "displayName": "Greeting",
+  "description": "Minimal Pulumi Package Schema to drive per-language SDK codegen.",
+  "language": {
+    "python": {},
+    "go":     { "importBasePath": "github.com/demo/greeting/sdk/go/greeting" },
+    "nodejs": {}
+  },
+  "provider": { "description": "The greeting provider." },
+  "resources": {
+    "greeting:index:Greeter": {
+      "description": "A greeter resource.",
+      "isComponent": true,
+      "inputProperties": {
+        "name": { "type": "string", "description": "Who to greet." }
+      },
+      "requiredInputs": ["name"],
+      "properties": {
+        "message": { "type": "string", "description": "The rendered greeting." }
+      },
+      "required": ["message"]
+    }
+  }
+}

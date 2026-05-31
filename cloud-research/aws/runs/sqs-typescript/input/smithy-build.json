@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "sources": ["model"],
+  "maven": {
+    "dependencies": [
+      "software.amazon.smithy.typescript:smithy-aws-typescript-codegen:0.31.1"
+    ]
+  },
+  "plugins": {
+    "typescript-client-codegen": {
+      "package": "@aws-sdk/client-sqs",
+      "packageVersion": "3.0.0",
+      "service": "com.amazonaws.sqs#AmazonSQS"
+    }
+  }
+}

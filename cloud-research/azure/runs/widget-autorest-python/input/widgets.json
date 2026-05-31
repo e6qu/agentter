@@ -1,0 +1,33 @@
+{
+  "swagger": "2.0",
+  "info": { "title": "WidgetService", "version": "2024-01-01", "description": "Minimal Swagger 2.0 to drive AutoRest." },
+  "host": "example.azure.com",
+  "schemes": ["https"],
+  "basePath": "/",
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/widgets/{widgetName}": {
+      "get": {
+        "operationId": "Widgets_Get",
+        "parameters": [
+          { "name": "widgetName", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "ok", "schema": { "$ref": "#/definitions/Widget" } }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Widget": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "color": { "type": "string", "enum": ["red","green","blue"], "x-ms-enum": { "name": "WidgetColor", "modelAsString": true } },
+        "weight": { "type": "integer", "format": "int32" }
+      },
+      "required": ["name"]
+    }
+  }
+}

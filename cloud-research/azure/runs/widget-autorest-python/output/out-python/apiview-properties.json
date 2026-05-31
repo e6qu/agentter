@@ -1,0 +1,8 @@
+{
+    "CrossLanguagePackageId": null,
+    "CrossLanguageDefinitionId": {
+        "widgetservice.models.WidgetColor": null,
+        "widgetservice.operations.WidgetsOperations.get": null,
+        "widgetservice.aio.operations.WidgetsOperations.get": null
+    }
+}

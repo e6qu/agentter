@@ -1,0 +1,11 @@
+# Scratch workspace for the local generator reproductions (venvs, clones,
+# node_modules, generated trees). Fully regenerable from each run's cmd.sh —
+# see REBUILDING_WORK.md. Never committed.
+_work/
+
+# Common scratch / OS cruft
+.DS_Store
+*.pyc
+__pycache__/
+.venv/
+node_modules/
